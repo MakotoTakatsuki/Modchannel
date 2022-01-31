@@ -1,5 +1,0 @@
-<span class="navLinkSpan">
-  {% for category in config.navigation.categories %}{% if category.expanded | default(true) and not category.hidden %}<span class="sub">[</span>{% for board in category.boards %}&thinsp;<a href="/{{ board.uri | e }}/" title="{{ board.title | e }}">{% if board.alt %}{{ board.alt |e }}{% else %}{{ board.uri | e }}{% endif %}</a>&thinsp;{% if not loop.last %}/{% endif %}{% endfor %}<span>]&ensp;</span>{% endif %}{% endfor %}<span>[</span><a title="all boards" href="/boards.js">+</a><span>]</span>
-  <a id="linkOverboard" style="display: none;">nvip</a>
-  <a id="linkSfwOver" style="display: none;"></a>
-</span>
