@@ -1,0 +1,134 @@
+/*Elements exclusive to the front-page*/
+
+@media only screen and (max-width: 479px) {
+
+  #divLatestPosts {
+    .latestPostCell {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+    }
+  }
+
+}
+
+#infoBox {
+  text-align: center;
+  width: 100%;
+  padding: 0.5em;
+  margin: 1em auto 2em;
+  font-size: 120%;
+}
+
+#divStats div {
+  display: block;
+}
+
+#topBoards {
+  display: none;
+}
+
+#divLatestPosts {
+  height: 500px;
+  overflow-y: scroll;
+
+  .latestPostCell {
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    padding: 5px;
+    height: 3.5em;
+    max-height: 3.5em;
+    vertical-align: middle;
+    background: #aac;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .imgFlag {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+}
+
+@keyframes fade-in {
+  from { opacity: 0;
+  height: 0% }
+  to { opacity: 1;
+  height: 100% }
+}
+
+#divLatestImages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+#divLatestImages .latestImageCell {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#divLatestImages img {
+  max-width: 125px;
+  max-height: 125px;
+  margin: 5px;
+  border: 1px solid $fontColor;
+}
+
+#news {
+  background: #dddddd;
+  border: 1px solid #98E;
+}
+
+#news h2 {
+  font-size: 12pt;
+}
+
+#news h2, #news p {
+  padding: 3px 7px;
+}
+
+#indexLeft {
+  float: left;
+  width: 43.5%;
+  left: 10%;
+  position: relative;
+}
+
+#indexRight {
+  float: right;
+  width: 35.5%;
+  position: relative;
+  left: -10%;
+}
+
+#indexWrapper {
+  max-width: 1200px;
+  margin: 2em auto;
+}
+
+#linkEngine {
+  display: none;
+}
+
+.linkFollow {
+  color: green;
+}
+
+.linkFollowAlt {
+  color: red;
+}
+
+#divStats div {
+  display: list-item;
+  margin-left: 0.75em;
+}
+
+#logoImage {
+  height: 232px;
+}

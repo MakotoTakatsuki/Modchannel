@@ -1,0 +1,658 @@
+@media only screen and (max-width: 479px) {
+  .unhideButton,
+  .embedButton,
+  .checkedFavouriteButton:before,
+  .extraMenuButton,
+  .hideButton {
+    float: left;
+  }
+
+  body {
+    margin: 5px;
+  }
+
+}
+
+@media (max-width: 767px) {
+
+  .navLinkSpan {
+    width: 100% !important;
+    font-size: 12pt !important;
+  }
+
+  .notFoundImg {
+    height: 225px;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+  #topNav {
+    position: absolute;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  }
+
+  .notFoundImg {
+    height: 450px;
+  }
+
+}
+
+
+.topBoards a,
+.innerPost,
+.markedPost,
+.floatingMenu {
+  background: #AAAACC;
+}
+
+#quick-reply table,
+.modalDecorationPanel {
+  background: $background;
+}
+
+.floatingMenu .header, .floatingMenu .headerLabel {
+  cursor: pointer;
+}
+
+.markedPost,
+div.postCell:target .innerPost {
+  outline: 2px dashed #444488;
+}
+
+.logoImg {
+  min-width: 1px;
+}
+
+#logoBox {
+  text-align: center;
+}
+
+.captchaImage {
+  width: 250px;
+  height: 100px;
+  background-color: $h2_background;
+  cursor: pointer;
+  color: white;
+}
+
+.small {
+  font-size: 75%;
+  text-decoration: none;
+}
+
+.clearer {
+  clear: both;
+}
+
+#panelReferences a {
+  display: block;
+}
+
+.imgLink img,
+.latestImageCell img,
+.mediaCell img,
+.catalogCell img {
+  image-orientation: from-image;
+}
+
+.linkList a {
+  display: table;
+}
+
+#themeSelector {
+  font-size: 100%;
+}
+
+.unhideButton,
+.embedButton,
+.checkedFavouriteButton:before,
+.extraMenuButton,
+.hideButton {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+a,
+.reportdeletebuttons {
+  color: $linkColor;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+u {
+  text-decoration: underline;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+.fileBrowser {
+  background: none;
+}
+
+/* import resources here; external CSS, fonts, etc */
+@font-face {
+  font-family: 'Icons';
+  src: url('../open-iconic.eot');
+  src: url('../open-iconic.eot?#iconic-sm') format('embedded-opentype'),
+  url('../open-iconic.woff') format('woff'), url('../open-iconic.ttf')
+  format('truetype'), url('../open-iconic.otf') format('opentype'),
+  url('../open-iconic.svg#iconic-sm') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* body styles, inherited by whole page */
+body {
+  background: $background;
+  font-family: sans-serif;
+  font-size: $fontSize;
+  overflow-x: hidden;
+}
+
+/* header and nav / top of page styles */
+header {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.errorDiv {
+  text-align: center;
+}
+
+nav {
+  clear: both;
+  overflow-wrap: break-word;
+}
+
+#topNav {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  margin-top: 0;
+  z-index: 30;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bottomNav {
+  margin-top: 2.5em;
+  height: 18px;
+}
+
+#navLinkSpan,
+#navLinkSpan2 {
+  float: left;
+}
+
+#navOptionsSpan,
+#navOptionsSpanCatalog,
+#navOptionsSpanThread,
+#navOptionsSpanHome {
+  float: right;
+  padding-top: 2px;
+}
+
+/* board list */
+.divPages {
+  border-style: outset;
+  border-width: 1px;
+  padding: 3px;
+}
+
+#divPages {
+  display: inline-block;
+  border-style: inset;
+  border-width: 1px;
+}
+
+span#divPages a {
+  padding: 0 0.25em;
+  display: inline-block;
+}
+
+span#divPages span {
+  padding: 0 0.25em;
+  display: inline-block;
+}
+
+/* markdown */
+.greenText {
+  color: #007777;
+}
+
+.orangeText {
+  color: #E04000;
+}
+
+.quote {
+  color: #007777;
+}
+
+.redText {
+  color: #AF0A0F;
+  font-weight: bold;
+  font-size: 125%;
+}
+
+span.spoiler {
+  background: #000;
+  color: #000;
+}
+
+.spoiler:hover {
+  color: #FFF;
+}
+
+/* CSS for pages that deal with site and account settings and bans */
+#settingsWrapper {
+  margin: 2em auto;
+}
+
+#settingsWrapper input {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.banners {
+  margin: 1em;
+  width: auto;
+  padding: 0.5em;
+}
+
+.settingsFieldset textarea {
+  display: block;
+  height: 5em;
+}
+
+.settingsFieldset label {
+  display: block;
+}
+
+.settingsFieldset label input {
+  display: inline-block;
+}
+
+#settingsWrapper .captchaDiv input {
+  display: inline-block;
+}
+
+.subCaptchaDiv {
+  text-align: left;
+}
+
+.captchaTimer {
+  background: $background;
+  border: 1px solid #000;
+}
+
+#redirect, #maint {
+}
+
+#labelCaptchaId {
+  color: #ff0000;
+}
+
+#staticPageWrapper {
+  margin: 2em auto;
+  text-align: center;
+}
+
+.innerPost, .markedPost {
+  display: inline-block;
+  padding-right: 0.25em;
+  margin-left: 2.15em;
+  max-width: 100%;
+  vertical-align: top;
+  position: relative;
+}
+
+.innerOP {
+  position: relative;
+}
+
+.threadPages {
+  float: left;
+}
+
+.reportdelete {
+  display: none;
+}
+
+.reportdeletebuttons {
+  float: right;
+}
+
+input#togglereport:checked ~ .reportdelete{display:block;}
+
+/* this has to go down here to override anything above it */
+.hidden {
+  display: none;
+}
+
+.hiddenForce {
+  display: none !important;
+}
+
+.hiddenVisibility {
+  visibility: hidden;
+}
+
+#settingsWrapper input.hidden {
+  display: none;
+}
+
+#divRemember input {
+  display: inline;
+}
+
+h2 a:link {
+  color: #aeaeff;
+}
+
+h2 a:visited {
+  color: #ffaeae;
+}
+
+h2 {
+  margin: 0px;
+  color: $h2_color;
+  background: $h2_background;
+  font-weight: bold;
+}
+
+h2, #footer {
+  padding-left: 2px;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
+  font-size: 100%;
+}
+
+h3 {
+  color: #ffffff;
+  text-align: center;
+  background: #313370;
+}
+
+.innerPost .hideButton,
+.mainPanel ~ .hideButton,
+.markedPost .hideButton {
+  display:none;
+}
+
+.kCard .kHeading,
+#indexWrapper h2,
+#subpageWrapper h2,
+#redirect h2{
+  padding: 0px 10px;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
+}
+
+.kCard .kBody,
+#indexWrapper #indexLeft > div,
+#indexWrapper #indexRight > div,
+#subpageWrapper > div,
+#redirect > div{
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  background-color: $cardDiv_background;
+  border-left: $cardDiv_border;
+  border-right: $cardDiv_border;
+  border-bottom: $cardDiv_border;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+.brackets::after,
+.brackets::before {
+  text-decoration: none;
+  display: inline-block;
+  color: $brackets_color;
+}
+
+.brackets::after {
+  content: $brackets_afterContent;
+}
+
+.brackets::before{
+  content: $brackets_beforeContent;
+}
+
+parentheses::after,
+.parentheses::before {
+  text-decoration: none;
+  display: inline-block;
+  color: $parentheses_color;
+}
+
+.parentheses::after {
+  content: $parentheses_afterContent;
+}
+
+.parentheses::before{
+  content: $parentheses_beforeContent;
+}
+
+#links {
+  padding: 0.5em;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.scrollY {
+  overflow-y: scroll;
+}
+
+#siteName {
+  font-size: 250%;
+  font-weight: bold;
+}
+
+#subpageWrapper {
+  max-width: 700px;
+  margin: 2em auto;
+}
+
+#redirect {
+  max-width: 300px;
+  margin: 2em auto;
+}
+
+div.titlebar {
+  background: #313370;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  padding: 5px;
+}
+
+.appealForm table tr th,
+table.modInfo tr th {
+  background: #313370;
+  color: #ffffff;
+}
+
+.appealForm table tr th,
+table.modInfo tr th {
+  text-align: left;
+  padding: 4px;
+}
+
+#bannerImage {
+  width: 300px;
+  height: 100px;
+  border: solid 1px $fontColor;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navLinkSpan, #navOptionsSpan, #navOptionsCatalog, #navOptionsSpanThread, #navOptionsSpanHome {
+  color: #89A;
+  font-size: 9pt;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+/* Consent */
+#cookieBanner {
+  display: none;
+  font-size: 14px;
+  max-width: 900px;
+  margin: 0px auto;
+  padding: 12px;
+  background-color: #ddd;
+  border-bottom: solid 1px #ccc;
+}
+#cookieBannerClose {
+  float: right;
+  font-weight: bold;
+  padding: 4px;
+}
+#cookieBannerActions {
+  text-align: center;
+  padding-top: 4px;
+}
+span.unimportantHide {
+  font-size: 10px;
+}
+
+.emote,
+.reportdeletebuttons,
+.expandLabel,
+.collapseLabel,
+#divRefreshContainer {
+  user-select: none;
+}
+
+.emote {
+  user-drag: none;
+  -webkit-user-drag: none;
+}
+
+span.spoiler > a {
+  color: #000 !important;
+}
+span.spoiler:hover > a {
+  color: #888 !important;
+}
+span.spoiler:hover > .greenText {
+    color: #077 !important;
+}
+span.spoiler > .greenText {
+    color: #000 !important;
+}
+span.spoiler:hover > .orangeText {
+    color: #E04000 !important;
+}
+span.spoiler > .orangeText {
+    color: #000 !important;
+}
+
+#massTextField {
+  width: 400px;
+  height: 100px;
+}
+
+/* Table Like log cells */
+.logCell > p {
+  display: table-cell;
+  padding: 5px;
+}
+
+.logCell > p:nth-child(5n+1) {
+  width: 12%;
+  overflow-wrap: anywhere;
+}
+
+.logCell > p:nth-child(5n+2) {
+  width: 12%;
+  overflow-wrap: anywhere;
+}
+
+.logCell > p:nth-child(5n+5) {
+  width: 60%;
+  word-break: break-word;
+}
+
+.radiospan {
+  color:white;
+  text-decoration: none;
+  display: inline-block;
+  background-color:#d10000;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 5px;
+  border-radius: 10px;
+}
+
+.latexShowcase code {
+  font-size: 7pt;
+}
+
+.latexShowcase .MathJax {
+  display: inline !important;
+}
+
+.innerPost.userHide .contentOverflow,
+.innerPost.userHide label,
+.innerPost.userHide .divBanMessage,
+.innerPost.userHide .labelLastEdit {
+  display: none;
+}
+
+.innerPost.userHide {
+  background-color: transparent;
+}
+
+#faqContent li {
+  line-height: 25px;
+}
+
+.arrowRight::after {
+  content: '⟶'
+}
+
+#reportActions {
+  position: fixed;
+  display: block;
+  right: 25px;
+  bottom: 25px;
+  background-color: #99b;
+}
+
+#reportList {
+  margin-right: 300px;
+}
+
+#footer {
+  font-size: 10px;
+  margin: 2.5em auto 0 auto;
+  text-align: center;
+  width: fit-content;
+  color: black;
+}
+
+.donation {
+  overflow-wrap: break-word;
+}

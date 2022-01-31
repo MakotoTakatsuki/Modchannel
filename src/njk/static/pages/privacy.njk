@@ -1,0 +1,49 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>Privacy Policy</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <p>This page was last modified on: 2021-06-17</p>
+  <h2>General statement</h2>
+  <div>
+    <p>This privacy policy is intended to inform users of this website about the nature, scope and purpose of the collection and use of personal information by the website operator <a href="mailto:{{ config.contact.emails | first }}">{{ config.contact.emails | first }}</a>.</p>
+    <p>{{ config.sitename }} takes your privacy seriously and will treat your personal information confidentially and in accordance with the law. As changes to this Privacy Policy may be made through new technologies and the continued evolution of this site, we encourage you to review the Privacy Policy periodically.</p>
+  </div>
+  <h2>Access data</h2>
+  <div>
+    <p>We, the website operator or website provider, due to our legitimate interest collect access logs to our website. Those access logs contain your IP address, user agent, and type/location of your requests. That information will only be stored temporarily and is structured in two parts:</p>
+    <ul>
+      <li><i>access.log</i>: Contains full IP addresses and keeps each individual entry for two days.</li>
+      <li><i>error.log</i>: Contains full IP addresses and logs server errors produced by Nginx (not HTTP errors). Each individual entry is kept for seven days.</li>
+    </ul>
+  </div>
+  <h2>Collection and processing of personal data</h2>
+  <div>
+    <p>{{ config.sitename }} does not require any personally identifiable information from users for using it in any form. To avoid providing {{ config.sitename }} personal information, use Tor or a VPN, and use common sense to protect your own identity.</p>
+    <p>It should be noted that the board /int/ uses your country or region code next to your post in the form of a flag.</p>
+    <p>In addition to this, a world map containing the mapped GeoIP coordinates for every unique poster within specified timeframes will be generated for the international /int/ board at <a href="/int/map/">{{ (config.links.clearnet | first).url | replace('https://', '') }}/int/map/</a>. {{ config.sitename }} uses the well-known database geolite2 by <a href="https://maxmind.com">MaxMind</a> for retrieving coordinates and its authors say the following about the precision:</p>
+    <p>"IP geolocation is inherently imprecise. Locations are often near the center of the population. Any location provided by a GeoIP database should not be used to identify a particular address or household."</p>
+    <p>There's also no direct link between user posts and those imprecise coordinates.</p>
+  </div>
+  <h2>Sharing of Data</h2>
+  <div>
+    <p>{{ config.sitename }} does not share your personal data unless required by law. Please be aware that {{ config.sitename }} will possibly report your IP to the proper authority if you write a credible post about your imminent suicide or doing harm to others. Under no circumstances will we ever sell your data.</p>
+  </div>
+  <h2>Handling user posts</h2>
+  <div>
+    <p>If you post or comment on {{ config.sitename }}, your IP address will be linked to your content for security purposes. If you post or comment on {{ config.sitename }} using Tor or a known proxy server, an identifier based on your cookie will be linked to your post. This will be retained until the post is removed or until seven days have passed.</p>
+  </div>
+  <h2>Backups</h2>
+  <div>
+    <p>{{ config.sitename }} creates backups of the database. Each of them will be automatically deleted after maximum 7 days.</p>
+  </div>
+  <h2>Cookies</h2>
+  <div>
+    <p>{{ config.sitename }} may use and require cookies with a maximum lifespan of 1 week (168 hours) for posting (renewed after every usage). They are needed so that users can post multiple times with a single solved captcha.</p>
+  </div>
+</div>
+{% endblock %}

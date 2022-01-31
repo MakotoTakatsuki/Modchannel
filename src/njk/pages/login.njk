@@ -1,0 +1,50 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+{% include './content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>Login</h2>
+  <div>
+    <form action="/login.js" enctype="multipart/form-data" method="post">
+      <input type="text" name="login" class="loginField" id="loginFieldLogin" placeholder="username">
+      <input type="password" class="loginField" id="loginFieldPassword" name="password" placeholder="password">
+      <input type="submit" id="loginFormButton" value="Login" />
+      <div id="divRemember">
+        <label>
+          <input type="checkbox" name="remember" class="loginField" id="checkboxRemember">
+          Remember me
+        </label>
+      </div>
+      <div id="divSavePassword">
+        <label>
+          <input type="checkbox" name="savePassword" class="loginField" id="savePasswordCheckbox">
+          Show save password prompt
+        </label>
+      </div>
+    </form>
+    <div id="divCreation">
+      <h3>Register</h3>
+      <form action="/registerAccount.js" enctype="multipart/form-data" method="post">
+        <input type="text" name="login" class="registerField" id="registerFieldLogin" placeholder="username">
+        <input type="password" class="registerField" id="registerFieldPassword" name="password" placeholder="password">
+        <input type="email" class="registerField" id="registerFieldEmail" name="email" placeholder="email">
+        <div class="captchaDiv">
+          <img id="captchaImage" class="captchaImage" src="/captcha.js" alt="">
+          <br>
+          <span class="captchaTimer"></span>
+          <br>
+          <input name="captcha" type="text" class="captchaField registerField" id="fieldCaptcha" placeholder="answer" autocomplete="off">
+          <a class="small" href="/noCookieCaptcha.js">no cookies?</a>
+        </div>
+        <button type="submit" id="registerFormButton">Register</button>
+      </form>
+      <hr>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/login.js') }}
+{{ script('/.static/js/captchaUtils.js') }}
+{% endblock %}

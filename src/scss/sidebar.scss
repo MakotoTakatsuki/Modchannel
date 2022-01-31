@@ -1,0 +1,153 @@
+@import 'variables';
+
+@media (min-width: 171px)
+{
+
+  .menu_title {
+    margin-bottom: 6px !important;
+    width: 92% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  h2 {
+    margin-top: 15px !important;
+    margin-bottom: 6px !important;
+    margin-left: 4% !important;
+    margin-right: 4% !important;
+    text-align: center;
+    padding-top: 2px  !important;
+    padding-bottom: 2px !important;
+  }
+
+  .boardlist {
+    background: none !important;
+  }
+
+  ul.boardlist li,
+  ul.toplist li {
+    /* padding: 0 4px; */
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin-left: 4px !important;
+    margin-right: 0px !important;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+  }
+
+  ul.boardlist a,
+  ul.toplist a {
+    /* padding: 0 4px; */
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin-left: 4px !important;
+    margin-right: 0px !important;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+  }
+
+  .boardlist, .toplist{
+    overflow-x: unset !important;
+    padding-left: 5px !important;
+    margin-left: 4px !important;
+    margin-right: 9px !important;
+    margin-top: 6px !important;
+  }
+
+  .toplist {
+    font-weight: bold !important;
+  }
+
+  .slash {
+    margin-left: 4px !important;
+    margin-right: 0px !important;
+  }
+
+}
+
+body {
+  background: $background;
+  font-family: sans-serif;
+  font-size: 10pt;
+  margin-top: 5px !important;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+.menu_title {
+  color: #ffffff;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+h2 {
+  margin: 0px;
+  padding-left: 2px;
+  color: #ffffff;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 100%;
+}
+
+.boardlist {
+  background: #aaaacc;
+}
+
+ul.boardlist li a,
+ul.toplist li a {
+  display:inline-block;
+}
+
+.boardlist,
+.toplist {
+  overflow-x: hidden;
+  list-style: none;
+  padding-left: 0px;
+  margin-bottom: 15px;
+  margin-top: 0px;
+  list-style: none;
+}
+
+body, html {
+  padding: 0;
+}
+
+ul.boardlist li:hover,
+ul.toplist li:hover {
+  background: #dddddd;
+}
+
+a:link {
+  color: $linkColor;
+}
+
+.slash {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+span.boardsoftware {
+  margin-top: 20px;
+  font-size: 80%;
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  display: block;
+  opacity: 0.3;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input[type="checkbox"] {
+  display: none;
+}

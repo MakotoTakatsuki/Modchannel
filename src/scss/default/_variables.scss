@@ -1,0 +1,67 @@
+$background: #eeeeee;
+$fontFamily: sans-serif;
+$fontSize: 10pt;
+$fontColor: #000000;
+$linkColor: #222299;
+
+
+/* Role signature for moderators */
+$role_color: #ff0000;
+$role_beforeContent: '## ';
+$role_afterContent: ' ##';
+
+/* Posting form */
+$postingForm_background: #313370;
+$postingForm_color: #ffffff;
+
+/* Post */
+$labelSubject_color: #cc3333;
+$noEmailName_color: #3333cc;
+$linkName_color: $noEmailName_color;
+$linkName_hoverColor: #aa0000;
+$linkSelf_color: $fontColor;
+$linkSelf_hoverColor: $fontColor;
+$linkQuote_color: $fontColor;
+$linkQuote_hoverColor: $fontColor;
+$sage_color: $role_color; // Also used for bumplock
+$divBanMessage_color: $role_color;
+
+/* Static pages */
+$h2_background: #313370;
+$h2_color: #ffffff;
+$cardDiv_background: #dddddd;
+$cardDiv_color: $fontColor;
+$cardDiv_border: solid 1px $h2_background;
+
+/* Brackets around Reply and other elements */
+$brackets_color: #000000;
+$brackets_beforeContent: '[';
+$brackets_afterContent: ']';
+
+/* Parantheses around Auto and other elements */
+$parentheses_color: #000000;
+$parentheses_beforeContent: '(';
+$parentheses_afterContent: ')';
+
+/* Upload cell */
+$uploadCell_margin: 5px 20px 20px 5px;
+$postUploadCell_background: #9999bb;
+$postUploadCell_border: #aaaaff 1px solid;
+$opUploadCell_background: #dddddd;
+$opUploadCell_border: #aaaaaa 1px solid;
+
+/* Christmas */
+$snowflake_count: 24;
+$snowflake_shape: "\2744";
+$snowflake_color: #CCC;
+
+// Snowflake size
+$snowflake_size: 30;
+$snowflake_sizeRandAdd: 15;
+
+// Time it takes for a snowflake from the top to the bottom (in seconds)
+$snowflake_spanTime: 20s;
+$snowflake_spanTimeRandAdd: 30;
+
+// Maximum delay (-1s) for a snowflake to first appear on the screen
+$snowflake_delay: 20;

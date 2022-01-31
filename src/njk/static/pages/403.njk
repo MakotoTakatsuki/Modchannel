@@ -1,0 +1,15 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>403 - Forbidden</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>403 - Forbidden</h2>
+  <div>
+    <p>Access is denied <img src="/.static/images/sad-heinrich.png" alt="Sad Heinrich"></p>
+  </div>
+</div>
+{% endblock %}

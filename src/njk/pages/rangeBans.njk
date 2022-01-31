@@ -1,0 +1,37 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Range Bans</h1>
+</header>
+<div class="mCard labelTable">
+  <h2>Add range ban</h2>
+  <div>
+    <form action="/placeRangeBan.js" method="post" enctype="multipart/form-data">
+      The range must use a cidr format and the range size must be in
+      increments of 8. like 1.2.3.4/16 or 2001:db8:85a3::/64.<br>
+      <input placeholder="range" type="text" name="range" class="rangeBanField" id="rangeField">
+      <label>
+        <input placeholder="reason" type="text" name="reason" class="rangeBanField" id="reasonField">
+      </label>
+      <label>
+        <input placeholder="duration" type="text" name="duration" class="rangeBanField" id="durationField">
+      </label>
+      <label>
+        Non-bypassable:
+        <input type="checkbox" name="nonBypassable" class="rangeBanField" id="nonBypassableCheckbox" checked>
+      </label>
+      <input id="boardIdentifier" type="hidden" name="boardUri">
+      <button type="submit" id="createFormButton">Place range ban</button>
+    </form>
+  </div>
+</div>
+<div class="mCard">
+  <h2>Range ban list</h2>
+  <div id="rangeBansDiv"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/rangeBans.js') }}
+{% endblock %}

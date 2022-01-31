@@ -1,0 +1,24 @@
+{% extends "base.njk" %}
+
+{% block content %}
+<div id="settingsWrapper">
+  <fieldset id="settingsFieldset">
+    <legend>Banned</legend>
+    <p><span id="descriptionLabel"></span></p>
+    <p id="reasonPanel">
+    Reason: <span id="reasonLabel"></span></p>
+    </p>
+    <p id="expirationPanel">
+    Expiration <span id="expirationLabel"></span>
+    </p>
+    <p>Ban ID: <span id="idLabel"></span></p>
+    <hr>
+    <form action="/appealBan.js" id="formAppeal" method="post" enctype="multipart/form-data">
+      <h3>Appeal Ban</h3>
+      <input type="hidden" name="banId" id="idIdentifier">
+      <textarea name="appeal" id="fieldAppeal" placeholder="Appeal your ban here."></textarea>
+      <input type="submit" value="Appeal Ban" id="buttonFormAppeal">
+    </form>
+  </fieldset>
+</div>
+{% endblock %}

@@ -1,0 +1,320 @@
+.floatingMenu, .innerPost, .markedPost, .topBoards a {
+  background-color: rgb(50, 50, 83);
+}
+
+html, body, input, textarea, select, button {
+  color: #e8e6e3;
+}
+
+.linkQuote {
+  color: rgb(232, 230, 227) !important;
+}
+
+.linkQuote:hover {
+  color: rgb(232, 230, 227) !important;
+}
+
+.linkSelf {
+  color: rgb(232, 230, 227) !important;
+}
+
+.linkSelf:hover {
+  color: rgb(232, 230, 227) !important;
+}
+
+.noEmailName, .noEmailName:hover {
+  color: rgb(92, 136, 214);
+}
+
+a:link {
+  color: rgb(121, 159, 225);
+}
+
+h2 {
+  color: rgb(232, 230, 227);
+  background-color: rgb(39, 41, 90);
+}
+
+.menu_title {
+  background-color: rgb(39, 41, 90);
+}
+
+.labelOmission {
+  color: rgb(168, 160, 149);
+}
+
+.greenText {
+  color: rgb(121, 255, 255);
+}
+
+.brackets::after, .brackets::before {
+    color: rgb(232, 230, 227);
+}
+
+#selectedDiv .selectedCell, #selectedDivQr .selectedCell, .innerOP .panelUploads .uploadCell {
+  background-color: rgb(43, 47, 49);
+  background-image: none;
+  border-color: rgb(72, 78, 81);
+}
+
+
+* {
+  scrollbar-color: #454a4d #202324;
+}
+
+input, textarea, select, button {
+  background-color: #181a1b;
+}
+
+.postingInput {
+  border-color: rgb(72, 78, 81);
+}
+
+#postingForm th, .modalTableBody th {
+  color: rgb(232, 230, 227);
+  background-color: rgb(39, 41, 90);
+}
+
+.reportdeletebuttons, a {
+  color: rgb(121, 159, 225);
+}
+
+input, textarea, select, button {
+  background-color: #181a1b;
+}
+
+html, body, input, textarea, select, button {
+  border-color: #736b5e;
+  color: #e8e6e3;
+}
+
+.dropzone {
+  color: rgba(232, 230, 227, 0.5);
+  border-color: rgba(99, 92, 81, 0.4);
+  background-color: rgba(55, 60, 62, 0.5);
+}
+
+#divOekaki {
+  background-color: rgb(24, 26, 27);
+}
+
+.innerPost .panelUploads .uploadCell, .markedPost .panelUploads .uploadCell {
+  background-color: rgb(61, 61, 92);
+  background-image: none;
+  border-color: rgb(0, 0, 127);
+}
+
+.innerPost .collapseLabel, .innerPost .expandLabel, .markedPost .collapseLabel, .markedPost .expandLabel {
+  background-color: rgb(50, 50, 83);
+  background-image: none;
+}
+
+.innerPost .bottomGradient {
+  background-color: rgba(0, 0, 0, 0);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(50, 50, 83));
+}
+
+#settingsMenu > div:nth-child(4) {
+  border-left-color: rgb(54, 54, 89);
+  background-color: rgb(34, 36, 38);
+  background-image: none;
+  border-bottom-color: rgb(54, 54, 89);
+  border-right-color: rgb(54, 54, 89);
+}
+
+#settingsMenu > div:nth-child(3) {
+  border-left-color: rgb(54, 54, 89);
+  background-color: rgb(34, 36, 38);
+  background-image: none;
+  border-right-color: rgb(54, 54, 89);
+  border-top-color: rgb(54, 54, 89);
+}
+
+#settingsMenu > .header {
+  background-color: rgb(39, 41, 90);
+  background-image: none;
+  color: rgb(232, 230, 227);
+}
+
+#settingsMenu {
+  border-color: rgb(63, 65, 144);
+}
+
+ul.boardlist li:hover, ul.toplist li:hover {
+  background-color: rgb(43, 47, 49);
+  background-image: none;
+}
+
+.innerOP .collapseLabel, .innerOP .expandLabel {
+  background-color: rgb(34, 36, 38);
+  background-image: none;
+}
+
+.innerOP .bottomGradient {
+  background-color: rgba(0, 0, 0, 0);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(34, 36, 38));
+}
+
+#indexWrapper #indexLeft > div, #indexWrapper #indexRight > div, #redirect > div, #subpageWrapper > div, .kCard .kBody {
+  background-color: rgb(43, 47, 49);
+  border-left-color: rgb(63, 65, 144);
+  border-right-color: rgb(63, 65, 144);
+  border-bottom-color: rgb(63, 65, 144);
+}
+
+#divLatestPosts .latestPostCell {
+  background-color: rgb(50, 50, 83);
+  background-image: none;
+}
+
+#divLatestImages img {
+  border-color: rgb(140, 130, 115);
+}
+
+#bannerImage {
+  border-color: rgb(140, 130, 115);
+}
+
+.modalInnerDecorationPanel, .post-table {
+  background-color: rgb(34, 36, 38);
+}
+
+.modalDecorationPanel {
+  background-color: rgb(50, 50, 83);
+  background-image: none;
+}
+
+#quick-reply .handle, .modalHeader {
+  background-color: rgb(39, 41, 90);
+  background-image: none;
+  color: rgb(232, 230, 227);
+}
+
+.captchaTimer {
+  background-color: rgb(34, 36, 38);
+  background-image: none;
+  border-color: rgb(140, 130, 115);
+}
+
+.extraMenu div:hover {
+  background-color: rgb(43, 47, 49);
+  background-image: none;
+}
+
+#quick-reply table {
+  outline-color: rgb(63, 65, 144);
+}
+
+#quick-reply table, .modalDecorationPanel {
+  background-color: rgb(34, 36, 38);
+}
+
+#quick-reply .handle, .modalHeader {
+  background-color: rgb(39, 41, 90);
+  color: rgb(232, 230, 227);
+}
+
+.handle a {
+  color: rgb(232, 230, 227);
+}
+
+/* MINIMAL PART */
+
+/* Background Color from Media in OP */
+#selectedDiv .selectedCell, #selectedDivQr .selectedCell, .innerOP .panelUploads .uploadCell {
+  background-color: rgb(34, 36, 38) !important;
+  border-color: rgb(34, 36, 38) !important;
+}
+
+/* Font Color from Media in OP */
+.uploadDetails {
+  color: rgb(34, 36, 38) !important;
+}
+
+/* Label Color from Media in OP */
+.dimensionLabel, .sizeLabel, .uploadDetails .linkDelete, .uploadDetails .linkHash, .uploadDetails .linkSpoil {
+  color: inherit !important;
+  opacity: 0.0 !important;
+}
+
+/* Label Color from Media in OP */
+.dimensionLabel:hover, .sizeLabel:hover {
+    opacity: 1.0 !important;
+    color: rgb(255, 255, 255) !important;
+    transition: opacity .30s ease-in-out;
+    -moz-transition: opacity .30s ease-in-out;
+    -webkit-transition: opacity .30s ease-in-out;
+}
+
+/* Background Color from Media in Multi Uploads */
+.postCell > div.innerPost > div.contentOverflow > div.panelUploads.multipleUploads > .uploadCell {
+  background-color: rgb(50, 50, 83) !important;
+  border-color: rgb(50, 50, 83) !important;
+}
+
+
+/* Font Color from Media in Multi Uploads */
+ .postCell > div.innerPost > div.contentOverflow > div.panelUploads.multipleUploads > .uploadCell > div.uploadDetails {
+    color: rgb(50, 50, 83) !important;
+}
+
+/* Background Color from Media in Single Uploads */
+.postCell > div.innerPost > div.contentOverflow > div.panelUploads > .uploadCell {
+  background-color: rgb(50, 50, 83) !important;
+  border-color: rgb(50, 50, 83) !important;
+}
+
+/* Font Color from Media in Single Uploads */
+.postCell > div.innerPost > div.contentOverflow > div.panelUploads > .uploadCell >  div.uploadDetails {
+    color: rgb(50, 50, 83) !important;
+}
+
+
+/* Remove some elements */
+.labelCreated {
+    display: none;
+}
+
+#rules_row {
+    display: none;
+}
+
+.divPosts .postCell .innerPost::before, .divPosts .postCell .markedPost::before {
+    content: "";
+}
+
+div#postingForm > form > table#postingTable > tbody > tr > th {
+    display: none;
+}
+
+.divPages {
+  border-style: none !important;
+}
+
+#linkNext, #linkPrevious, #pages, .divPages .navCatalog {
+  border-style: none !important;
+}
+
+#divPages {
+  border-style: none !important;
+}
+
+div.uploadDetails > br, .originalNameLink {
+    display: none;
+}
+
+/* Hide upload details in tooltips */
+div.quoteTooltip.boardThreadList > div.innerPost > div.contentOverflow > div.panelUploads > figure.uploadCell > div.uploadDetails, div.quoteTooltip.boardThreadListtooltipFix > div.innerPost > div.panelUploads.multipleUploads > figure.uploadCell > div.uploadDetails, div.quoteTooltip.boardThreadListtooltipFix > div.innerPost > div.panelUploads > figure.uploadCell > div.uploadDetails {
+    display: none;
+}
+
+.deletionCheckBox {
+  opacity: 0.0;
+}
+
+.deletionCheckBox:hover {
+  opacity: 1.0 !important;
+  transition: opacity .30s ease-in-out;
+  -moz-transition: opacity .30s ease-in-out;
+  -webkit-transition: opacity .30s ease-in-out;
+}

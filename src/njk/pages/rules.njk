@@ -1,0 +1,12 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+{% include './content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>Rules of /<span id="boardLabel"></span>/</h2>
+  <div>
+    <div id="divRules"></div>
+    <p>Remember that no matter the rules of the board, all <a href="/.static/pages/globalRules.html">global rules</a> apply</p>
+  </div>
+</div>
+{% endblock %}

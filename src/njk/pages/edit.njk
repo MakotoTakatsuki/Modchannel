@@ -1,0 +1,24 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<div id="settingsWrapper" class="mCard">
+  <h2>Edit Post</h2>
+  <div>
+    <p>Max message length: <span id="labelMessageLength"></span></p>
+    <form action="/saveEdit.js" method="post" enctype="multipart/form-data">
+      <input type="text" class="editField" placeholder="Subject" id="fieldSubject" name="subject">
+      <br>
+      <textarea name="message" id="fieldMessage" class="wide editField"></textarea>
+      <br>
+      <input type="hidden" name="boardUri" id="boardIdentifier">
+      <input type="hidden" name="threadId" id="threadIdentifier">
+      <input type="hidden" name="postId" id="postIdentifier">
+      <button type="submit" id="saveFormButton">Save</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/edit.js') }}
+{% endblock %}

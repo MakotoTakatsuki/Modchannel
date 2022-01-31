@@ -1,0 +1,29 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Search offense record</h1>
+</header>
+<div class="mCard">
+  <h2>Search</h2>
+  <div>
+    <form action="/offenseRecord.js" method="GET">
+      <input placeholder="IP" id="ipField" name="ip" type="text">
+      <input type="hidden" name="boardUri" id="boardIdentifier">
+      <input type="hidden" name="threadId" id="threadIdentifier">
+      <input type="hidden" name="postId" id="postIdentifier">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</div>
+<div class="mCard">
+  <h2>Offense record</h2>
+  <div>
+    <div id="offensesDiv"></div>
+    <div id="asnBansDiv">
+      <hr>
+      <div>Related ASN bans</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

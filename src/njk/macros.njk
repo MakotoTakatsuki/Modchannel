@@ -1,0 +1,6 @@
+{% macro script(path) %}
+<script src="{{ path }}?c={{ cb[path] }}" defer></script>
+{% endmacro %}
+{% macro style(path) %}
+<link href="{{ path }}?c={{ cb[path] }}" rel="stylesheet" type="text/css" >
+{% endmacro %}

@@ -1,0 +1,247 @@
+/*
+body.no_theme,
+body.theme_christmas_tomorrow {
+  background-repeat: repeat;
+}
+
+@media only screen and (min-width: 480px) {
+  body.no_theme {
+    background-size: 850px 850px;
+    background-image: url("/.static/images/christmas-background-desktop.png");
+  }
+  body.theme_christmas_tomorrow {
+    background-size: 1273px 879px !important;
+    background-image: url("/.static/images/dark-christmas-background-desktop.jpg") !important;
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  body.no_theme {
+    background-size: 450px 450px;
+    background-image: url("/.static/images/christmas-background-mobile.jpg");
+  }
+  body.theme_christmas_tomorrow {
+    background-size: 675px 466px !important;
+    background-image: url("/.static/images/dark-christmas-background-mobile.jpg") !important;
+  }
+
+*/
+
+#snowfall {
+  overflow: hidden;
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+
+.reportdelete {
+  margin-top: 20px;
+}
+
+body.no_theme {
+
+  .labelOmission {
+    display: table;
+  }
+
+  #catalogId .title,
+  #checkboxSage label,
+  #divRefreshContainer,
+  #links,
+  #siteName,
+  #topNav,
+  #panelMessage #divMessage,
+  .catalogLabel:not(#catalogRefreshButton),
+  .innerOP .divMessage,
+  .labelSpoiler,
+  .innerPost::before,
+  .markedPost::before,
+  .opHead.title,
+  .opCell > .divBanMessage,
+  .postDeletionLabel,
+  .reportdelete a,
+  .reportdelete label,
+  .reportdeletebuttons,
+  .sageLabel,
+  .threadPages,
+  h1
+  {
+    display: inline-block;
+  }
+
+  .opCell > .divBanMessage {
+    margin-left: 0;
+  }
+
+  #rules_row ul {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  #catalogId .title,
+  #divRefreshContainer,
+  #siteName,
+  #panelMessage #divMessage,
+  .catalogLabel:not(#catalogRefreshButton),
+  .innerOP .divMessage,
+  .labelOmission,
+  .opCell > .divBanMessage,
+  .labelSpoiler,
+  .opHead.title,
+  .postDeletionLabel,
+  .reportdelete a,
+  .reportdelete label,
+  .reportdeletebuttons,
+  .sageLabel,
+  h1
+  {
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .innerPost::before,
+  .markedPost::before {
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .mCard {
+    background-color: $background;
+  }
+
+  #catalogId .title,
+  #checkboxSage label,
+  #divRefreshContainer,
+  #links,
+  #siteName,
+  #topNav,
+  #panelMessage #divMessage,
+  .catalogCell,
+  .catalogLabel:not(#catalogRefreshButton),
+  .innerPost::before,
+  .markedPost::before,
+  .labelOmission,
+  .labelSpoiler,
+  .opHead.title,
+  .opCell > .divBanMessage,
+  .postDeletionLabel,
+  .reportdelete a,
+  .reportdelete label,
+  .reportdeletebuttons,
+  .sageLabel,
+  .threadPages,
+  #bottomNav,
+  #rules_row ul,
+  h1
+  {
+    background-color: rgba(238,238,238, 0.85);
+  }
+
+  .innerOP .divMessage
+  {
+    background-color: rgba(170,170,204, 0.90);
+  }
+
+  .labelOmission
+  {
+    color: black;
+  }
+
+  .catalogCell:hover {
+    background: #AAAACC !important;
+  }
+
+}
+
+body.theme_christmas_tomorrow {
+
+  .mCard {
+    background-color: #282a2e;
+  }
+
+  .labelOmission {
+    display: table;
+  }
+
+  #catalogId .title,
+  #divRefreshContainer,
+  #siteName,
+  #panelMessage #divMessage,
+  .catalogLabel:not(#catalogRefreshButton),
+  .innerOP .divMessage,
+  .labelSpoiler,
+  .opHead.title,
+  .postDeletionLabel,
+  .opCell > .divBanMessage,
+  .reportdelete a,
+  .reportdelete label,
+  .reportdeletebuttons,
+  .sageLabel,
+  h1
+  {
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .labelOmission {
+    border: 1px solid transparent !important;
+  }
+
+  .innerPost::before,
+  .markedPost::before {
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  #catalogId .title,
+  #checkboxSage label,
+  #divRefreshContainer,
+  #links,
+  #siteName,
+  #topNav,
+  .catalogLabel:not(#catalogRefreshButton),
+  .innerOP .divMessage,
+  .innerPost::before,
+  .markedPost::before,
+  .labelSpoiler,
+  .opHead.title,
+  .opCell > .divBanMessage,
+  .postDeletionLabel,
+  .reportdelete a,
+  .reportdelete label,
+  .reportdeletebuttons,
+  .sageLabel,
+  #bottomNav,
+  #rules_row ul,
+  .catalogHeader .labelSubject,
+  .uploadCell,
+  h1
+  {
+    background-color: rgba(40,42,46, 0.85);
+  }
+
+  .labelOmission {
+    background-color: rgba(40,42,46, 0.85) !important;
+    color:#C5C8C6 !important;
+  }
+
+  figure.uploadCell,
+  .catalogCell,
+  .threadPages {
+    background-color: rgba(40,42,46, 0.85) !important;
+  }
+
+  .catalogCell:hover .threadStats {
+    color: #888888 !important;
+  }
+
+}
+*/

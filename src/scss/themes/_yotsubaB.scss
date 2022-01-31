@@ -1,0 +1,130 @@
+/* Modchan-Yotsuba-B */
+/* You can change the color scheme for this with very simple ease */
+/* Insert into User CSS section of the site under Settings -> CSS */
+/* Body */
+#topNav {
+  box-shadow: none;
+}
+#bannerImage {
+  border: 1px solid #34345c;
+}
+/* Links */
+a:hover {
+  color:#d00;
+}
+a, a:visited {
+  color: #34345c;
+}
+a.brackets, .reportdeletebuttons {
+  text-decoration: none;
+  color: #34345c !important;
+}
+/* Catalog */
+.catalogCell >  .catalogHeader > .labelSubject {
+  color: black;
+}
+.catalogCell {
+  background-color: #B7C5D9;
+}
+/* Posts */
+.linkName, .linkName:hover {
+  color: #117743;
+  font-weight: 700 !important;
+}
+.linkQuote:hover, .linkSelf:hover {
+  font-weight: normal;
+  color: #d00 !important;
+}
+/* Replies */
+.innerPost {
+  background-color: #D6DAF0; /* Replies */
+  border-right: 1px solid #B7C5D9;
+  border-bottom: 1px solid #B7C5D9;
+}
+.markedPost {
+  border-top: none;
+  border-left: none;
+  border-right: 1px solid #B7C5D9;
+  border-bottom: 1px solid #B7C5D9;
+  background-color: #D6BAD0;
+}
+.panelBacklinks a {
+  color: #34345C !important;
+font-style: normal !important;}
+.panelBacklinks a:hover {
+  color: #d00 !important;
+}
+.quoteLink, .quoteLink:hover { /* >>0000 */
+  color: #d00;
+}
+
+.uploadDetails {
+  background-color: transparent !important;
+}
+.greenText {
+  color: #789922
+}
+.labelSubject {
+  color: #0f0c5d;
+  font-size: inherit !important;
+}
+/* Posting Form */
+#postingForm th {
+  background-color: #9988EE;
+  color: black;
+  border: 1px solid black;
+}
+textarea {
+  font-family: arial, sans-serif;
+  font-size: 10pt;
+}
+/* Board Information */
+#labelName, #siteName {
+  font-family: Tahoma, sans-serif;
+  font-weight: bold;
+  letter-spacing: -2px;
+  font-size: 28px;
+  color: #af0a0f;
+}
+/* "posting mode" information */
+h2 {
+  background-color: #E04000; /* really bad selector. please make the "Mode: Reply" a class. */
+}
+/* quick reply */
+.handle, #qrclose {
+  background-color: #98e !important;
+  color: black !important;
+}
+#quick-reply {
+  border: 1px solid #aaa;
+}
+/* Fix for side arrows */
+.divPosts .postCell .innerPost:before,
+.divPosts .postCell .markedPost:before {
+  margin-left: -20px !important;
+  color: #b7c5d9;
+  font-size: 10pt;
+}
+hr {
+  border-top: transparent;
+  border-color: #B7C5D9 !important;
+}
+.innerPost .panelUploads .uploadCell,
+.markedPost .panelUploads .uploadCell
+{
+  float: left;
+  margin: $uploadCell_margin; /* Please improve this */
+  background: transparent;
+  border: none;
+  text-align: left;
+  display: inline-block;
+  width: auto;
+}
+/* report menu etc */
+.floatingMenu {
+  border: 1px solid #000 !important;
+}
+.modalHeader, .modalTableBody th {
+  background-color: #9988EE;
+  color: black;
+}

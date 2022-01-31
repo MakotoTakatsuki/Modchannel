@@ -1,0 +1,37 @@
+{% extends "base.njk" %}
+
+{% block content %}
+<header>
+  <h1>ASN bans</h1>
+</header>
+<div class="mCard labelTable">
+  <h2>Add ASN Ban</h2>
+  <div>
+    <form action="/placeAsnBan.js" method="post" enctype="multipart/form-data">
+      <label>
+        <input placeholder="ASN" type="text" name="asn" class="asnBanField" id="asnField">
+      </label>
+      <label>
+        <input placeholder="reason" type="text" name="reason" class="asnBanField" id="reasonField">
+      </label>
+      <label>
+        <input placeholder="duration" type="text" name="duration" class="asnBanField" id="durationField">
+      </label>
+      <label>
+        Non-bypassable:
+        <input type="checkbox" name="nonBypassable" class="rangeBanField" id="nonBypassableCheckbox" checked>
+      </label>
+      <input id="boardIdentifier" type="hidden" name="boardUri">
+      <button type="submit" id="createFormButton">Place ASN ban</button>
+    </form>
+  </div>
+</div>
+<div class="mCard">
+  <h2>ASN ban list</h2>
+  <div id="asnBansDiv"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/asnBans.js') }}
+{% endblock %}

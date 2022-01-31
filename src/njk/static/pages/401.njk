@@ -1,0 +1,15 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>401 - Authorization Required</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>401 - Authorization Required</h2>
+  <div>
+    <p>Authorization is required <img src="/.static/images/bam.png" alt="Crocha"></p>
+  </div>
+</div>
+{% endblock %}

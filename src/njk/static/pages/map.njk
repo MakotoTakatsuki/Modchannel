@@ -1,0 +1,16 @@
+{% from 'macros.njk' import script, style with context %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ config.sitename }}'s Postermap</title>
+    <meta charset="utf-8"/>
+    {{ style('/.static/css/ol.css') }}
+    {{ style('/.static/css/map.css') }}
+    {{ script('/.static/js/ol.js') }}
+    {{ script('/.static/js/FileSaver.js') }}
+    {{ script('/.static/js/kohlenworld.js') }}
+  </head>
+  <body class="no_theme">
+    <div id="map" class="map"></div>
+  </body>
+</html>

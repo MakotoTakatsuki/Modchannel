@@ -1,0 +1,51 @@
+#watcherButton::before {
+}
+
+.watchButton {
+  display: none;
+}
+
+.watchButton::before {
+  content:url('/.static/images/icon-eye.png');
+}
+
+#closeWatcherMenuButton::before,
+.close-btn::before,
+.watchedCellCloseButton::before {
+  content: 'X';
+}
+
+.watchedCell {
+  display: table;
+  width: 100%;
+}
+
+.watchedCellLabel {
+  display: table-cell;
+  width: 90%;
+}
+
+.watchedNotification::before {
+  font-family: 'Icons';
+  content: '\e0D8';
+  margin-left: 0.25em;
+  color: #A00;
+}
+
+#watchedMenu {
+  position: fixed;
+  left: 100px;
+  top: 25px;
+  z-index: 100;
+}
+
+#watchedMenu label {
+  font-size: 80%;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 812px) {
+  .mobileAlert {
+    color: #A00;
+  }
+}

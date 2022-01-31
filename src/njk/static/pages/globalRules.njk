@@ -1,0 +1,27 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>Global Rules</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>Global Rules</h2>
+  <div>
+    <b>What is allowed here?</b>
+    <p>1. Do not post, request or link to any illegal content that violates local law. Everything illegal we are aware of will be removed and the offending user will be banned.</p>
+    <p>2. You will not incite any class of harrasment against any individual. Doxxing is not allowed if it is used to harrass or intimidate anybody to any extent (this falls under illegal content).</p>
+    <p>3. Submitting false or "troll" reports will end up in a ban.</p>
+    <p>4. "Jailbait" is not allowed in any case. Any posts like this are going to be treated as illegal content.</p>
+    <p>5. Spamming is not allowed.</p>
+    <b>What about copyright infringement?</b>
+    <p>Modchan will remove any copyrighted content in accordance to local laws. To make a claim documentation or ownership proof is recquired.</p>
+    <b>Reports</b>
+    <p>Abuse can be reported by email or with the built-in report function. Simply click on the [!] button next to the post, solve the CAPTCHA, select a report category and finally submit the form.</p>
+    {% if config.contact.emails | length > 0 %}
+    <p>Email: <a href="mailto:{{ config.contact.emails | first }}">{{ config.contact.emails | first }}</a></p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

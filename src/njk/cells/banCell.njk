@@ -1,0 +1,60 @@
+<div class="appealForm">
+  <table>
+    <tbody>
+      <tr>
+        <th>ID</th>
+        <td class="idLabel"></td>
+      </tr>
+      <tr class="asnPanel">
+        <th>ASN</th>
+        <td class="asnLabel"></td>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td class="targetLabel"></td>
+      </tr>
+      <tr id="reasonPanel">
+        <th>Reason</th>
+        <td class="reasonLabel"></td>
+      </tr>
+      <tr class="boardPanel">
+        <th>Board</th>
+        <td class="boardLabel"></td>
+      </tr>
+      <tr id="expirationPanel">
+        <th>Expiration</th>
+        <td class="expirationLabel"></td>
+      </tr>
+      <tr>
+        <th>Applied by</th>
+        <td class="appliedByLabel"></td>
+      </tr>
+      <tr class="appealPanel">
+        <th>Appeal</th>
+        <td class="appealLabel"></td>
+      </tr>
+      <tr>
+        <th>Links</th>
+        <td>
+          <a class="postHistoryLink">[Post history]</a>
+          <a class="offenseRecordLink">[Offense record]</a>
+          <a class="fileHistoryLink">[File history]</a>
+        </td>
+      </tr>
+      <tr>
+        <th>Action</th>
+        <td>
+          <form style="display:inline" action="/liftBan.js" method="post" enctype="multipart/form-data">
+            <button type="submit" class="liftFormButton">Unban</button>
+            <input type="hidden" class="liftIdentifier" name="banId">
+          </form>
+          <form style="display:inline" action="/denyAppeal.js" method="post" enctype="multipart/form-data">
+            <button type="submit" class="denyFormButton denyForm">Deny appeal</button>
+            <input type="hidden" name="banId" class="denyIdentifier">
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+</div>

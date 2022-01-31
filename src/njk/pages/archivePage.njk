@@ -1,0 +1,24 @@
+{% extends "base.njk" %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>Archives</h2>
+  <div>
+    <form action="/archives.js" method="GET">
+      <label>
+        Boards:
+        <input name="boards" id="fieldBoards" type="text">
+      </label>
+      <button type="submit">Filter</button>
+    </form>
+    <hr>
+    <div id="divThreads"></div>
+    <div id="divPages"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/filterManagement.js') }}
+{% endblock %}

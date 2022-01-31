@@ -1,0 +1,48 @@
+{% from 'macros.njk' import script, style with context %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    {% block style %}
+    {{ style('/.static/css/snowflakes.css') }}
+    {{ style('/.static/css/style.css') }}
+    {{ style('/.static/katex/katex.min.css') }}
+    {% endblock %}
+    {{ script('/.static/js/lang/' + LANG + '.js') }}
+    {{ script('/.static/js/settings.js') }}
+    {{ script('/.static/js/api.js') }}
+    {{ script('/.static/js/fallingSnow.js') }}
+    {{ script('/.static/js/themes.js') }}
+    {{ script('/.static/js/draggable.js') }}
+    {{ script('/.static/js/settingsMenu.js') }}
+    {% block scripts %}{% endblock %}
+    {{ script('/.static/js/mod.js') }}
+    {{ script('/.static/js/radiobl.js') }}
+    {% block extraHead %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+  </head>
+  <body class="no_theme">
+    <span id='lineHeightDef' style='line-height:inherit;display:none;'>&nbsp;</span>
+    <p id="labelDescription" style="display:none;"></p>
+    <nav id="topNav">
+      {% block topLeftBar %}
+      {% include 'navbars/leftBar.njk' %}
+      {% endblock %}
+      {% block topRightBar %}
+      {% include 'navbars/rightBarHome.njk' %}
+      {% endblock %}
+    </nav>
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <nav id="bottomNav">
+      {% include './navbars/leftBar.njk' %}
+      <span id=boardContentLinks>
+        {% block contentLinks %}{% endblock %}
+      </span>
+    </nav>
+    {% include 'content/footer.njk' %}
+    {% include 'content/snowfall.njk' %}
+    {% endblock %}
+  </body>
+</html>
