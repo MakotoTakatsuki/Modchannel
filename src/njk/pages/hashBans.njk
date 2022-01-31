@@ -1,0 +1,26 @@
+{% extends "base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Hash Bans</h1>
+</header>
+<div class="mCard">
+  <h2>Add hash ban</h2>
+  <div>
+    <form action="/placeHashBan.js" method="post" enctype="multipart/form-data">
+      <input type="text" class="addHashBanField" name="hash" id="hashField" placeholder="hashsum">
+      <input type="text" class="addHashBanField" name="hash" id="reasonField" placeholder="reason">
+      <input id="boardIdentifier" type="hidden" name="boardUri">
+      <button type="submit" id="createFormButton">Place hash ban</button>
+    </form>
+  </div>
+</div>
+<div class="mCard">
+  <h2>Hash ban list</h2>
+  <div id="hashBansDiv"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/hashBans.js') }}
+{% endblock %}

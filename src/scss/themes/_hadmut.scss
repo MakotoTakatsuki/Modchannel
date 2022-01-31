@@ -1,0 +1,157 @@
+.labelSubject {
+  color: #929292;
+  font-size: 1.5rem;
+}
+
+a {
+  color: #e65e1a;
+}
+
+
+.floatingMenu, .innerPost, .markedPost, .topBoards a {
+  background: #ccf;
+  border-color: blue;
+  -webkit-box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  border-style: solid;
+  border-width: 0.2em;
+  -webkit-border-radius: 0.7em;
+  -moz-border-radius: 0.7em;
+  -ms-border-radius: 0.7em;
+  border-radius: 0.7em;
+  margin: 1em 2em 0.5em 1em;
+  min-height: 2.3em;
+}
+
+#labelName {
+  margin: 3rem 0 0 0;
+  padding: 0;
+  font-size: 60px;
+}
+
+#divMessage {
+  color: #929292;
+  margin: 0 0 2em 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.divPosts .postCell .innerPost::before, .divPosts .postCell .markedPost::before {
+  display: none;
+}
+
+.reportdeletebuttons.brackets {
+  color: #e65e1a;
+}
+
+.hideButton, .unhideButton {
+  float: right;
+}
+
+.opHead > .extraMenuButton > .iconReport {
+  opacity: 0;
+}
+
+.linkName.noEmailName {
+  color: #000;
+}
+
+.linkReply.brackets, .linkLast.brackets {
+  text-decoration: none;
+}
+
+.brackets::after {
+  content: " »";
+}
+
+.brackets::after, .brackets::before {
+  text-decoration: none;
+  display: contents;
+  color: #e65e1a;
+}
+
+.brackets::before {
+  display: none;
+}
+
+hr {
+  padding: 0 0 1rem 0;
+  margin: 1rem 0 1.2rem 0;
+  border-style: none none solid none;
+  border-width: 0.1em;
+  border-color: #929292;
+}
+
+.opHead > .labelSubject {
+  display: block;
+  /* margin-bottom: 0.3em; */
+}
+
+.opHead > .deletionCheckBox {
+  display: none;
+}
+
+.opHead > .linkName.noEmailName {
+  display: none;
+}
+
+#threadList {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+
+.innerPost .panelUploads .uploadCell, .markedPost .panelUploads .uploadCell {
+  background: none;
+  border: none;
+}
+
+#selectedDiv .selectedCell, #selectedDivQr .selectedCell, .innerOP .panelUploads .uploadCell {
+  background: none;
+  border: none;
+}
+
+.pinIndicator {
+  float: right;
+}
+
+.labelLastEdit {
+  display: none;
+}
+
+#postingForm th, .modalTableBody th {
+  background: none;
+  color:
+  #000;
+}
+
+#postingTable {
+  -webkit-box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0.2rem 0.3rem 0.2rem 0.05rem rgba(0, 0, 0, 0.6);
+  border-style: solid;
+  border-color: #929292;
+  border-width: 0.2em;
+  background-color: #dfdfdf;
+  -webkit-border-radius: 0.7em;
+  -moz-border-radius: 0.7em;
+  -ms-border-radius: 0.7em;
+  border-radius: 0.7em;
+  border-color: #929292;
+  border-width: 0.22em;
+  padding: 0.4em 0.4em 0.4em 0.4em;
+}
+
+
+.postingInput, #oekakiWidth, #oekakiHeight {
+  border: 0.25em inset rgb(248, 248, 248);
+  background:  #f8f8f8;
+}
+
+.opHead > .imgFlag {
+  float: left;
+  margin-right: 5px;
+}

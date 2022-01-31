@@ -1,0 +1,44 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Trash Bin</h1>
+</header>
+<form id method="post" action="/contentActions.js" enctype="multipart/form-data">
+  <div id="reportActions" class="mCard labelTable">
+    <h2>Actions</h2>
+    <div>
+      <button type="submit" id="restoreFormButton" value="restore" name="action">Restore</button>
+    </div>
+  </div>
+  <div id="reportList" class="mCard boardThreadList">
+    <h2>Trash</h2>
+    <div>
+      <h4>Threads</h4>
+      <div id="threadList"></div>
+      <hr>
+      <h4>Posts</h4>
+      <div id="postList"></div>
+    </div>
+  </div>
+</form>
+{% include './content/moderationFields.njk' %}
+{% include './content/divMod.njk' %}
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/categories.js') }}
+{{ script('/.static/js/polyfill.js') }}
+{{ script('/.static/js/dynDel.js') }}
+{{ script('/.static/js/captchaUtils.js') }}
+{{ script('/.static/js/captchaModal.js') }}
+{{ script('/.static/js/postingMenu.js') }}
+{{ script('/.static/ruffle/ruffle.js') }}
+{{ script('/.static/js/thumbs.js') }}
+{{ script('/.static/js/expandComment.js') }}
+{{ script('/.static/js/posting.js') }}
+{{ script('/.static/js/tooltips.js') }}
+{{ script('/.static/js/embed.js') }}
+{{ script('/.static/js/boardTooltip.js') }}
+{{ script('/.static/js/trashBin.js') }}
+{% endblock %}

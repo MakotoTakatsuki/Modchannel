@@ -1,0 +1,70 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>Info</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+{% set contact = config.contact %}
+<div id="subpageWrapper">
+  {% if contact %}
+  <h2>About</h2>
+  <div>
+    {% if contact.emails | first %}
+    <p>Email: <a href="mailto:{{ contact.emails | first }}">{{ contact.emails | first }}</a> {% if contact.emails | length > 1 %}(Backup: {% for email in contact.emails %}{% if not loop.first %}<a href="mailto:{{ email }}">{{ email }}</a>{% if not loop.last %}, {% endif %}{% endif%}{% endfor %}){% endif %}</p>
+    {% endif %}
+    {% if contact.irc %}
+    <p>IRC: {% for channel in contact.irc.channels %}{{ channel.name }}{% if not loop.last %}, {% endif %}{% endfor %} @ {{ contact.irc.network.name }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+  <a name="donate"></a> <h2>Donate</h2>
+  <div>
+    <p>{{ config.sitename }}'s infrastructure is paid with cryptocurrency. If you want to support {{ config.sitename }}, you can send to one of our wallets:</p>
+    <ul class="donation">
+      {% for item in config.donation %}
+      <li><span style="{{ 'font-weight: bold;' if item.highlight }}">{{ item.title }}:</span> <i style="{{ 'font-size: 10px;' if item.address | length > 75 }}">{{ item.address }}</i></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <h2>FAQ</h2>
+  <div id="faqContent">
+    <p><b>What  is this place?</b></p>
+    <p>Please take time to read the <a href="/disclaimer.html">disclaimer</a>, the <a href="/privacy.html">privacy policy</a> and the <a href="/globalRules.html">rules</a>.</p>
+    <p><b>Flood detected...?</b></p>
+    <p>Wait a few minutes. </p>
+    <p><b>Can I view multiple boards at once? (multi board)</b></p>
+    <p>Yes. Concatenate board uris with the "+" sign. For example use <a href="/b+kohl/">/b+kohl/</a> to view <a href="/b/">/b/</a> and <a href="/pol/">/pol/</a> at once. </p>
+    <p><b>How can I use nice text formatting?</b></p>
+    <ul>
+      <li>==SRZ BIZNIZ== <span class="arrowRight"></span> <span class="redText">SRZ BIZNIZ</span></li>
+      <li>'''bold''' <span class="arrowRight"></span> <strong>bold</strong></li>
+      <li>[b] bold [/b] <span class="arrowRight"></span> <strong>bold</strong></li>
+      <li>[i] italics [/i] <span class="arrowRight"></span> <em>italics</em></li>
+      <li>__underline__ <span class="arrowRight"></span> <u>underline</u></li>
+      <li>[u] underline [/u] <span class="arrowRight"></span> <u>underline</u></li>
+      <li>~~strikethrough~~ <span class="arrowRight"></span> <s>strikethrough</s></li>
+      <li>[s] strike [/s] <span class="arrowRight"></span> <s>strike</s></li>
+      <li>**spoiler** <span class="arrowRight"></span> <span class="spoiler">spoiler</span></li>
+      <li>[spoiler] spoiler [/spoiler] <span class="arrowRight"></span> <span class="spoiler">spoiler</span></li>
+      <li>[code] code test [/code] <span class="arrowRight"> <code> code test </code> </li>
+      <li>```<br>for (var i = 0; i &lt; 10; i++) console.log(i);<br>``` <span class="arrowRight"></span> <code><span class="hljs-keyword">for</span> (var <span class="hljs-built_in">i</span> = <span class="hljs-number">0</span>; <span class="hljs-built_in">i</span> &lt; <span class="hljs-number">10</span>; <span class="hljs-built_in">i</span>++) console.<span class="hljs-built_in">log</span>(<span class="hljs-built_in">i</span>);</code></li>
+      <li> &gt;Greentext <span class="arrowRight"></span> <span class="greenText">&gt;Greentext</span></li>
+      <li> &lt;Orangetext <span class="arrowRight"></span> <span class="orangeText">&lt;Orangetext</span></li>
+      <li>$$\int_0^\infty \mathrm{e}^{-x}\,\mathrm{d}x$$ <span class="arrowRight"></span> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.215112em;vertical-align:-0.35582em;"></span><span class="mop"><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8592920000000001em;"><span style="top:-2.34418em;margin-left:-0.19445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span><span style="top:-3.2579000000000002em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">∞</span></span></span></span><span class="vlist-s">&#8203;</span></span><span class="vlist-r"><span class="vlist" style="height:0.35582em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">e</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathrm">d</span></span><span class="mord mathnormal">x</span></span></span></span><br>
+      </li>
+    </ul>
+    <a name="filetypes"></a> <p ><b>What files can I upload?</b></p>
+    <p>jpeg, jpg, bmp, gif, png, webp, mp3, ogg, flac, opus, webm, mp4, 7z, zip, pdf, epub, txt and swf with maximum file size of 100MB in total for every post.<span style="display:none;"> on /b/, /int/ and /pol/. 40MB on every other board.</span></p>
+    <p><b>Do you keep logs?</b></p>
+    <p>Yes, for a limited period of time. For more information have a look at our <a href="/privacy.html">Privacy Policy</a>.</p>
+    <p><b>How can I REPORT ABUSE?</b></p>
+    <p>{% if contact.emails | first %}<a href="mailto:{{ contact.emails | first }}">{{ contact.emails | first }}</a> or use{% else %}Use{% endif %} the report abuse function.</p>
+    {% if contact.emails | first %}
+    <p><b>How can I contact the administration team?</b></p>
+    <p><a href="mailto:{{ contact.emails | first }}">{{ contact.emails | first }}</a></p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

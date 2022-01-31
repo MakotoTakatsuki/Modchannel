@@ -1,0 +1,113 @@
+<table id="postingTable">
+  <tbody>
+    <tr id="divName">
+      <th>{{ lang.name }}:</th>
+      <td><input type="text" placeholder="{{ lang.name }}" class="postingInput" id="fieldName" name="name"></td>
+    </tr>
+    <tr>
+      <th>{{ lang.subject }}:</th>
+      <td>
+        <input type="text" placeholder="{{ lang.subject }}" class="postingInput" id="fieldSubject" tabindex="3" size="25" maxlength="100" name="subject" autocomplete="off">
+        <input name="boardUri" id="boardIdentifier" type="hidden">
+        <input accesskey="s" tabindex="4" type="submit" id="formButton" value="{{ lang.post }}">
+      </td>
+    </tr>
+    <tr>
+      <th>Säge:</th>
+      <td><input type="checkbox" class="postingInput" id="checkboxSage" name="sage"> <label class="sageLabel" id="checkboxMobileText" for="checkboxSage">{{ lang.sage }}</label></td>
+    </tr>
+    <tr>
+      <th>{{ lang.comment }}:<br><span style="display:none;" id="labelMessageLengthOuter"><span id="labelMessageLength"></span></span></th>
+      <td>
+        <textarea placeholder="{{ lang.comment }}" rows="6" cols="48" tabindex="5" class="postingInput" id="fieldMessage" name="message"></textarea>
+      </td>
+    </tr>
+    <tr id="divOekaki">
+      <th>{{ lang.drawing }}:</th>
+      <td>
+        <input placeholder="width" size=1 maxsize=4 id="oekakiWidth" value=500 autocomplete="off"> x
+        <input placeholder="height" size=1 maxsize=4 id="oekakiHeight" value=500 autocomplete="off">
+        <a id="oekakiButton">{{ lang.sizeCanvas }}</a>
+        <div id="wPaint" style="position:relative;"></div>
+      </td>
+    </tr>
+    <tr id="divUpload">
+      <th>{{ lang.files }}:</th>
+      <td>
+        <div class="hidden" id="dragAndDropDiv">
+          <div class="dropzone" id="dropzone">
+            {{ lang.selectDropPasteFilesHere }}
+          </div>
+          <div id="selectedDiv"></div>
+        </div>
+        <div>
+          <input type="file" name="files" id="inputFiles" multiple class="fileBrowser">
+        </div>
+        <input type="checkbox" name="spoiler" class="postingCheckbox" id="checkboxSpoiler">
+        <label class="labelSpoiler" for="checkboxSpoiler">{{ lang.spoiler }}</label>
+      </td>
+    </tr>
+    <tr id="captchaDiv">
+      <th>Captcha:</th>
+      <td>
+        <img class="captchaImage" src="/captcha.js" id="captchaImage" alt="">
+        <div class="subCaptchaDiv">
+          <span class="captchaTimer"></span>
+          <br>
+          <input name="captcha" type="text" class="captchaField postingInput" id="fieldCaptcha" placeholder="answer" autocomplete="off">
+          <a href="/noCookieCaptcha.js">no cookies?</a>
+        </div>
+      </td>
+    </tr>
+    <!--
+      <tr class="hidden" id="formMore">
+      <td>More</td>
+      </tr>
+      </tbody>
+      <tbody id="extra">
+      <tr>
+      <th>E-mail:</th>
+      <td><input type="text" class="postingInput" id="fieldEmail" name="email"></td>
+      </tr>
+      RIF E-POST
+    -->
+    <tr>
+      <th>{{ lang.password }}:</th>
+      <td>
+        <input autocomplete="off" placeholder="{{ lang.password }}" id="fieldPostingPassword" name="password" class="postingInput" type="password" size="8" tabindex="10">
+        <span class="postDeletionLabel">({{ lang.forPostDeletion }})</span>
+      </td>
+    </tr>
+    <tr id="flagsDiv">
+      <th>Flag:</th>
+      <td>
+        <select name="flag" id="flagCombobox">
+        </select> <img class="flagPreview" alt="flag">
+      </td>
+    </tr>
+    <tr id="noFlagDiv">
+      <th>{{ lang.noLocation }}:</th>
+      <td>
+        <input type="checkbox" class="postingCheckbox postingInput" id="checkboxNoFlag" name="noFlag">
+        <label for="checkboxNoFlag"></label>
+      </td>
+    </tr>
+    <tr id="alwaysUseBypassDiv" class="hidden">
+      <th>Bypass:</th>
+      <td>
+        <input type="checkbox" class="postingCheckbox postingInput" id="alwaysUseBypassCheckBox">
+        <label for="alwaysUseBypassCheckBox"></label>
+      </td>
+    </tr>
+    <tr id="rules_row">
+      <td colspan="2">
+        <ul>
+          <li>{{ lang.allowedFileTypes1 }} <a href="/info.html#filetypes">{{ lang.more }}</a>
+          </li><li>{{ lang.maxNumberOfFilesPerPost }}: <span id="labelMaxFiles"></span>
+          </li><li>{{ lang.maxFileSize }}: <span id="labelMaxFileSize"></span>
+          </li><li><b>{{ lang.readTheRules1 }} <a href="/.static/pages/globalRules.html" class="rules">{{ lang.readTheRules2 }}</a> {{ lang.readTheRules3 }}</b>
+          </li></ul>
+      </td>
+    </tr>
+      </tbody>
+</table>

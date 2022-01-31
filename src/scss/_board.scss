@@ -1,0 +1,26 @@
+/*Elements used exclusively on board pages*/
+#pages,
+#linkPrevious, #linkNext,
+.divPages .navCatalog
+{
+  display: inline-block;
+  border-style: inset;
+  border-width: 1px;
+}
+
+.threadHidden {
+  margin-bottom: 10px;
+}
+
+.opCell.deleted {
+  opacity: 0.3;
+}
+
+.opCell.deleted .floatingMenu,
+#linkModeration {
+  display: none;
+}
+
+/* .boardThreadList .opCell .panelUploads:not(.multipleUploads) {
+  max-width: 80%;
+} */

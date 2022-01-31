@@ -1,0 +1,75 @@
+.reasonDiv {
+  margin-top: 0.5em;
+}
+
+.selectionDiv {
+  margin-bottom: 0.5em;
+}
+
+.mCard {
+  border: solid 1px #313370;
+  margin-bottom: 1em;
+}
+
+.mFixed {
+  position: fixed;
+  bottom: 1em;
+  right: 2em;
+  background: white;
+  margin-left: 2em;
+}
+
+.mCard > h2 {
+  font-size: 125%;
+  padding: 5px 10px;
+  background: #313370;
+  color: white;
+  display: inline-block;
+}
+
+.mCard > div {
+  padding: 15px;
+}
+
+.mLinks a {
+  display: table;
+}
+
+.mCard hr {
+  margin: 0.75em 0;
+}
+
+#pagesDiv {
+  word-break: break-all;
+}
+
+#pagesDiv a {
+  margin-right: 0.5em;
+}
+
+#boardMessageField {
+  display: block;
+  width: 50em;
+  height: 2em;
+}
+
+.reportCell .deletionCheckBox {
+  display: none;
+}
+
+.reportCell:last-child hr {
+  display: none;
+}
+
+.mCard #linkPrevious,
+.mCard #linkNext {
+  border-style: unset !important;
+}
+
+.mCard .innerPost {
+  margin-left: 0;
+}
+
+.labelTable > div label {
+  display: table;
+}

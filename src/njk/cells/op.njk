@@ -1,0 +1,76 @@
+<hr>
+<div class="innerOP">
+  <div class="opHead title">
+    <input type="checkbox" class="deletionCheckBox">
+    <img class="hideButton" title="{{ lang.hideThread }}" src="/.static/images/button-close.gif">
+    <img class="imgFlag">
+    <span class="labelSubject"></span>
+    <a class="linkName"></a>
+    <span class="modLinks">
+      <a title="History" class="linkHistory brackets">H</a>
+      <a title="File History" class="linkFileHistory brackets">FH</a>
+      <a title="Offense Record" class="linkOffenseRecord brackets">OR</a>
+    </span>
+    <span class="labelRole"></span>
+    <span class="labelCreated"></span>
+    <span class="spanId">
+      <span class="labelId"></span>
+    </span>
+    <a class="linkSelf">{{ lang.no }}</a>
+    <a class="linkQuote"></a>
+    <span class="extraMenuButton">
+      <img class="iconReport" src="/.static/images/icon-report.png" title="Post Menu" alt="">
+    </span>
+    <img class="archiveIndicator" title="{{ lang.archivedUpper }}" src="/.static/images/archived.png" alt="{{ lang.archivedLower }}">
+    <img class="lockIndicator" title="{{ lang.lockedUpper }}" src="/.static/images/locked.gif" alt="{{ lang.lockedLower }}">
+    <img class="pinIndicator" title="{{ lang.stickyUpper }}" src="/.static/images/sticky.gif" alt="{{ lang.stickyLower }}">
+    <img class="cyclicIndicator" title="{{ lang.cyclicUpper }}" src="/.static/images/cyclic.png" alt="{{ lang.cyclicLower }}">
+    <span class="sage"></span>
+    <span class="bumpLockIndicator" title="Bumplocked">[AUTOSÄGE]</span>
+    <a class="linkReply brackets">{{ lang.reply }}</a>
+    <a class="linkLast brackets">{{ lang.last }}</a>
+    <a class="linkEdit brackets">{{ lang.edit }}</a>
+    <span class="panelBacklinks"></span>
+  </div>
+  <table class="modInfo">
+    <tbody>
+      <tr class="panelBypassId">
+        <th>Bypass</th>
+        <td class="labelBypassId"></td>
+      </tr>
+      <tr class="panelIp">
+        <th>IP</th>
+        <td>
+          <span class="labelIp"></span><span class="panelRange">
+            <span title="Broad range(1/2 octets)">BR</span>: <span class="labelBroadRange"> </span>
+            <span title="Narrow range(3/4 octets)">NR</span>: <span class="labelNarrowRange"> </span>
+          </span>
+        </td>
+      </tr>
+      <tr class="panelRealIp">
+        <th>Real IP</th>
+        <td class="labelRealIp"></td>
+      </tr>
+      <tr class="panelASN">
+        <th>ASN</th>
+        <td class="labelASN"></td>
+      </tr>
+    </tbody>
+  </table>
+  <input class="expandCheckBox hidden" type="checkbox">
+  <div class="panelUploads"></div>
+  <div class="contentOverflow">
+    <label class="expandLabel brackets hidden">
+      <a class="commentExpand">{{ lang.commentExpand }}</a>
+    </label>
+    <label class="collapseLabel brackets hidden">
+      <a class="commentCollapse">{{ lang.commentCollapse }}</a>
+    </label>
+    <div class="bottomGradient hidden"></div>
+    <div class="divMessage"></div>
+  </div>
+</div>
+<div class="divBanMessage"></div>
+<div class="labelLastEdit"></div>
+<div class="labelOmission"></div>
+<div class="divPosts"></div>

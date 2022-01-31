@@ -1,0 +1,135 @@
+.topBoards a, .innerPost, .markedPost, .floatingMenu {
+  background: #92D17E !important;
+}
+
+.innerPost .panelUploads .uploadCell, .markedPost .panelUploads .uploadCell {
+  background: #fff !important;
+  border: #000 1px solid !important;
+}
+
+innerOP .panelUploads .uploadCell, #selectedDiv .selectedCell, #selectedDivQr .selectedCell {
+  background: #fff !important;
+  border: #000 1px solid !important;
+}
+
+#postingForm th, .modalTableBody th {
+  background: #317055 !important;
+}
+
+
+* {
+  scrollbar-color: #1c1e1f #2f3234 !important;
+}
+
+
+.floatingMenu, .innerPost, .markedPost, .topBoards a {
+  background-color: rgb(48, 95, 34) !important;
+  background-image: none !important;
+}
+
+input, textarea, select, button {
+  background-color: #181a1b !important;
+}
+
+
+#settingsMenu > div:nth-child(4) {
+  border-left-color: rgb(53, 53, 89) !important;
+  background-color: rgb(29, 31, 32) !important;
+  background-image: none !important;
+  border-bottom-color: rgb(53, 53, 89) !important;
+  border-right-color: rgb(53, 53, 89) !important;
+}
+
+#settingsMenu > div:nth-child(3) {
+  border-left-color: rgb(53, 53, 89) !important;
+  background-color: rgb(29, 31, 32) !important;
+  background-image: none !important;
+  border-right-color: rgb(53, 53, 89) !important;
+  border-top-color: rgb(53, 53, 89) !important;
+}
+
+#selectedDiv .selectedCell, #selectedDivQr .selectedCell, .innerOP .panelUploads .uploadCell {
+  background-color: rgb(34, 36, 37) !important;
+  background-image: none !important;
+  border-color: rgb(68, 68, 68) !important;
+}
+
+
+.reportdeletebuttons, a {
+  color: rgb(133, 167, 228) !important;
+  text-decoration-color: currentcolor !important;
+}
+
+.labelSubject {
+  color: rgb(218, 108, 108) !important;
+}
+
+::selection {
+  background-color: #005ccc !important;
+  color: #ffffff !important;
+}
+
+.noEmailName, .noEmailName:hover {
+  color: rgb(108, 148, 218) !important;
+  text-shadow: none !important;
+  text-decoration-color: currentcolor !important;
+}
+
+#selectedDiv .selectedCell, #selectedDivQr .selectedCell, .innerPost .panelUploads .uploadCell,  .markedPost .panelUploads .uploadCell, innerOP .panelUploads .uploadCell {
+  background-color: rgb(24, 26, 27) !important;
+  background-image: none !important;
+  border-color: rgb(102, 102, 102) !important;
+}
+
+.linkQuote:hover {
+  color: rgb(232, 230, 227) !important;
+}
+
+.linkQuote {
+  color: rgb(232, 230, 227) !important;
+  text-decoration-color: currentcolor !important;
+}
+
+.dropzone {
+  color: rgba(232, 230, 227, 0.5) !important;
+  border-color: rgba(77, 77, 77, 0.4) !important;
+  background-color: rgba(40, 42, 44, 0.5) !important;
+}
+
+a:link {
+  color: rgb(133, 167, 228) !important;
+}
+
+.linkSelf:hover {
+  color: rgb(232, 230, 227) !important;
+}
+
+.linkSelf {
+  color: rgb(232, 230, 227) !important;
+  text-decoration-color: currentcolor !important;
+}
+
+.greenText {
+  color: rgb(133, 255, 255) !important;
+}
+
+.brackets::after, .brackets::before {
+  text-decoration-color: currentcolor !important;
+  color: rgb(232, 230, 227) !important;
+}
+
+::placeholder {
+  opacity: 0.5 !important;
+}
+::placeholder {
+  color: #bab5ab !important;
+}
+
+.postingInput {
+  border-color: rgb(68, 68, 68) !important;
+}
+
+.boardlist {
+  background-color: rgb(29, 31, 32) !important;
+  background-image: none !important;
+}

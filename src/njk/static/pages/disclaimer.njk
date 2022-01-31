@@ -1,0 +1,26 @@
+{% extends "base.njk" %}
+
+{% block extraHead %}
+<title>Disclaimer</title>
+{% endblock %}
+
+{% block content %}
+{% include 'content/menuHeader.njk' %}
+<div id="subpageWrapper">
+  <h2>Disclaimer</h2>
+  <div><ol>
+      <li>This site is meant for people with common sense and humor who can deal with sarcasm.</li><br>
+      <li>Most posts here are meant to be taken as ironic.</li>
+      <li>If you are a 16 then use /teen/</li>
+    </ol>
+    <p>Before you do anything here, familiarize yourself with the <a href="/globalRules.html">rules</a>.</p></div>
+  <h2>免責事項</h2>
+  <div>
+    <ol>
+      <li>このサイトは、皮肉に対応できる常識とユーモアのある人を対象にしています。</li><br>
+      <li>ここの書き込みは、ほとんどが皮肉として受け取られるものです。</li><br>
+      <li>もしあなたが16歳なら、/teen/ を使ってください。</li>
+    </ol>
+    <p>ここで何かをする前に、<a href="/globalRules.html">ルールについてよく理解しておいてください。</p></div>
+</div>
+{% endblock %}

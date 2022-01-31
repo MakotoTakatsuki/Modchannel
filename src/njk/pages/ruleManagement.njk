@@ -1,0 +1,23 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Rule Management</h1>
+</header>
+<div id="settingsWrapper">
+  <fieldset id="settingsFieldset">
+    <legend>Rules</legend>
+    <form action="/createRule.js" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="boardUri" id="boardIdentifier">
+      <input type="text" name="rule" class="ruleManagementField" id="fieldRule">
+      <button type="submit" id="addFormButton">Add Rule</button>
+    </form>
+    <hr>
+    <div id="divRules"></div>
+  </fieldset>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/ruleManagement.js') }}
+{% endblock %}

@@ -1,0 +1,171 @@
+#qrsubject {
+  width: calc(100% - 152px);
+}
+
+.post-table td {
+  padding: 0.25em;
+}
+
+#quick-reply {
+  position: fixed;
+  float: right;
+  padding: 0 0 0 0;
+  width: 300px;
+  z-index: 100;
+  display: none;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -ms-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#quick-reply #post-form-inner {
+  min-width: 300px;
+}
+
+#quick-reply .post-table tr td:nth-child(2) {
+  width: 40%;
+  text-align: left;
+  padding-left: 0.25em;
+}
+
+#quick-reply tr td:nth-child(2) input[type="submit"] {
+  width: 99%;
+}
+
+#quick-reply th {
+  text-align: center;
+  padding: 0 0 0.25em 0;
+}
+
+#quick-reply .handle {
+  position: relative;
+  padding: unset;
+}
+
+.handle {
+  cursor: move;
+}
+
+.handle a {
+  color: white;
+}
+
+#quick-reply .close-btn {
+  position: absolute;
+  right: 6px;
+  text-decoration-line: none;
+}
+
+#quick-reply input[type="text"],
+#quick-reply input[type="password"],
+#quick-reply select {
+  padding: 2px;
+  font-size: 10pt;
+  box-sizing: border-box;
+}
+
+#quick-reply select {
+  padding: 2px;
+  font-size: 10pt;
+  box-sizing: border-box;
+  width: 85%;
+}
+
+#quick-reply textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 10pt;
+  resize: both;
+}
+
+#quick-reply input[type="file"] {
+  padding: 5px 2px;
+}
+
+#quick-reply .nonsense {
+  display: none;
+}
+
+#quick-reply td.recaptcha {
+  text-align: center;
+  padding: 0 0 1px 0;
+}
+
+#quick-reply td.recaptcha span {
+  display: inline-block;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+#quick-reply td.recaptcha-response {
+  padding: 0 0 1px 0;
+}
+
+#quick-reply table {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  margin: 0;
+  outline: 1px solid rgb(49, 51, 112);
+  border-collapse: collapse;
+}
+
+#quick-reply .nameLabel {
+  font-size: 75%;
+  max-width: 75px;
+}
+
+.modalHeader,
+#quick-reply .handle {
+  display: block;
+  background: #313370;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+}
+
+#qrname,
+#qrpassword,
+#QRfieldCaptcha {
+  width: 100%;
+}
+
+#quick-reply .captchaImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#qrsage {
+  vertical-align: middle;
+  width: 20px;
+}
+
+#qrbutton {
+  width: 125px;
+}
+
+#qrbody {
+  min-width: 300px;
+  min-height: 50px;
+}
+
+#dropzoneQr {
+  margin-bottom: 0.25em;
+}
+
+#qrFlagCombobox option, #flagCombobox option {
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: auto 16px;
+}
+
+#selectedDivQr .dragAndDropThumb {
+  max-width: 100px;
+}
+

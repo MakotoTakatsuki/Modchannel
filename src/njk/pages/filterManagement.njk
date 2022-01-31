@@ -1,0 +1,34 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Filter Management</h1>
+</header>
+<div id="settingsWrapper" class="mCard">
+  <h2>Filters</h2>
+  <div>
+    <p>Maximum filter length: <span id="maxLengthLabel"></span></p>
+    <form action="/createFilter.js" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="boardUri" id="boardIdentifier">
+      <label>
+        <input placeholder="Original term" type="text" class="addFilterField" name="originalTerm" id="fieldOriginalTerm">
+      </label>
+      <label>
+        <input placeholder="Replacement term" type="text" class="addFilterField" name="replacementTerm" id="fieldReplacementTerm">
+      </label>
+      <label>
+        <input type="checkbox" class="addFilterField" name="caseInsensitive" id="checkboxCaseInsensitive">
+        Case-insensitive
+      </label>
+      <button type="submit" id="addFormButton">Add filter</button>
+  </div>
+</div>
+<div id="settingsWrapper" class="mCard">
+  <h2>Filters</h2>
+  <div id="divFilters"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/filterManagement.js') }}
+{% endblock %}

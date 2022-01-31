@@ -1,0 +1,43 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Text Search</h1>
+</header>
+<div class="mCard mFixed">
+  <h2>Search</h2>
+  <div>
+    <form action="/addon.js/kc" method="get" id="ipForm">
+      <input type="hidden" name="feature" value="textSearch">
+      <label>
+        <input placeholder="Subject" title="Subject" type="text" id="fieldSubject" name="subject">
+      </label>
+      <label>
+        <input placeholder="Message" title="Message" type="text" id="fieldMessage" name="message">
+      </label>
+      <label>
+        <input placeholder="Name" title="Name" type="text" id="fieldName" name="name">
+      </label>
+      <label>
+        <input placeholder="Filename" title="Filename" type="text" id="fieldFilename" name="filename">
+      </label>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</div>
+<div class="mCard">
+  <h2>Postings</h2>
+  <div id="divPostings"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/captchaModal.js') }}
+{{ script('/.static/js/posting.js') }}
+{{ script('/.static/js/mediaHiding.js') }}
+{{ script('/.static/js/tooltips.js') }}
+{{ script('/.static/js/hiding.js') }}
+{{ script('/.static/js/dynDel.js') }}
+{{ script('/.static/js/postingMenu.js') }}
+{{ script('/.static/js/ipsearch.js') }}
+{% endblock %}

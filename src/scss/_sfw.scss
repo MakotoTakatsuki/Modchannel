@@ -1,0 +1,14 @@
+.sfw {
+  .uploadCell img:hover:not(.imgExpanded),
+  .catalogCell .linkThumb img:hover,
+  #bannerImage:hover {
+    opacity: 1 !important;
+    filter: blur(5px);
+  }
+
+  .uploadCell img:not(.imgExpanded),
+  .catalogCell .linkThumb img,
+  #bannerImage {
+    opacity: 0;
+  }
+}

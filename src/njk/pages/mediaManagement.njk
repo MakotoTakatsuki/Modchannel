@@ -1,0 +1,56 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Media Management</h1>
+</header>
+<form class="labelTable">
+  <div class="mCard mFixed">
+    <h2>Action</h2>
+    <div>
+      <input placeholder="Search" name="filter" type="text">
+      <label>
+        <input type="checkbox" id="orphanedCheckbox" name="orphaned">
+        Orphaned files
+      </label>
+      <button id="selectAllButton" type="button">Select all</button>
+      <input type="hidden" name="banId" id="banIdentifier">
+      <input type="hidden" name="boardUri" id="boardUriIdentifier">
+      <input type="hidden" name="threadId" id="threadIdIdentifier">
+      <input type="hidden" name="postId" id="postIdIdentifier">
+      <button formaction="/mediaManagement.js" formmethod="GET" type="submit">Filter</button>
+      <button formaction="/deleteMedia.js" formmethod="POST" formenctype="multipart/form-data" type="submit" id="deleteFormButton">Delete</button>
+    </div>
+  </div>
+  <div class="mCard">
+    <h2>Mass deletion</h2>
+    <div id="banPanel">
+      <textarea name="text" id="massTextField"></textarea>
+      <label>
+        <input placeholder="reason" type="text" name="reason" id="reasonField">
+      </label>
+      <label>
+        <input name="ban" id="banCheckbox" type="checkbox" checked>
+        <span>Ban deleted files</span>
+      </label>
+      <button formaction="/deleteMedia.js" formmethod="POST" formenctype="multipart/form-data" type="submit" id="deleteFormButton">Delete</button>
+    </div>
+  </div>
+  <div class="mCard">
+    <h2>Files</h2>
+    <div>
+      <div id="filesDiv"></div>
+    </div>
+  </div>
+  <div class="mCard" style="margin-right: 24em;">
+    <h2>Pages</h2>
+    <div>
+      <div id="pagesDiv"></div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/mediaManagement.js') }}
+{% endblock %}

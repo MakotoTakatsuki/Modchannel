@@ -1,0 +1,164 @@
+{% extends "./base.njk" %}
+
+{% block topRightBar %}
+{% include 'navbars/rightBarThread.njk' %}
+{% endblock %}
+
+{% block content %}
+{% include './content/boardHeader.njk' %}
+<div id="mainPanel">
+  <div id="postingForm">
+    <hr>
+    <h2>{{ lang.modeReply }} <a class="returnLinks unimportant" href="..">[{{ lang.return }}]</a> <a class="unimportant" href="#bottomNav">[{{ lang.goToBottom }}]</a></h2>
+    <form action="/replyThread.js" enctype="multipart/form-data" method="post">
+      <input type="hidden" name="threadId" id="threadIdentifier">
+      {% include './content/postingForm.njk' %}
+    </form>
+  </div>
+  <div id="threadList">
+    <form method="post" action="/contentActions.js" enctype="multipart/form-data">
+      <div id="divThreads"></div>
+      <hr class="clearer">
+      <div id="divRefreshContainer">
+        <a class="returnLinks brackets" href="..">{{ lang.return }}</a>
+        <a class="brackets" href="#">{{ lang.goToTop }}</a>
+        <a class="catalogLinks brackets" href="../catalog.html">{{ lang.catalog }}</a>
+        <span class="divRefresh hidden">
+          <a id="qrButton" class="brackets">{{ lang.quickReply }}</a>
+          <a id="refreshButton" class="brackets">{{ lang.update }}</a>
+          <label class="parentheses">
+            <input id="checkboxChangeLock" type="checkbox">
+            {{ lang.refreshLock }} </label>
+          <label class="parentheses">
+            <input id="checkboxChangeRefresh" type="checkbox" checked>
+            {{ lang.refreshAuto }} </label>
+          <span id="labelWsStatus" title="WebSocket"></span>
+          <span id="labelRefresh"></span>
+        </span>
+      </div>
+      {% include './content/moderationFields.njk' %}
+      {% include './content/divMod.njk' %}
+      <div id="divControls" class="mCard labelTable">
+        <h2>Thread Settings</h2>
+        <div>
+          <form action="/changeThreadSettings.js" method="post" enctype="multipart/form-data">
+            <label>
+              <input name="lock" class="threadSettingsField" id="checkboxLock" type="checkbox">
+              Lock
+            </label>
+            <label>
+              <input class="threadSettingsField" name="pin" id="checkboxPin" type="checkbox">
+              Pin
+            </label>
+            <label>
+              <input type="checkbox" class="threadSettingsField" name="cyclic" id="checkboxCyclic">
+              Cyclic
+            </label>
+            <label>
+              <input type="checkbox" class="threadSettingsField" name="autoSage" id="checkboxAutoSage">
+              Autosage
+            </label>
+            <input type="hidden" name="boardUri" id="controlBoardIdentifier">
+            <input type="hidden" name="threadId" id="controlThreadIdentifier">
+            <button type="submit" id="settingsFormButon">Save</button>
+          </form>
+        </div>
+      </div>
+      <div id="divArchive" class="mCard labelTable">
+        <h2>Archive Thread</h2>
+        <div>
+          <form action="/archiveThread.js" method="post" enctype="multipart/form-data">
+            <label>
+              <input name="confirmation" class="archiveField" id="checkboxArchive" type="checkbox">
+              Yes, I wish to lock and archive this thread
+            </label>
+            <input type="hidden" name="boardUri" id="archiveBoardIdentifier">
+            <input type="hidden" name="threadId" id="archiveThreadIdentifier">
+            <button type="submit" id="archiveFormButon">Archive</button>
+          </form>
+        </div>
+      </div>
+      <div id="formTransfer" class="mCard labelTable">
+        <h2>Transfer Thread</h2>
+        <div>
+          <form action="/transferThread.js" enctype="multipart/form-data" method="post" class="formTransfer">
+            <input type="hidden" name="boardUri" id="transferBoardIdentifier">
+            <input type="hidden" name="threadId" id="transferThreadIdentifier">
+            <label>
+              Destination board:
+              <input type="text" class="transferField" id="fieldDestinationBoard" name="boardUriDestination">
+            </label>
+            <button type="submit" id="transferFormButton">Transfer thread</button>
+          </form>
+        </div>
+      </div>
+      <div id="divMerge" class="mCard labelTable">
+        <h2>Merge Thread</h2>
+        <div>
+          <form action="/mergeThread.js" enctype="multipart/form-data" method="post" id="formMerge" class="formMerge">
+            <input type="hidden" name="boardUri" id="mergeBoardIdentifier">
+            <input type="hidden" name="threadSource" id="mergeThreadIdentifier">
+            <label>
+              Destination thread:
+              <input type="text" class="mergeField" id="fieldDestinationThread" name="threadDestination">
+            </label>
+            <button type="submit" id="mergeFormButton">Merge thread</button>
+          </form>
+        </div>
+      </div>
+      <div id="ipDeletionForm" class="mCard labelTable">
+        <h2>Delete from IP</h2>
+        <div>
+          <form method="post" action="/deleteFromIp.js" enctype="multipart/form-data">
+            <label>
+              Non-hashed ip:
+              <input type="text" class="ipDeletionField" name="ip" id="ipField">
+            </label>
+            <label>
+              Delete only from these boards(Ex:"b v", leaving blank will delete
+              from all boards)
+              <input type="text" class="ipDeletionField" name="boards" id="fieldBoards">
+            </label>
+            <button type="submit" id="deleteFromIpFormButton">Delete from IP</button>
+          </form>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/categories.js') }}
+{{ script('/.static/js/polyfill.js') }}
+{{ script('/.static/js/crypto.js') }}
+{{ script('/.static/js/dynDel.js') }}
+{{ script('/.static/js/postCommon.js') }}
+{{ script('/.static/js/captchaModal.js') }}
+{{ script('/.static/js/preview.js') }}
+{{ script('/.static/ruffle/ruffle.js') }}
+{{ script('/.static/js/thumbs.js') }}
+{{ script('/.static/js/expandComment.js') }}
+{{ script('/.static/js/posting.js') }}
+{{ script('/.static/js/tooltips.js') }}
+{{ script('/.static/js/thread.js') }}
+{{ script('/.static/js/captchaUtils.js') }}
+{{ script('/.static/js/qr.js') }}
+{{ script('/.static/js/threadEnter.js') }}
+{{ script('/.static/js/hiding.js') }}
+{{ script('/.static/js/mediaHiding.js') }}
+{{ script('/.static/js/postingMenu.js') }}
+{{ script('/.static/js/gallery.js') }}
+{{ script('/.static/js/oekaki.js') }}
+{{ script('/.static/js/audioThread.js') }}
+{{ script('/.static/js/tipping.js') }}
+{% endblock %}
+
+{% block contentLinks %}
+<span>[</span>
+<a id="linkManagement">{{ lang.manageBoard }}</a>
+<span>/</span>
+<a id="linkMod">{{ lang.moderateThread }}</a>
+<span>]</span>
+{% endblock %}
+

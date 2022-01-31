@@ -1,0 +1,31 @@
+{% extends "./base.njk" %}
+
+{% block content %}
+<header>
+  <h1>Custom mime thumbs</h1>
+</header>
+<div class="mCard">
+  <h2>Action</h2>
+  <div>
+    <form action="/createMimeThumb.js" method="post" enctype="multipart/form-data">
+      <label>
+        <input type="file" id="files" name="files">
+      </label>
+      <label id="nameLabel">
+        Mime for this thumb:
+        <input name="mime" id="fieldMime" type="text">
+      </label>
+      <button type="submit" id="addFormButton">Add thumb</button>
+    </form>
+    <hr>
+  </div>
+</div>
+<div class="mCard">
+  <h2>Thumb list</h2>
+  <div id="thumbList"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ script('/.static/js/mimeThumbs.js') }}
+{% endblock %}

@@ -1,0 +1,137 @@
+/*Used only on catalog*/
+
+@media only screen and (max-width: 479px) {
+  .catalogCell {
+    width: 90px !important;
+    max-height: 230px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .linkThumb img {
+    width: 90px !important;
+    height: 90px !important;
+    top: 0px;
+  }
+
+  .threadStats {
+    display: none;
+  }
+
+  .thumbGridBottom {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .catalogCell {
+    width: 180px !important;
+    max-height: 300px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .linkThumb img {
+    width: 170px !important;
+    height: 170px !important;
+  }
+
+  .thumbGridBottom {
+    display: none !important;
+  }
+}
+
+.catalogCell {
+  width: 210px;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  position: relative;
+  padding: 5px;
+  height: 350px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.catalogCell:hover, .catalogCell:focus {
+  overflow: visible;
+  z-index: 1;
+}
+.catalogCell:hover .divMessage, .catalogCell:focus .divMessage {
+  background: #AAAACC;
+  outline: #aac solid 6px;
+}
+.catalogCell:hover, .catalogCell:focus {
+  visibility: visible;
+}
+
+.catalogCell:nth-child(10n+1) {
+  border-left: 1px solid #f00;
+}
+
+.catalogCell:nth-child(10n) {
+  border-right: 1px solid #f00;
+}
+
+.catalogCell:hover {
+  background: #AAAACC;;
+}
+
+.catalogCell .divMessage {
+  margin: 0;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+#divTools {
+  text-align: left;
+  margin-left: 15px;
+}
+
+.catalogHeader .imgFlag {
+  float: left;
+}
+
+.catalogHeader {
+  line-height: 1em;
+}
+
+.catalogCell .labelSubject {
+  padding: 0;
+  margin: 0 0 0.5em;
+  font-size: 1em;
+  color: #CC3333;
+  display: block;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.linkThumb img {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.catalogDiv {
+  text-align: center;
+}
+
+.threadStats {
+  color: #888888;
+  margin-bottom: 0.5em;
+}
+
+.catalogCell:hover .threadStats {
+  color: #666666;
+}
+
+.thumbGridBottom {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
