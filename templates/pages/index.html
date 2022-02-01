@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+<link
+  href="/.static/css/global.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/index.css"
+  type="text/css"
+  rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
+<script src="/.static/js/interfaceUtils.js"></script>
+</head>
+<body>
+
+  <nav id="dynamicHeader"></nav>
+
+  <div class="titleWrapper" id="indexWrapper">
+	<fieldset class="titleFieldset" id="welcomeMessage">
+		<div
+		  id="logoBox"
+		  class="title">
+		  <div class="logoImg"> </div>
+		</div>
+
+		<div
+      	  id="infoBox"
+      	  class="title">
+          <p>Welcome to Modchan! The international exchange bulletin board!
+        	<br><br>
+        	Modchan also has the function of "infinity", the main difference being that it was created to target gaming and international interests. 
+      	  </p>
+    	</div>
+	</fieldset>
+
+	<fieldset class="titleFieldset">
+		<div
+      	  id="infoBox"
+      	  class="title">
+          <p>モツドちやんねるへようこそ！海外の反応がリアルタイムでわかる海外交流掲示板
+        	<br><br>
+        	この掲示板では、プログラミングの知識がなくても、無料で自分だけの掲示板を作成することができます。 
+			<br><br>
+			アカウントを作成することで、自分だけの掲示板を作ることができます。詳しくは<a href="/.static/pages/information.html">こちら</a>をご覧ください。
+      	  </p>
+    	</div>
+	</fieldset>
+
+	<fieldset class="titleFieldset">
+		<div id="dynamicLinks"></div>
+	</fieldset>
+
+	<fieldset class="titleFieldset">
+		<div id="dynamicAnnouncement"></div>
+	</fieldset>
+
+	<fieldset class="titleFieldset">
+	<legend>Popular Boards</legend>
+    <div
+      id="divBoards"
+      class="topBoards title"></div>
+	</fieldset>
+
+	<div class="splitField">
+		<fieldset class="titleFieldset">
+		<legend>Latest Images</legend>
+			<div id="divLatestImages"></div>
+		</fieldset> 
+		<div></div>
+		<fieldset class="titleFieldset">
+		<legend>Latest Posts</legend>
+			<div id="divLatestPosts"></div>
+		</fieldset>
+	</div>
+
+	<fieldset class="titleFieldset">
+	<legend>Stats</legend>
+    <div id="divStats">
+      <span>Total posts: <span id="labelTotalPosts"></span></span>
+      <span>Posts in last hour: <span id="labelTotalPPH"></span></span>
+      <span>Unique recent IPs: <span id="labelTotalIps"></span></span>
+      <span>Total boards: <span id="labelTotalBoards"></span></span>
+      <span>Media files stored: <span id="labelTotalFiles"></span></span>
+      <span>Total media size: <span id="labelTotalSize"></span></span>
+    </div>
+	</fieldset>
+
+  </div>
+
+  <footer id="dynamicFooter"></footer>
+
+</body>
+
+<script src="/.static/js/api.js"></script>
+<script src="/.static/js/settingsMenu.js"></script>
+<script src="/.static/js/watcher.js"></script>
+<script src="/.static/js/favouriteBoards.js"></script>
+
+</html>
