@@ -4,14 +4,14 @@ theme.themes = [ {
       label : 'Board-specific CSS',
       id : 'custom'
   }, {
+      label : 'Yotsuba',
+      id : 'yotsuba'
+  }, {
       label : 'Yotsuba B',
       id : 'yotsuba_b'
   }, {
       label : 'Yotsuba C',
       id : 'yotsuba_p'
-  }, {
-      label : 'Yotsuba',
-      id : 'yotsuba'
   }, {
       label : 'Miku',
       id : 'miku'
