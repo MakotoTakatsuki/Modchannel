@@ -6,6 +6,7 @@
 	"dynamicFooter": "content/footer.html",
 	"dynamicFooterAlt": "content/footerAlt.html",
 	"dynamicAnnouncement": "content/announcement.html",
+  "dynamicLinks": "content/links.html",
 	"postingFormContents": "content/postingForm.html",
 	"actionsForm": "content/actionsForm.html",
     "quick-reply": "content/quickReply.html"
