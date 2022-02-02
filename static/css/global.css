@@ -89,14 +89,8 @@ footer {
 }
 
 /* TODO template this in on all pages */
-#linkEngine:after {
-  content: 'LynxChan';
-}
 
 #linkFrontend:before,
-#linkEngine:before {
-  content: "\e064";
-}
 
 #linkFrontend:after {
   content: 'Aleph';
