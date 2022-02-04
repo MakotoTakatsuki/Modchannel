@@ -10,14 +10,29 @@
   type="text/css"
   rel="stylesheet" />
 <link
-  href="/.static/css/katex.min.css"
+  href="/.static/css/posting.css"
   type="text/css"
   rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
-<script src="/.static/js/interfaceUtils.js"></script>
+<link
+  href="/.static/css/thread.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/boardContent.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/watcher.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/settingsMenu.css"
+  type="text/css"
+  rel="stylesheet" />
 </head>
 <body>
+
+  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -27,9 +42,6 @@
       src="/randomBanner.js" />
   </header>
 
-  <div id="dynamicAnnouncement"></div>
-
-
   <div id="threadList">
 
     <form
@@ -37,28 +49,13 @@
       method="post"
       enctype="multipart/form-data">
 
-      <div class="innerUtility">
-		<a class="navButton" href="#footer">Bottom</a>
-        <a onclick="location.reload()">Refresh</a>
-      </div>
-
       <div id="divThreads"></div>
 
     </form>
 
-	<!-- XXX I have no idea why this is inconsistent with the board.html page-->
     <hr class="clearer">
 
-    <div class="innerUtility bottom">
-		<a class="navButton" href="#">Top</a>
-        <a onclick="location.reload()">Refresh</a>
-      <hr>
-    </div>
-
     <div id="bottomForms">
-    <!--TODO template this like with actionsForm-->
-    <details class="showFormDetails">
-      <summary class="glowOnHover">Forms</summary>
 
       <fieldset class="reportFieldset">
         <legend>Delete</legend>
@@ -139,7 +136,6 @@
             <input
               type="button"
               class="hidden reloadCaptchaButton"
-              onclick="captchaUtils.reloadCaptcha()"
               value="Reload">
             <span class="captchaTimer"></span>
             <br>
@@ -166,29 +162,31 @@
         </div>
 
       </fieldset>
-    </details>
     </div>
 
   </div>
 
-  <footer id="dynamicFooterAlt"></footer>
+  <footer id="footer"></footer>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/settingsMenu.js"></script>
-<script src="/.static/js/postCommon.js"></script>
-<script src="/.static/js/board.js"></script>
-
-<script src="/.static/js/watcher.js"></script>
+<script src="/.static/js/overboard.js"></script>
 <script src="/.static/js/thumbs.js"></script>
-<script src="/.static/js/embed.js"></script>
 <script src="/.static/js/tooltips.js"></script>
-<script src="/.static/js/hiding.js"></script>
-<script src="/.static/js/postingMenu.js"></script>
 <script src="/.static/js/posting.js"></script>
-
+<script src="/.static/js/themes.js"></script>
+<script src="/.static/js/draggable.js"></script>
+<script src="/.static/js/settingsMenu.js"></script>
+<script src="/.static/js/hiding.js"></script>
+<script src="/.static/js/mediaHiding.js"></script>
+<script src="/.static/js/embed.js"></script>
+<script src="/.static/js/board.js"></script>
 <script src="/.static/js/captchaUtils.js"></script>
+<script src="/.static/js/postingMenu.js"></script>
+<script src="/.static/js/watcher.js"></script>
+<script src="/.static/js/captchaModal.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
+<script src="/.static/js/bottomForms.js"></script>
 
 </html>

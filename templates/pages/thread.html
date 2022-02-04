@@ -10,16 +10,39 @@
   type="text/css"
   rel="stylesheet" />
 <link
-  href="/.static/css/katex.min.css"
+  href="/.static/css/posting.css"
   type="text/css"
   rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
-<script src="/.static/js/interfaceUtils.js"></script>
+<link
+  href="/.static/css/thread.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/threadPage.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/boardContent.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/watcher.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/settingsMenu.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/sideCatalog.css"
+  type="text/css"
+  rel="stylesheet" />
 </head>
 <body>
 
-  <nav id="dynamicHeaderThread"></nav>
+  <script src="/.static/js/themeLoader.js"></script>
+
+  <nav id="dynamicHeader"></nav>
 
   <div
     class="hidden"
@@ -29,11 +52,9 @@
 
       <button
         id="sideCatalogRefreshButton"
-        class="catalogLabel"
-        onclick="sideCatalog.refreshSideCatalog()">Refresh</button>
-      <span
+        class="catalogLabel">Refresh</button> <span
         id="closeSideCatalogButton"
-        class="close-btn coloredIcon glowOnHover"></span>
+        class="coloredIcon glowOnHover"></span>
     </div>
 
     <div id="sideCatalogBody"></div>
@@ -50,17 +71,9 @@
       <p id="labelDescription"></p>
     </header>
 
-	<div class="innerUtility top">
-		<a href="../">Index</a>
-		<a href="../catalog.html">Catalog</a>
-		<a target="_blank" class="archiveLinkThread">Archive</a>
-		<a class="navButton" href="#footer">Bottom</a>
-		<a onclick="location.reload()">Refresh</a>
-	</div>
-
     <div id="postingForm">
 
-      <fieldset id="newPostFieldset" class="threadFieldset">
+      <fieldset id="newPostFieldset">
         <legend>Mode: Reply</legend>
 
         <form
@@ -73,15 +86,19 @@
             name="threadId"
             id="threadIdentifier">
 
-          <div id="postingFormContents"></div>
+          <table id="postingTable">
+          </table>
 
           <p class="small">
             Remember to follow the
-            <a href="../rules.html"
-              class="localPageLink">rules</a>
+            <a
+              href="../rules.html"
+              class="rules">rules</a>
           </p>
 
-          <input type="submit" id="formButton" value="Reply">
+          <button
+            type="submit"
+            id="formButton">Reply</button>
 
         </form>
 
@@ -96,7 +113,7 @@
         method="post"
         enctype="multipart/form-data">
 
-        <fieldset class="titleFieldset">
+        <fieldset id="settingsFieldset">
           <legend>Thread Settings</legend>
 
           <label>
@@ -106,14 +123,6 @@
               id="checkboxLock"
               type="checkbox">
             Lock
-          </label>
-          <label>
-            <input
-              name="bumplock"
-              class="threadSettingsField"
-              id="checkboxBumplock"
-              type="checkbox">
-            Bumplock
           </label>
           <label>
             <input
@@ -142,7 +151,7 @@
             id="controlThreadIdentifier">
           <button
             type="submit"
-            class="titleFormButton">Save</button>
+            id="settingsFormButon">Save</button>
 
         </fieldset>
       </form>
@@ -155,7 +164,7 @@
         method="post"
         enctype="multipart/form-data">
 
-        <fieldset class="titleFieldset">
+        <fieldset id="settingsFieldset">
           <legend>Archive Thread</legend>
 
           <label>
@@ -184,12 +193,6 @@
 
     </div>
 
-    <div id="dynamicAnnouncement"></div>
-    <div id="panelMessage">
-      <hr>
-      <div id="divMessage"></div>
-    </div>
-
     <div id="transferControls">
 
       <form
@@ -199,7 +202,7 @@
         id="formTransfer"
         class="formTransfer">
 
-        <fieldset class="titleFieldset">
+        <fieldset id="settingsFieldset">
           <legend>Transfer Thread</legend>
 
           <input
@@ -239,7 +242,7 @@
         id="formMerge"
         class="formMerge">
 
-        <fieldset class="titleFieldset">
+        <fieldset id="settingsFieldset">
           <legend>Merge Thread</legend>
 
           <input
@@ -278,7 +281,7 @@
         action="/deleteFromIp.js"
         enctype="multipart/form-data">
 
-        <fieldset class="titleFieldset">
+        <fieldset id="settingsFieldset">
           <legend>Delete from IP</legend>
 
           <label>
@@ -307,6 +310,32 @@
 
     </div>
 
+    <div id="panelMessage">
+      <hr>
+      <div id="divMessage"></div>
+    </div>
+
+    <div id="secondaryBar">
+
+      <span>[</span>
+      <a
+        href=".."
+        id="linkBack"
+        class="coloredIcon"></a>
+      <span>/</span>
+      <a
+        href="#footer"
+        id="linkBottom"
+        class="coloredIcon"></a>
+      <span>/</span>
+      <a
+        href="../catalog.html"
+        id="navCatalog"
+        class="coloredIcon"></a>
+      <span>]</span>
+
+    </div>
+
     <div id="threadList">
 
       <form
@@ -318,48 +347,34 @@
 
         <hr class="clearer" />
 
-		<div class="threadBottom">
-			<span class="innerUtility">
-				<a href="../">Index</a>
-				<a href="../catalog.html">Catalog</a>
-				<a target="_blank" class="archiveLinkThread">Archive</a>
-				<a class="navButton" href="#">Top</a>
-				<a id="replyButton" href="#postingForm">Reply</a>
-			</span>
-
-			<span class="threadInfo">
-				<span id="postCount"></span>
-				<span id="idCount"></span>
-				<span id="fileCount"></span>
-			</span>
-
-		</div>
-
-		<hr>
-
         <div class="divRefresh hidden">
 
           <input
             type="button"
             id="refreshButton"
-            onclick="thread.refreshPosts(true)"
             value="Refresh">
 
           <label>
             <input
               id="checkboxChangeRefresh"
               type="checkbox"
-              checked
-              onchange="thread.changeRefresh()">
-            <span id="labelWsStatus" title="Connecting to WS...">&#x2B24;</span>
-            <span id="labelAutoIndicator">Auto</span> <span id="labelRefresh"></span>
+              checked>
+            Auto <span id="labelRefresh"></span>
           </label>
 
         </div>
 
-        <div id="boardContentLinks" class="innerUtility">
+        <div id=boardContentLinks>
+          <span>[</span>
+          <a
+            id="linkTop"
+            class="coloredIcon"
+            href="#"></a>
+          <span>/</span>
           <a id="linkManagement">Manage Board</a>
+          <span>/</span>
           <a id="linkMod">Moderate Thread</a>
+          <span>]</span>
         </div>
 
         <div id="actionsForm"></div>
@@ -368,33 +383,33 @@
 
     </div>
 
-    <div id="quick-reply" style="top: 50px;"></div>
-
+    <footer id="footer"></footer>
   </div>
-
-  <footer id="dynamicFooterAlt"></footer>
 
 </body>
 
 <script src="/.static/js/crypto.js"></script>
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/settingsMenu.js"></script>
 <script src="/.static/js/postCommon.js"></script>
-<script src="/.static/js/thread.js"></script>
-
-<script src="/.static/js/qr.js"></script>
-<script src="/.static/js/watcher.js"></script>
+<script src="/.static/js/captchaModal.js"></script>
 <script src="/.static/js/thumbs.js"></script>
-<script src="/.static/js/embed.js"></script>
 <script src="/.static/js/tooltips.js"></script>
-<script src="/.static/js/hiding.js"></script>
-<script src="/.static/js/postingMenu.js"></script>
 <script src="/.static/js/posting.js"></script>
-
+<script src="/.static/js/thread.js"></script>
 <script src="/.static/js/captchaUtils.js"></script>
+<script src="/.static/js/draggable.js"></script>
+<script src="/.static/js/qr.js"></script>
+<script src="/.static/js/themes.js"></script>
+<script src="/.static/js/settingsMenu.js"></script>
+<script src="/.static/js/hiding.js"></script>
+<script src="/.static/js/mediaHiding.js"></script>
+<script src="/.static/js/embed.js"></script>
+<script src="/.static/js/postingMenu.js"></script>
+<script src="/.static/js/watcher.js"></script>
 <script src="/.static/js/gallery.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 <script src="/.static/js/sideCatalog.js"></script>
+<script src="/.static/js/bottomForms.js"></script>
 <script src="/.static/js/bypassUtils.js"></script>
 
 </html>

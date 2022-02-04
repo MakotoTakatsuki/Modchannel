@@ -9,10 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
 </head>
 <body>
+
+  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,11 +23,49 @@
       alt="logo" />
   </header>
 
-  <div class="titleWrapper">
+  <div id="settingsWrapper">
 
-    <fieldset class="titleFieldset">
+    <fieldset id="settingsFieldset">
 
       <legend>Global Management</legend>
+
+      <form
+        id="purgeBypassesForm"
+        method="post"
+        enctype="multipart/form-data"
+        action="/purgeBypasses.js">
+
+        <label>
+          <input
+            type="checkbox"
+            class="purgeField"
+            id="checkboxPurgeUnused"
+            name="unused">
+          Only purge unused
+        </label>
+
+        <label>
+          <input
+            type="number"
+            class="purgeField"
+            id="fieldPurgeLimit"
+            name="timeLimit">
+          Do not purge bypasses older than this many hours.
+        </label>
+
+        <label>
+          <input
+            class="purgeField"
+            type="checkbox"
+            id="checkboxPurgeConfirm"
+            name="confirmation">
+          Yes, I am sure I want to purge block bypasses.
+        </label>
+
+        <button
+          id="purgeBypassesButton"
+          type="submit">Purge block bypasses</button>
+      </form>
 
       <form
         id="addStaffForm"
@@ -74,6 +112,12 @@
         id="globalFiltersLink"
         href="/filterManagement.js">
         Global filters
+        <br>
+      </a>
+      <a
+        id="customThumbsLink"
+        href="/customThumbs.js">
+        Custom thumbs
         <br>
       </a>
       <a
@@ -193,6 +237,7 @@
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/globalManagement.js"></script>
 <script src="/.static/js/bans.js"></script>
+<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

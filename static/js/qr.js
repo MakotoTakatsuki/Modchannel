@@ -4,38 +4,24 @@ qr.init = function() {
 
   qr.setQr();
 
+  var hash = window.location.hash.substring(1);
 
-  //window.addEventListener('load', function() {
-  setTimeout(function() {
-	  var hash = window.location.hash.substring(1);
-	  if (hash.indexOf('q') === 0 && hash.length > 1) {
+  if (hash.indexOf('q') === 0 && hash.length > 1) {
 
-		hash = hash.substring(1);
+    hash = hash.substring(1);
 
-		var post = document.getElementById(hash);
+    var post = document.getElementById(hash);
 
-		if (post) {
+    if (post) {
 
-		  window.location.hash = hash;
-		  post.scrollIntoView();
-		  qr.showQr(hash);
+      post.scrollIntoView();
+      qr.showQr(hash);
 
-		}
+      thread.markPost(hash);
+    }
 
-	  } 
-  },100)
-
-  var replyButton = document.getElementById("replyButton");
-  replyButton.onclick = function(e) {
-	e.preventDefault();
-	qr.showQr();
-  }
-
-  var qrForm = document.getElementById('quick-reply').children[0];
-
-  qrForm.onsubmit = function(e) {
-	e.preventDefault();
-	thread.postReply();
+  } else if (hash.length > 0) {
+    thread.markPost(hash);
   }
 
 };
@@ -52,39 +38,15 @@ qr.showQr = function(quote) {
     qr.qrPanel.style.top = '25px';
   }
 
-  if (quote === undefined)
-    return;
-
-  var quoteString = '>>' + quote + '\n';
+  document.getElementById('qrbody').value += '>>' + quote + '\n';
 
   var selectedText = window.getSelection();
   if (selectedText != '') {
-    quoteString += '>' + selectedText + '\n';
+    document.getElementById('qrbody').value += '>' + selectedText + '\n';
   }
 
-  var targetField = document.getElementById('qrbody')
-
-  //insert at cursor position, courtesy of stackoverflow/11076975
-  //IE support
-  if (document.selection) {
-      targetField.focus();
-      var sel = document.selection.createRange();
-      sel.text = quoteString;
-  }
-  //MOZILLA and others
-  else if (targetField.selectionStart || targetField.selectionStart === 0) {
-      var startPos = targetField.selectionStart;
-      var endPos = targetField.selectionEnd;
-      targetField.value = targetField.value.substring(0, startPos)
-          + quoteString
-          + targetField.value.substring(endPos);
-  } else {
-      targetField.value += quoteString;
-  }
-
-  var postingField = document.getElementById('fieldMessage')
-  postingField.value = targetField.value;
-  postingField.selectionStart = targetField.selectionStart;
+  document.getElementById('fieldMessage').value = document
+      .getElementById('qrbody').value;
 
   postCommon.updateCurrentChar();
 
@@ -110,38 +72,143 @@ qr.registerSync = function(source, destination, field, event) {
 };
 
 qr.setQr = function() {
-  qr.qrPanel = document.getElementById("quick-reply");
-  qr.qrPanel.classList.add("floatingMenu");
 
   var flags = document.getElementById('flagsDiv') ? true : false;
-
-/* fakey-fake templating
-  //XXX
-  var XXXremoveMe = new XMLHttpRequest();
-  XXXremoveMe.open("GET", "/templates/content/quickReply.html", false);
-  XXXremoveMe.send();
-  //var newHtml = new DOMParser().parseFromString(XXXremoveMe.responseText, "text/html");
-  //document.body.append(newHtml.body.children[0]);
-  if (XXXremoveMe.status != 404) {
-    qrdiv = document.getElementById("quick-reply");
-    qrdiv.innerHTML = XXXremoveMe.responseText;
-  }
-//*/
 
   var QRshowname = document.getElementById('fieldName') ? true : false;
 
   var textBoard = !document.getElementById('divUpload');
 
- /* 
- * XXX I guess flags is like a dropdown and noFlags disables location posting,
- * but these could be named better
- */
-  var flags = document.getElementById('flagsDiv') ? true : false;
+  var qrhtml = '<div id="quick-reply" style="right: 25px; top: 50px;">';
+  qrhtml += '<div id="post-form-inner">';
+  qrhtml += '<table class="post-table"><tbody> <tr><th colspan="2">';
+  qrhtml += '<span class="handle">';
+  qrhtml += '<a class="close-btn coloredIcon"></a>';
+  qrhtml += 'Quick Reply</span></th> </tr>';
+
+  if (QRshowname) {
+    qrhtml += '<tr><td colspan="2"><input id="qrname" type="text"';
+    qrhtml += ' maxlength="35" autocomplete="off" placeholder="Name"></td> </tr>';
+  }
+
+  qrhtml += '<tr><td colspan="2">';
+  qrhtml += '<input id="qrsubject" type="text" maxlength="100"';
+  qrhtml += 'autocomplete="off" placeholder="Subject ">';
+  qrhtml += '</td>';
+  qrhtml += '</tr>';
+
+  qrhtml += '<tr><td colspan="2"><textarea id="qrbody" rows="5" placeholder="Comment">';
+  qrhtml += '</textarea></td></tr> ';
+
+  if (!textBoard) {
+
+    if (api.mobile) {
+      qrhtml += '<tr id="qrFilesButton"><td class="small">Files</td></tr>';
+      qrhtml += '</tbody><tbody class="hidden" id="filesBody">';
+    }
+
+    qrhtml += ' <tr><td colspan="2"><div class="dropzone" id="dropzoneQr">';
+    qrhtml += 'Drag files to upload or<br> click here to select them</div>';
+    qrhtml += '<div id="selectedDivQr"></div></td> </tr>';
+
+    qrhtml += '<tr><td class="centered" colspan="2"><input type="checkbox" ';
+    qrhtml += 'id="qrcheckboxSpoiler" class="postingCheckbox">';
+    qrhtml += '<label for="qrcheckboxSpoiler" class="spoilerCheckbox">Spoiler</label></td> </tr>';
+
+    if (api.mobile) {
+      qrhtml += '</tbody><tbody>'
+    }
+
+  }
+
+  if (!api.hiddenCaptcha) {
+
+    if (api.mobile) {
+      qrhtml += '<tr id="qrCaptchaButton"><td class="small">Captcha</td></tr>';
+      qrhtml += '</tbody><tbody class="hidden" id="captchaBody">'
+    }
+
+    var parts = document.getElementsByClassName('captchaImage')[0].src
+        .split('/');
+
+    var lastPart = '/' + parts[parts.length - 1];
+
+    qrhtml += '<tr><td colspan="2"><img src="' + lastPart;
+    qrhtml += '" class="captchaImage"/></td></tr>';
+
+    qrhtml += '<tr><td colspan="2"><input class="reloadCaptchaButton" type="button"';
+    qrhtml += ' value="Reload"> <span class="captchaTimer"></span></td></tr>';
+
+    qrhtml += '<tr><td><input type="text" class="captchaField" ';
+    qrhtml += 'id="QRfieldCaptcha" placeholder="Answer"></td>';
+    qrhtml += '<td><a href="/noCookieCaptcha.js" target="_blank" class="small">No cookies?</a></td></tr>';
+
+    if (api.mobile) {
+      qrhtml += '</tbody><tbody>'
+    }
+  }
+
+  qrhtml += '<tr id="qrFormMore"><td class="small">Extra</td></tr>';
+
+  qrhtml += '</tbody><tbody class="hidden" id="qrExtra">';
+
+  qrhtml += '<tr><td colspan="2">';
+  qrhtml += '<input id="qremail" type="text" maxlength="40" ';
+  qrhtml += 'autocomplete="off" placeholder="Email">';
+  qrhtml += '</td> </tr> ';
+
+  qrhtml += '<tr><td colspan="2">';
+  qrhtml += '<input id="qrpassword" type="password" placeholder="Password"></td></tr>';
+
+  if (flags) {
+    qrhtml += '<tr><td colspan="2"><div id="qrFlagsDiv"></div></td></tr>';
+  }
 
   var noFlagDiv = document.getElementById('noFlagDiv');
 
-  interfaceUtils.setDraggable(qr.qrPanel, qr.qrPanel
+  if (noFlagDiv) {
+    qrhtml += '<tr><td class="centered" colspan="2"><input type="checkbox" ';
+    qrhtml += 'id="qrcheckboxNoFlag" class="postingCheckbox">';
+    qrhtml += '<label for="qrcheckboxNoFlag" class="spoilerCheckbox">';
+    qrhtml += 'Don\'t show location</label></td></tr>';
+  }
+
+  qrhtml += '<tr><td class="centered" colspan="2"><input type="checkbox" ';
+  qrhtml += 'id="qralwaysUseBypassCheckBox" class="postingCheckbox">';
+  qrhtml += '<label for="qralwaysUseBypassCheckBox" class="spoilerCheckbox">';
+  qrhtml += 'Make sure I have a block bypass</label></td></tr>';
+
+  qrhtml += '</tbody><tbody> <tr> <td colspan="2" class="centered">';
+  qrhtml += '<button accesskey="s" id="qrbutton" type="button">Reply';
+  qrhtml += '</td></tr>';
+
+  qrhtml += '</tbody> </table></div></div>';
+
+  qr.qrPanel = document.createElement('div');
+  qr.qrPanel.innerHTML = qrhtml;
+
+
+  qr.qrPanel.getElementsByClassName('close-btn')[0].onclick = qr.removeQr;
+
+  var reloadCaptchaButton = qr.qrPanel
+      .getElementsByClassName('reloadCaptchaButton')[0];
+
+  if (reloadCaptchaButton) {
+    reloadCaptchaButton.onclick = captchaUtils.reloadCaptcha;
+  }
+
+  qr.qrPanel = qr.qrPanel.children[0];
+
+  draggable.setDraggable(qr.qrPanel, qr.qrPanel
       .getElementsByClassName('handle')[0]);
+
+  document.body.appendChild(qr.qrPanel);
+  document.getElementById('qrbutton').onclick = thread.postReply;
+
+  var extra = document.getElementById('qrExtra');
+  document.getElementById('qrFormMore').onclick = function() {
+    extra.classList.toggle('hidden');
+  };
 
   qr.registerSync('fieldEmail', 'qremail', 'value', 'input');
   qr.registerSync('fieldSubject', 'qrsubject', 'value', 'input');
@@ -151,22 +218,23 @@ qr.setQr = function() {
   qr.registerSync('fieldPostingPassword', 'qrpassword', 'value', 'input');
   qr.registerSync('alwaysUseBypassCheckBox', 'qralwaysUseBypassCheckBox',
       'checked', 'change');
-  qr.registerSync('doSageCheckbox', 'qrdoSageCheckbox', 'checked', 'change');
 
   if (noFlagDiv) {
-	document.getElementById("qr-flags-check-row")
-		.classList.remove("hidden");
     qr.registerSync('checkboxNoFlag', 'qrcheckboxNoFlag', 'checked', 'change');
   }
 
   if (!textBoard) {
-    var filesBody = document.getElementById('qrFilesBody');
 
-    filesBody.classList.remove('hidden');
+    if (api.mobile) {
+      var fileBodyBody = document.getElementById('filesBody');
+      document.getElementById('qrFilesButton').onclick = function() {
+        fileBodyBody.classList.toggle('hidden');
+      };
 
-    qr.registerSync('checkboxSpoiler', 'qrcheckboxSpoiler', 'checked',
-            'change');
-    qr.registerSync('checkboxScramble', 'qrcheckboxScramble', 'checked',
+    }
+
+    qr
+        .registerSync('checkboxSpoiler', 'qrcheckboxSpoiler', 'checked',
             'change');
     postCommon.setDragAndDrop(true);
 
@@ -182,7 +250,6 @@ qr.setQr = function() {
   }
 
   if (flags) {
-	document.getElementById('qr-flags-row').classList.remove("hidden");
 
     document.getElementById('qrFlagsDiv').innerHTML = document
         .getElementById('flagsDiv').innerHTML.replace('flagCombobox',
@@ -190,26 +257,24 @@ qr.setQr = function() {
 
     qrFlagCombo = document.getElementById('qrFlagCombobox');
 
-    postCommon.setFlagPreviews(qrFlagCombo);
+    postCommon.setFlagPreviews(qrFlagCombo)
 
     qr.registerSync('flagCombobox', 'qrFlagCombobox', 'value', 'change');
 
   }
 
   if (QRshowname) {
-	document.getElementById('qr-name-row').classList.remove("hidden");
-
     qr.registerSync('fieldName', 'qrname', 'value', 'input');
   }
 
   if (!api.hiddenCaptcha) {
 
-    var parts = document.getElementsByClassName('captchaImage')[0].src
-        .split('/');
-
-	document.getElementById('captchaBody').classList.remove("hidden");
-
-	qr.qrPanel.getElementsByClassName('captchaImage')[0].src = '/' + parts[parts.length - 1];
+    if (api.mobile) {
+      var captchaBody = document.getElementById('captchaBody');
+      document.getElementById('qrCaptchaButton').onclick = function() {
+        captchaBody.classList.toggle('hidden');
+      };
+    }
 
     qr.registerSync('fieldCaptcha', 'QRfieldCaptcha', 'value', 'input');
   }
@@ -221,7 +286,7 @@ qr.setQRReplyText = function(text) {
   var qrReplyButton = document.getElementById('qrbutton');
 
   if (qrReplyButton) {
-    qrReplyButton.value = text;
+    qrReplyButton.innerHTML = text;
   }
 
 };

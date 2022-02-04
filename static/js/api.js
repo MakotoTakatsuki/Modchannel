@@ -2,23 +2,6 @@ var api = {};
 
 api.mobile = window.innerWidth < 812;
 
-api.sizeOrders = [ 'B', 'KB', 'MB', 'GB', 'TB' ];
-
-api.formatFileSize = function(size) {
-
-  var orderIndex = 0;
-
-  while (orderIndex < api.sizeOrders.length - 1 && size > 1024) {
-
-    orderIndex++;
-    size /= 1024;
-
-  }
-
-  return size.toFixed(2) + ' ' + api.sizeOrders[orderIndex];
-
-};
-
 api.padDateField = function(value) {
 
   if (value < 10) {
@@ -94,23 +77,17 @@ api.addIndicator = function(className, title, thread) {
 api.resetIndicators = function(data, thread) {
 
   api.removeIndicator('lockIndicator', thread);
-  api.removeIndicator('bumpLockIndicator', thread);
   api.removeIndicator('pinIndicator', thread);
   api.removeIndicator('cyclicIndicator', thread);
   api.removeIndicator('archiveIndicator', thread);
 
   api.addIndicator('cyclicIndicator', 'Cyclical Thread', thread);
-  api.addIndicator('bumpLockIndicator', 'Autosage', thread);
   api.addIndicator('pinIndicator', 'Sticky', thread);
   api.addIndicator('lockIndicator', 'Locked', thread);
   api.addIndicator('archiveIndicator', 'Archived', thread);
 
   if (!data.locked) {
     api.removeIndicator('lockIndicator', thread);
-  }
-
-  if (!data.bumplock) {
-    api.removeIndicator('bumpLockIndicator', thread);
   }
 
   if (!data.pinned) {
@@ -443,53 +420,4 @@ api.localRequest = function(address, callback) {
 
   xhr.send();
 
-};
-
-api.parsePostLink = function(href) {
-  var ret = {};
-  try {
-    ret.quoteUrl = href;
-  
-    //(http://domain)/test/res/860.html#860
-    //   0  1   2       3   4   5
-  
-    if (href.indexOf('mod.js') < 0) {
-  
-      var parts = href.split('/');
-      ret.board = parts[3];
-      var finalParts = parts[5].split('.');
-      ret.thread = finalParts[0];
-  
-    } else {
-  
-      var urlParams = new URLSearchParams(href.split('?')[1]);
-  
-      board = urlParams.get('boardUri');
-      thread = urlParams.get('threadId').split('#')[0];
-  
-    }
-    ret.post = href.split('#')[1];
-  
-    ret.op = (ret.post === ret.thread);
-  } catch {
-  };
-  return ret;
-};
-
-//either bind to the Event init[eventName], or sugar for creating a Promise
-api.asyncify = function(init, eventName) {
-  var args = Array.prototype.slice.call(arguments, 2);
-
-  return new Promise((resolve, reject) => {
-    /* bind to event */
-    if (eventName) {
-      init[eventName] = () => {
-        resolve();
-      };
-  
-      init.onerror = reject;
-    } else {
-      init(resolve, reject);
-    };
-  });
 };

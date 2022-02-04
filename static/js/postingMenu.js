@@ -1,22 +1,15 @@
-//TODO this script has some *heavy* function signatures. some of these could be
-//freshened up by sending the callbacks `post` objects from posting, while some
-//seem to have too many options for their own good.
 var postingMenu = {};
 
 postingMenu.init = function() {
 
-  postingMenu.banLabels = [ 'IP/Bypass ban', 'Range ban (1/2 octets)',
-      'Range ban (3/4 octets)', 'ASN ban', 'IP/Bypass warning' ];
+  postingMenu.banLabels = [ 'IP/Bypass ban', 'Range ban (1/2 octects)',
+      'Range ban (3/4 octects)', 'ASN ban', 'IP/Bypass warning' ];
   postingMenu.deletionOptions = [ 'Do not delete', 'Delete post',
       'Delete post and media', 'Delete by ip/bypass' ];
   postingMenu.threadSettingsList = [ {
     label : 'Toggle Lock',
     field : 'locked',
     parameter : 'lock'
-  }, {
-    label : 'Toggle Autosage',
-    field : 'autoSage',
-    parameter : 'bumplock'
   }, {
     label : 'Toggle Pin',
     field : 'pinned',
@@ -26,6 +19,15 @@ postingMenu.init = function() {
     field : 'cyclic',
     parameter : 'cyclic'
   } ];
+
+  document.body.addEventListener('click', function clicked() {
+
+    if (postingMenu.shownPostingMenu) {
+      postingMenu.shownPostingMenu.remove();
+      delete postingMenu.shownPostingMenu;
+    }
+
+  }, true);
 
   api.formApiRequest('account', {}, function gotLoginData(status, data) {
 
@@ -50,11 +52,17 @@ postingMenu.init = function() {
 
   }, {}, true);
 
+  var links = document.getElementsByClassName('linkSelf');
+
+  for (var i = 0; i < links.length; i++) {
+    postingMenu.setExtraMenu(links[i]);
+  }
+
 };
 
 postingMenu.showReport = function(board, thread, post, global) {
 
-  var outerPanel = interfaceUtils.getModal(global ? 'Global report'
+  var outerPanel = captchaModal.getCaptchaModal(global ? 'Global report'
       : 'Report', api.noReportCaptcha);
 
   var reasonField = document.createElement('input');
@@ -69,10 +77,9 @@ postingMenu.showReport = function(board, thread, post, global) {
 
   }
 
-  var modalForm = outerPanel.getElementsByClassName('modalForm')[0];
+  var okButton = outerPanel.getElementsByClassName('modalOkButton')[0];
 
-  modalForm.onsubmit = function(e) {
-	e.preventDefault();
+  okButton.onclick = function() {
 
     if (!api.noReportCaptcha) {
 
@@ -117,9 +124,9 @@ postingMenu.showReport = function(board, thread, post, global) {
 
   };
 
-  interfaceUtils.addModalRow('Reason', reasonField);
+  captchaModal.addModalRow('Reason', reasonField, okButton.onclick);
   if (categories) {
-    interfaceUtils.addModalRow('Category', newCategories);
+    captchaModal.addModalRow('Category', newCategories);
   }
 
 };
@@ -129,7 +136,7 @@ postingMenu.deleteSinglePost = function(boardUri, threadId, post, fromIp,
 
   var key = boardUri + '/' + threadId
 
-  if (post !== threadId) {
+  if (post) {
     key += '/' + post;
   }
 
@@ -165,7 +172,7 @@ postingMenu.deleteSinglePost = function(boardUri, threadId, post, fromIp,
 
   var key = boardUri + '-' + threadId;
 
-  if (post !== threadId) {
+  if (post) {
     key += '-' + post;
   }
 
@@ -238,7 +245,7 @@ postingMenu.applySingleBan = function(typedMessage, deletionOption,
 
   var key = boardUri + '-' + thread;
 
-  if (post !== threadId) {
+  if (post) {
     key += '-' + post;
   }
 
@@ -274,16 +281,16 @@ postingMenu.applySingleBan = function(typedMessage, deletionOption,
     }
   });
 
-
 };
 
 postingMenu.banSinglePost = function(innerPart, boardUri, thread, post, global) {
 
   var useCaptcha = !(postingMenu.globalRole < 4 || postingMenu.noBanCaptcha);
-  var outerPanel = interfaceUtils.getModal(global ? 'Global ban' : 'Ban',
+
+  var outerPanel = captchaModal.getCaptchaModal(global ? 'Global ban' : 'Ban',
       !useCaptcha);
 
-  var modalForm = outerPanel.getElementsByClassName('modalForm')[0];
+  var okButton = outerPanel.getElementsByClassName('modalOkButton')[0];
 
   var reasonField = document.createElement('input');
   reasonField.type = 'text';
@@ -316,30 +323,28 @@ postingMenu.banSinglePost = function(innerPart, boardUri, thread, post, global) 
 
   deletionCombo.selectedIndex = +localStorage.autoDeletionOption;
 
-  var captchaField = outerPanel.getElementsByClassName('modalAnswer')[0];
+  var captchaField;
   if (useCaptcha) {
     captchaField = outerPanel.getElementsByClassName('modalAnswer')[0];
   }
-  //captchaField.setAttribute('placeholder', 'only for board staff)');
 
   var nonBypassableCheckbox = document.createElement('input');
   nonBypassableCheckbox.type = 'checkbox';
 
-  modalForm.onsubmit = function(e) {
-	e.preventDefault();
+  okButton.onclick = function() {
     postingMenu.applySingleBan(messageField.value.trim(),
         deletionCombo.selectedIndex, reasonField.value.trim(), useCaptcha
-        	&& captchaField.value.trim(), typeCombo.selectedIndex,
-			durationField.value.trim(), global, nonBypassableCheckbox.checked,
-			boardUri, thread, post, innerPart, outerPanel);
+            && captchaField.value.trim(), typeCombo.selectedIndex,
+        durationField.value.trim(), global, nonBypassableCheckbox.checked,
+        boardUri, thread, post, innerPart, outerPanel);
   };
 
-  interfaceUtils.addModalRow('Reason', reasonField);
-  interfaceUtils.addModalRow('Duration', durationField);
-  interfaceUtils.addModalRow('Message', messageField);
-  interfaceUtils.addModalRow('Type', typeCombo);
-  interfaceUtils.addModalRow('Deletion action', deletionCombo);
-  interfaceUtils.addModalRow('Non-bypassable', nonBypassableCheckbox);
+  captchaModal.addModalRow('Reason', reasonField, okButton.onclick);
+  captchaModal.addModalRow('Duration', durationField, okButton.onclick);
+  captchaModal.addModalRow('Message', messageField, okButton.onclick);
+  captchaModal.addModalRow('Type', typeCombo);
+  captchaModal.addModalRow('Deletion action', deletionCombo);
+  captchaModal.addModalRow('Non-bypassable', nonBypassableCheckbox);
 
 };
 
@@ -351,7 +356,7 @@ postingMenu.spoilSinglePost = function(innerPart, boardUri, thread, post) {
 
   var key = boardUri + '-' + thread;
 
-  if (post !== thread) {
+  if (post) {
     key += '-' + post;
   }
 
@@ -469,7 +474,7 @@ postingMenu.getNewEditData = function(board, thread, post, innerPart) {
 
     data = JSON.parse(data);
 
-    if (post !== thread) {
+    if (post) {
 
       for (var i = 0; i < data.posts.length; i++) {
         if (data.posts[i].postId === +post) {
@@ -493,7 +498,7 @@ postingMenu.editPost = function(board, thread, post, innerPart) {
     threadId : thread
   };
 
-  if (post !== thread) {
+  if (post) {
     parameters.postId = post;
   }
 
@@ -504,7 +509,7 @@ postingMenu.editPost = function(board, thread, post, innerPart) {
       return;
     }
 
-    var outerPanel = interfaceUtils.getModal('Edit', true);
+    var outerPanel = captchaModal.getCaptchaModal('Edit', true);
 
     var okButton = outerPanel.getElementsByClassName('modalOkButton')[0];
 
@@ -535,7 +540,7 @@ postingMenu.editPost = function(board, thread, post, innerPart) {
           subject : typedSubject
         };
 
-        if (post !== thread) {
+        if (post) {
           parameters.postId = post;
         } else {
           parameters.threadId = thread;
@@ -558,8 +563,8 @@ postingMenu.editPost = function(board, thread, post, innerPart) {
 
     };
 
-    interfaceUtils.addModalRow('Subject', subjectField);
-    interfaceUtils.addModalRow('Message', messageArea);
+    captchaModal.addModalRow('Subject', subjectField, okButton.onclick);
+    captchaModal.addModalRow('Message', messageArea);
 
   }, false, parameters);
 
@@ -568,10 +573,6 @@ postingMenu.editPost = function(board, thread, post, innerPart) {
 postingMenu.toggleThreadSetting = function(boardUri, thread, settingIndex,
     innerPart) {
 
-  /* Note to self: why does this script in particular not look at 
-   * the Indicator elements? Does it appear on some page without them? 
-   * Getting fresh data isn't the best idea: moderators want to toggle
-   * what they see, not what the current state actually is */
   api.localRequest('/' + boardUri + '/res/' + thread + '.json',
       function gotData(error, data) {
 
@@ -602,7 +603,6 @@ postingMenu.toggleThreadSetting = function(boardUri, thread, settingIndex,
               if (status === 'ok') {
                 api.resetIndicators({
                   locked : parameters.lock,
-                  bumplock : parameters.bumplock,
                   pinned : parameters.pin,
                   cyclic : parameters.cyclic,
                   archived : innerPart
@@ -648,13 +648,11 @@ postingMenu.sendArchiveRequest = function(board, thread, innerPart) {
       }
 
       var lock = innerPart.getElementsByClassName('lockIndicator').length;
-      var autosage = innerPart.getElementsByClassName('bumpLockIndicator').length;
       var pin = innerPart.getElementsByClassName('pinIndicator').length;
       var cyclic = innerPart.getElementsByClassName('cyclicIndicator').length;
 
       api.resetIndicators({
         locked : lock,
-        bumplock : autosage,
         pinned : pin,
         cyclic : cyclic,
         archived : true
@@ -668,173 +666,272 @@ postingMenu.sendArchiveRequest = function(board, thread, innerPart) {
 
 };
 
-postingMenu.setExtraMenuThread = function(post, menuCallbacks) {
+postingMenu.setExtraMenuThread = function(extraMenu, board, thread, innerPart) {
 
   if (postingMenu.globalRole <= 1) {
-	menuCallbacks.push(
-	  {name: 'Transfer Thread'
-	  ,callback: function() {
-        postingMenu.transferThread(post.postInfo.board, post.postInfo.thread);
-	  }}
-	)
+
+    extraMenu.appendChild(document.createElement('hr'));
+
+    var transferButton = document.createElement('div');
+    transferButton.innerHTML = 'Transfer Thread';
+    transferButton.onclick = function() {
+      postingMenu.transferThread(board, thread);
+    };
+    extraMenu.appendChild(transferButton);
+
   }
 
-  postingMenu.threadSettingsList.forEach(function(entry, i) {
-	menuCallbacks.push(
-	  {name: entry.label
-	  ,callback: function() {
-        //TODO
-		postingMenu.toggleThreadSetting(post.postInfo.board, post.postInfo.thread,
-          i, post.innerPost);
-	  }}
-	)
-  })
+  for (var i = 0; i < postingMenu.threadSettingsList.length; i++) {
+    postingMenu.addToggleSettingButton(extraMenu, board, thread, i, innerPart);
+  }
 
-  if (post.innerPost.getElementsByClassName('archiveIndicator').length) {
+  if (innerPart.getElementsByClassName('archiveIndicator').length) {
     return;
   }
 
-  var newCallbacks = [
-	  {name: 'Archive'
-	  ,callback: function() {
-		if (confirm("Are you sure you wish to lock and archive this thread?")) {
-		  postingMenu.sendArchiveRequest(post.postInfo.board,
-            post.postInfo.thread, post.innerPost);
-		}
-	  }},
-	  {name: 'Merge'
-	  ,callback: function() {
-    	postingMenu.mergeThread(post.postInfo.board, post.postInfo.thread);
-	  }},
-  ]
+  extraMenu.appendChild(document.createElement('hr'));
 
-  Array.prototype.push.apply(menuCallbacks, newCallbacks)
+  var archiveButton = document.createElement('div');
+  archiveButton.innerHTML = 'Archive';
+  archiveButton.onclick = function() {
+
+    if (confirm("Are you sure you wish to lock and archive this thread?")) {
+      postingMenu.sendArchiveRequest(board, thread, innerPart);
+    }
+
+  };
+  extraMenu.appendChild(archiveButton);
+
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var mergeButton = document.createElement('div');
+  mergeButton.innerHTML = 'Merge';
+  mergeButton.onclick = function() {
+    postingMenu.mergeThread(board, thread);
+  };
+  extraMenu.appendChild(mergeButton);
 
 };
 
-postingMenu.setModFileOptions = function(post, menuCallbacks) {
+postingMenu.setModFileOptions = function(extraMenu, innerPart, board, thread,
+    post) {
 
-  menuCallbacks.push(
-	{name: 'Spoil Files'
-	,callback: function() {
-      postingMenu.spoilSinglePost(post.innerPost, post.postInfo.board,
-        post.postInfo.thread, post.postInfo.post);
- 	}},
-  )
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var spoilButton = document.createElement('div');
+  spoilButton.innerHTML = 'Spoil Files';
+  spoilButton.onclick = function() {
+    postingMenu.spoilSinglePost(innerPart, board, thread, post);
+  };
+  extraMenu.appendChild(spoilButton);
 
   if (postingMenu.globalRole > 3) {
     return;
   }
 
-  menuCallbacks.push(
-	{name: 'Delete Post And Media'
-	,callback: function() {
-      postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, false, false, true, post.innerPost);
- 	}},
-  )
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var deleteMediaButton = document.createElement('div');
+  deleteMediaButton.innerHTML = 'Delete Post And Media';
+  extraMenu.appendChild(deleteMediaButton);
+  deleteMediaButton.onclick = function() {
+    postingMenu.deleteSinglePost(board, thread, post, false, false, true,
+        innerPart);
+  };
+
 };
 
-postingMenu.setExtraMenuMod = function(post, menuCallbacks, hasFiles) {
+postingMenu.setExtraMenuMod = function(innerPart, extraMenu, board, thread,
+    post, hasFiles) {
 
   if (hasFiles) {
-	//TODO
-    postingMenu.setModFileOptions(post, menuCallbacks);
+    postingMenu.setModFileOptions(extraMenu, innerPart, board, thread, post);
   }
 
-  var newCallbacks = [
-	{name: 'Trash Post'
-    ,callback: function() {
-      postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, null, null, null, post.innerPost, null, null, true);
-    }},
-    {name: 'Unlink Files'
-    ,callback: function() {
-      postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, false, true, null, post.innerPost);
-    }},
-	{name: 'Delete By IP/bypass'
-	,callback: function() {
-	  if (confirm("Are you sure you wish to delete all posts on this board made by this IP/bypass?")) {
-	    postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-          post.postInfo.post, true, null, null, post.innerPost);
-	  }
- 	}},
-	{name: 'Ban'
-	,callback: function() {
-      postingMenu.banSinglePost(post.innerPost, post.postInfo.board,
-        post.postInfo.thread, post.postInfo.post);
- 	}},
-	{name: 'Global Ban'
-	,callback: function() {
-      postingMenu.banSinglePost(post.innerPost, post.postInfo.board,
-        post.postInfo.thread, post.postInfo.post, true);
- 	}},
-	{name: 'Edit'
-	,callback: function() {
-      postingMenu.editPost(post.innerPost.board, post.innerPost.thread,
-        post.innerPost.post, post.innerPost);
- 	}}
-  ]
+  extraMenu.appendChild(document.createElement('hr'));
 
-  //remove global ban for global janitors
-  if (postingMenu.globalRole > 2) {
-	newCallbacks.splice(4, 1);
+  var deleteByIpButton = document.createElement('div');
+  deleteByIpButton.innerHTML = 'Delete By Ip/bypass';
+  deleteByIpButton.onclick = function() {
+
+    if (confirm("Are you sure you wish to delete all posts on this board made by this ip/bypass?")) {
+      postingMenu.deleteSinglePost(board, thread, post, true, null, null,
+          innerPart);
+    }
+
+  };
+  extraMenu.appendChild(deleteByIpButton);
+
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var deleteByIpOnThreadButton = document.createElement('div');
+  deleteByIpOnThreadButton.innerHTML = 'Delete By Ip/bypass within thread';
+  deleteByIpOnThreadButton.onclick = function() {
+
+    if (confirm("Are you sure you wish to delete all posts within their thread made by this ip/bypass?")) {
+      postingMenu.deleteSinglePost(board, thread, post, true, null, null,
+          innerPart, null, true);
+    }
+
+  };
+  extraMenu.appendChild(deleteByIpOnThreadButton);
+
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var banButton = document.createElement('div');
+  banButton.innerHTML = 'Ban';
+  banButton.onclick = function() {
+    postingMenu.banSinglePost(innerPart, board, thread, post);
+  };
+  extraMenu.appendChild(banButton);
+
+  if (postingMenu.globalRole <= 2) {
+
+    extraMenu.appendChild(document.createElement('hr'));
+
+    var globalBanButton = document.createElement('div');
+    globalBanButton.innerHTML = 'Global Ban';
+    globalBanButton.onclick = function() {
+      postingMenu.banSinglePost(innerPart, board, thread, post, true);
+    };
+    extraMenu.appendChild(globalBanButton);
+
   }
 
-  Array.prototype.push.apply(menuCallbacks, newCallbacks);
+  extraMenu.appendChild(document.createElement('hr'));
 
-  if (post.postInfo.op) {
-	//TODO
-    postingMenu.setExtraMenuThread(post, menuCallbacks);
+  var editButton = document.createElement('div');
+  editButton.innerHTML = 'Edit';
+  editButton.onclick = function() {
+    postingMenu.editPost(board, thread, post, innerPart);
+  };
+  extraMenu.appendChild(editButton);
+
+  if (!post) {
+    postingMenu.setExtraMenuThread(extraMenu, board, thread, innerPart);
   }
 
 };
 
-postingMenu.buildMenu = function(post, extraMenu) {
+postingMenu.buildMenu = function(linkSelf, extraMenu) {
 
-  var menuCallbacks = [
-    {name: 'Report'
-    ,callback: function() {
-      postingMenu.showReport(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post);
-    }},
-    {name: 'Global Report'
-    ,callback: function() {
-      postingMenu.showReport(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, true);
-    }},
-    //TODO:	'Remove Post' means that a user deletes their own post 
-    // 		'Delete Post' means that a moderator purges the post immediately
-    {name: 'Delete Post'
-    ,callback: function() {
-      postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, null, null, null, post.innerPost);
-    /*}},
-    //TODO: allow users to unlink files they uploaded
-    {name: 'Unlink Files'
-    ,callback: function() {
-      postingMenu.deleteSinglePost(post.postInfo.board, post.postInfo.thread,
-        post.postInfo.post, false, true, null, post.innerPost);
-    */
-    }}
-  ]
+  var innerPart = linkSelf.parentNode.parentNode;
 
-  var hasFiles = post.files && post.files.children.length > 0;
+  var href = linkSelf.href;
 
-  /*
-  if (!hasFiles) {
-	menuCallbacks.pop();
-  }
-  */
+  if (href.indexOf('mod.js') < 0) {
 
-  if (postingMenu.loggedIn && (postingMenu.globalRole < 4 
-    || postingMenu.moddedBoards.indexOf(board) >= 0)) {
+    var parts = href.split('/');
 
-    postingMenu.setExtraMenuMod(post, menuCallbacks, hasFiles);
+    var board = parts[3];
+
+    var finalParts = parts[5].split('.');
+
+    var thread = finalParts[0];
+
+  } else {
+
+    var urlParams = new URLSearchParams(href.split('?')[1]);
+
+    board = urlParams.get('boardUri');
+    thread = urlParams.get('threadId').split('#')[0];
+
   }
 
-  return menuCallbacks;
+  var post = href.split('#')[1];
+
+  if (post === thread) {
+    post = undefined;
+  }
+
+  var reportButton = document.createElement('div');
+  reportButton.innerHTML = 'Report';
+  reportButton.onclick = function() {
+    postingMenu.showReport(board, thread, post);
+  };
+  extraMenu.appendChild(reportButton);
+
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var globalReportButton = document.createElement('div');
+  globalReportButton.innerHTML = 'Global Report';
+  globalReportButton.onclick = function() {
+    postingMenu.showReport(board, thread, post, true);
+  };
+  extraMenu.appendChild(globalReportButton);
+
+  extraMenu.appendChild(document.createElement('hr'));
+
+  var deleteButton = document.createElement('div');
+  deleteButton.innerHTML = 'Delete Post';
+  extraMenu.appendChild(deleteButton);
+  deleteButton.onclick = function() {
+    postingMenu.deleteSinglePost(board, thread, post, null, null, null,
+        innerPart);
+  };
+
+  extraMenu.appendChild(document.createElement('hr'));
+  var trashButton = document.createElement('div');
+  trashButton.innerHTML = 'Trash Post';
+  extraMenu.appendChild(trashButton);
+  trashButton.onclick = function() {
+    postingMenu.deleteSinglePost(board, thread, post, null, null, null,
+        innerPart, null, null, true);
+  };
+
+  var hasFiles = linkSelf.parentNode.parentNode
+      .getElementsByClassName('panelUploads')[0];
+
+  hasFiles = hasFiles && hasFiles.children.length > 0;
+
+  if (hasFiles) {
+
+    extraMenu.appendChild(document.createElement('hr'));
+
+    var unlinkButton = document.createElement('div');
+    unlinkButton.innerHTML = 'Unlink Files';
+    extraMenu.appendChild(unlinkButton);
+    unlinkButton.onclick = function() {
+      postingMenu.deleteSinglePost(board, thread, post, false, true, null,
+          innerPart);
+    };
+
+  }
+
+  if (postingMenu.loggedIn
+      && (postingMenu.globalRole < 4 || postingMenu.moddedBoards.indexOf(board) >= 0)) {
+    postingMenu.setExtraMenuMod(innerPart, extraMenu, board, thread, post,
+        hasFiles);
+  }
+
+};
+
+postingMenu.setExtraMenu = function(linkSelf) {
+
+  var extraMenuButton = document.createElement('span');
+  extraMenuButton.className = 'extraMenuButton glowOnHover coloredIcon';
+  extraMenuButton.title = 'Post Menu';
+
+  var parentNode = linkSelf.parentNode;
+
+  var checkbox = parentNode.getElementsByClassName('deletionCheckBox')[0];
+
+  parentNode.insertBefore(extraMenuButton, checkbox ? checkbox.nextSibling
+      : parentNode.childNodes[0]);
+
+  extraMenuButton.onclick = function() {
+
+    var extraMenu = document.createElement('div');
+    extraMenu.className = 'floatingMenu extraMenu';
+
+    extraMenuButton.appendChild(extraMenu);
+
+    postingMenu.shownPostingMenu = extraMenu;
+
+    postingMenu.buildMenu(linkSelf, extraMenu);
+
+  };
+
 };
 
 postingMenu.init();

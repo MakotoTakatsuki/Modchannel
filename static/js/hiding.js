@@ -5,6 +5,24 @@ hiding.init = function() {
   hiding.updateHidingData();
 
   hiding.filtered = [];
+
+  document.body.addEventListener('click', function clicked() {
+
+    if (hiding.shownMenu) {
+      hiding.shownMenu.remove();
+      delete hiding.shownMenu;
+    }
+
+  }, true);
+
+  var links = document.getElementsByClassName('linkSelf');
+
+  for (var i = 0; i < links.length; i++) {
+    hiding.setHideMenu(links[i]);
+  }
+
+  hiding.checkFilters();
+
 };
 
 hiding.updateHidingData = function() {
@@ -20,11 +38,39 @@ hiding.updateHidingData = function() {
 
 };
 
+hiding.filterMatches = function(string, filter) {
+
+  var toRet;
+
+  if (!filter.regex) {
+    toRet = string.indexOf(filter.filter) >= 0;
+  } else {
+    toRet = string.match(new RegExp(filter.filter)) ? true : false;
+  }
+
+  return toRet;
+
+};
+
+hiding.hideForFilter = function(linkSelf) {
+
+  var toHide = linkSelf.parentNode.parentNode.parentNode;
+
+  toHide.style.display = 'none';
+  hiding.filtered.push(toHide);
+
+  return true;
+
+};
+
 hiding.checkFilters = function() {
+
+  for (var i = 0; i < hiding.filtered.length; i++) {
+    hiding.filtered[i].style.display = 'block';
+  }
 
   hiding.filtered = [];
 
-  /* TODO use posting.existingPosts */
   var links = document.getElementsByClassName('linkSelf');
 
   for (var i = 0; i < links.length; i++) {
@@ -33,80 +79,72 @@ hiding.checkFilters = function() {
 
 };
 
-hiding.filterMatches = function(string, filter, regex) {
-  if (regex) {
-    return Boolean( string.match(new RegExp(filter)) );
-  } else {
-    return string.indexOf(filter) >= 0;
-  }
-};
-
-hiding.isFiltered = function(linkSelf, filter) {
-
-  /* TODO do NOT give this function linkSelf, but abstracted post object */
-  var postName = linkSelf.parentNode
-      .getElementsByClassName('linkName')[0].innerText;
-  var labelSubject = linkSelf.parentNode
-      .getElementsByClassName('labelSubject')[0];
-  if (labelSubject)
-      var postSubject = labelSubject.innerText;
-  var postMessage = linkSelf.parentNode.parentNode
-        .getElementsByClassName('divMessage')[0].innerText;
-  var postId = undefined;
-
-  var labelId = linkSelf.parentNode
-      .getElementsByClassName('labelId')[0]
-  if (labelId)
-    postId = labelId.innerText;
-
-  if (filter.type < 2) {
-
-    if (postName.indexOf('#') >= 0) {
-
-      var trip = postName.substring(postName.lastIndexOf('#') + 1);
-      postName = postName.substring(0, postName.indexOf('#'));
-
-    }
-  }
-
-  switch (filter.type) {
-  case 0:
-    if (hiding.filterMatches(postName, filter.filter, filter.regex))
-      return true;
-    break;
-
-  case 1:
-    if (trip && hiding.filterMatches(trip, filter.filter, filter.regex))
-      return true;
-    break;
-
-  case 2:
-    if (subjectLabel && hiding.filterMatches(postSubject, filter.filter, filter.regex))
-      return true
-    break;
-
-  case 3:
-    if (hiding.filterMatches(postMessage, filter.filter, filter.regex))
-      return true;
-    break;
-
-  case 4:
-    if (hiding.buildPostFilterId(linkSelf, postId) === filter.filter)
-      return true
-    break;
-  }
-}
-
-
 hiding.checkFilterHiding = function(linkSelf) {
 
   for (var i = 0; i < settingsMenu.loadedFilters.length; i++) {
 
     var filter = settingsMenu.loadedFilters[i];
 
-    if (hiding.isFiltered(linkSelf, filter)) {
-        return hiding.hidePost(linkSelf, true);
+    if (filter.type < 2) {
+      var name = linkSelf.parentNode.getElementsByClassName('linkName')[0].innerHTML;
+
+      if (name.indexOf('#') >= 0) {
+
+        var trip = name.substring(name.lastIndexOf('#') + 1);
+
+        name = name.substring(0, name.indexOf('#'));
+
+      }
+
     }
+
+    switch (filter.type) {
+
+    case 0: {
+      if (hiding.filterMatches(name, filter)) {
+        return hiding.hideForFilter(linkSelf);
+      }
+      break;
+    }
+
+    case 1: {
+      if (trip && hiding.filterMatches(trip, filter)) {
+        return hiding.hideForFilter(linkSelf);
+      }
+      break;
+    }
+
+    case 2: {
+      var subjectLabel = linkSelf.parentNode
+          .getElementsByClassName('labelSubject')[0];
+
+      if (subjectLabel && hiding.filterMatches(subjectLabel.innerHTML, filter)) {
+        return hiding.hideForFilter(linkSelf);
+      }
+      break;
+    }
+
+    case 3: {
+      if (hiding.filterMatches(linkSelf.parentNode.parentNode
+          .getElementsByClassName('divMessage')[0].innerHTML, filter)) {
+        return hiding.hideForFilter(linkSelf);
+      }
+      break;
+    }
+
+    case 4: {
+      var labelId = linkSelf.parentNode.getElementsByClassName('labelId')[0];
+
+      if (labelId) {
+        if (hiding.buildPostFilterId(linkSelf, labelId.innerHTML) === filter.filter) {
+          return hiding.hideForFilter(linkSelf);
+        }
+      }
+      break;
+    }
+
+    }
+
   }
 
 };
@@ -123,14 +161,13 @@ hiding.registerHiding = function(board, thread, post, unhiding) {
   };
 
   var listToUse = post ? boardData.posts : boardData.threads;
-  post = thread;
 
   if (!unhiding) {
-    if (listToUse.indexOf(post) < 0) {
-      listToUse.push(post);
+    if (listToUse.indexOf(post || thread) < 0) {
+      listToUse.push(post || thread);
     }
   } else {
-    listToUse.splice(listToUse.indexOf(post), 1);
+    listToUse.splice(listToUse.indexOf(post || thread), 1);
   }
 
   hidingData[board] = boardData;
@@ -141,25 +178,18 @@ hiding.registerHiding = function(board, thread, post, unhiding) {
 
 };
 
-hiding.hidePost = function(linkSelf, noCacheHidden, deleted) {
-
-  var postInfo = api.parsePostLink(linkSelf.href);
+hiding.hidePost = function(linkSelf, board, thread, post) {
 
   hiding.toggleHidden(linkSelf.parentNode.parentNode, true);
 
-  var hideText = '[Unhide ' + (postInfo.op ? 'OP' : 'post') + ' ' 
-      + postInfo.board + '/' + postInfo.post;
-
-  if (!noCacheHidden) {
-    hiding.registerHiding(postInfo.board, postInfo.thread, postInfo.post);
-  } else if (deleted) {
-    hideText += ' (Deleted)';
-  } else {
-    hideText += ' (Filtered)';
-  }
+  hiding.registerHiding(board, thread, post);
 
   var unhidePostButton = document.createElement('span');
-  unhidePostButton.innerText = hideText + ']';
+
+  var unhideHTML = '[Unhide ' + (post ? 'post' : 'OP') + ' ' + board + '/'
+      + post + ']';
+
+  unhidePostButton.innerHTML = unhideHTML;
   unhidePostButton.className = 'unhideButton glowOnHover';
 
   linkSelf.parentNode.parentNode.parentNode.insertBefore(unhidePostButton,
@@ -167,8 +197,7 @@ hiding.hidePost = function(linkSelf, noCacheHidden, deleted) {
 
   unhidePostButton.onclick = function() {
 
-    if (!noCacheHidden)
-      hiding.registerHiding(postInfo.board, postInfo.thread, postInfo.post, true);
+    hiding.registerHiding(board, thread, post, true);
     unhidePostButton.remove();
 
     hiding.toggleHidden(linkSelf.parentNode.parentNode, false);
@@ -176,20 +205,6 @@ hiding.hidePost = function(linkSelf, noCacheHidden, deleted) {
   };
 
 };
-
-hiding.hideReplies = function(board, thread, post) {
-  var reply = tooltips.knownPosts[board][post]
-  console.log(post)
-  if (reply) {
-    reply.added.forEach((a) => {
-      var reply = a.split('_')
-      if (reply[0] !== board)
-        return
-      var replyDiv = document.getElementById(reply[1]).getElementsByClassName('linkSelf')[0]
-      hiding.hidePost(replyDiv);
-    })
-  }
-}
 
 hiding.hideThread = function(linkSelf, board, thread) {
 
@@ -213,8 +228,6 @@ hiding.hideThread = function(linkSelf, board, thread) {
 
 hiding.buildPostFilterId = function(linkSelf, id) {
 
-  if (id === undefined) return;
-
   var checkbox = linkSelf.parentNode.getElementsByClassName('deletionCheckBox')[0];
   var postData = checkbox.name.split('-');
   var board = postData[0];
@@ -224,75 +237,87 @@ hiding.buildPostFilterId = function(linkSelf, id) {
 
 };
 
-hiding.buildMenu = function(post) {
-  //reformatted this in such a way that doesn't make my eyes bleed as much
-  var menuCallbacks = [
-    {name: 'Hide post'
-    ,callback: function() {
-      hiding.hidePost(post.linkSelf); // board, thread, post || thread);
-    }},
-    {name: 'Hide post+'
-    ,callback: function() {
-      hiding.hidePost(post.linkSelf); // board, thread, post || thread);
-      hiding.hideReplies(post.postInfo.board, post.postInfo.thread, post.postInfo.post);
-    }},
-    {name: 'Hide OP'
-    ,callback: function() {
-      hiding.hidePost(post.linkSelf);
-    }},
-    {name: 'Hide thread'
-    ,callback: function() {
-       hiding.hideThread(post.linkSelf, post.postInfo.board, post.postInfo.thread);
-    }},
-    {name: 'Filter name'
-    ,callback: function() {
-      settingsMenu.createFilter(post.postInfo.name, false, 0);
-    }},
-    {name: 'Filter tripcode'
-    ,callback: function() {
-      settingsMenu.createFilter(post.postInfo.trip, false, 1);
-    }},
-    {name: 'Filter ID'
-    ,callback: function() {
-      settingsMenu.createFilter(hiding.buildPostFilterId(post.linkSelf,
-        post.postInfo.id), false, 4);
-    }},
-    {name: 'Filter ID+'
-    ,callback: function() {
-      settingsMenu.createFilter(hiding.buildPostFilterId(post.linkSelf,
-        post.postInfo.id), false, 4);
+hiding.buildHideMenu = function(board, thread, post, linkSelf, hideMenu) {
 
-      //TODO just saying, it'd be really nice if there were a small query
-      //library to find posts with a specific id/name/tripcode
-      Array.from(document.getElementsByClassName('labelId')).forEach(
-      (postId) => {
-        if (postId.innerHTML !== labelId.innerHTML)
-          return;
-        var postNumber = postId.parentNode.parentNode.parentNode.parentNode.id;
-        hiding.hideReplies(post.postInfo.board, post.postInfo.thread, postNumber);
-      });
-    }}
-  ]
+  var postHideButton;
+  postHideButton = document.createElement('div');
 
-  if (post.postInfo.op) {
-    menuCallbacks.splice(0, 2); //drop the post filters
+  if (post) {
+
+    postHideButton.innerHTML = 'Hide post';
+    hideMenu.appendChild(postHideButton);
+
   } else {
-    menuCallbacks.splice(2, 2); //drop the OP filters
+
+    postHideButton.innerHTML = 'Hide OP';
+    hideMenu.appendChild(postHideButton);
+
+    hideMenu.appendChild(document.createElement('hr'));
+
+    var threadHideButton = document.createElement('div');
+    threadHideButton.innerHTML = 'Hide thread';
+    hideMenu.appendChild(threadHideButton);
+
   }
 
-  if (!post.postInfo.trip) {
-    //remove tripcode options
-    var tripIndex = menuCallbacks.findIndex((a) => a.name == 'Filter tripcode');
-    menuCallbacks.splice(tripIndex, 1);
+  hideMenu.appendChild(document.createElement('hr'));
+
+  var name = linkSelf.parentNode.getElementsByClassName('linkName')[0].innerHTML;
+
+  var trip;
+
+  if (name.indexOf('#') >= 0) {
+    trip = name.substring(name.lastIndexOf('#') + 1);
+    name = name.substring(0, name.indexOf('#'));
   }
 
-  if (!post.postInfo.id) {
-    //remove id options
-    var idIndex = menuCallbacks.findIndex((a) => a.name == 'Filter ID');
-    menuCallbacks.splice(idIndex, 2);
+  var filterNameButton = document.createElement('div');
+  filterNameButton.innerHTML = 'Filter name';
+  filterNameButton.onclick = function() {
+    settingsMenu.createFilter(name, false, 0);
+  };
+  hideMenu.appendChild(filterNameButton);
+
+  hideMenu.appendChild(document.createElement('hr'));
+
+  if (trip) {
+
+    var filterTripButton = document.createElement('div');
+    filterTripButton.innerHTML = 'Filter tripcode';
+    filterTripButton.onclick = function() {
+      settingsMenu.createFilter(trip, false, 1);
+    };
+    hideMenu.appendChild(filterTripButton);
+
+    hideMenu.appendChild(document.createElement('hr'));
   }
 
-  return menuCallbacks;
+  var labelId = linkSelf.parentNode.getElementsByClassName('labelId')[0];
+
+  if (labelId) {
+    var filterIdButton = document.createElement('div');
+    filterIdButton.innerHTML = 'Filter id';
+    filterIdButton.onclick = function() {
+      settingsMenu.createFilter(hiding.buildPostFilterId(linkSelf,
+          labelId.innerHTML), false, 4);
+    };
+    hideMenu.appendChild(filterIdButton);
+
+    hideMenu.appendChild(document.createElement('hr'));
+  }
+
+  postHideButton.onclick = function() {
+    hiding.hidePost(linkSelf, board, thread, post || thread);
+  };
+
+  if (!post) {
+
+    threadHideButton.onclick = function() {
+      hiding.hideThread(linkSelf, board, thread);
+    }
+
+  }
+
 };
 
 hiding.toggleHidden = function(element, hide) {
@@ -300,28 +325,83 @@ hiding.toggleHidden = function(element, hide) {
   var className = element.className;
 
   if (hide) {
-    element.classList.add('hidden');
+    element.className += ' hidden';
   } else {
-    element.classList.remove('hidden');
+    element.className = className.replace(' hidden', '');
   }
 
 };
 
-hiding.hideIfHidden = function(post) {
+hiding.setHideMenu = function(linkSelf) {
 
-  var boardData = hiding.storedHidingData[post.postInfo.board];
+  var hideButton = document.createElement('span');
+  hideButton.className = 'hideButton glowOnHover coloredIcon';
+  hideButton.title = "Hide";
+
+  var parentNode = linkSelf.parentNode;
+
+  var checkbox = parentNode.getElementsByClassName('deletionCheckBox')[0];
+
+  if (!checkbox) {
+
+    var href = linkSelf.href;
+
+    var parts = href.split('/');
+
+    var board = parts[3];
+
+    var finalParts = parts[5].split('.');
+
+    var thread = finalParts[0];
+
+    var post = finalParts[1].split('#')[1];
+
+    if (post === thread) {
+      post = undefined;
+    }
+
+  } else {
+
+    parts = checkbox.name.split('-');
+
+    board = parts[0];
+    thread = parts[1];
+    post = parts[2];
+  }
+
+  parentNode.insertBefore(hideButton, checkbox ? checkbox.nextSibling
+      : parentNode.childNodes[0]);
+
+  hideButton.onclick = function() {
+
+    var rect = hideButton.getBoundingClientRect();
+
+    var hideMenu = document.createElement('div');
+    hideMenu.className = 'floatingMenu hideMenu';
+
+    hideButton.appendChild(hideMenu);
+
+    hiding.shownMenu = hideMenu;
+
+    hiding.buildHideMenu(board, thread, post, linkSelf, hideMenu);
+
+  };
+
+  var boardData = hiding.storedHidingData[board];
 
   if (!boardData) {
     return;
   }
 
-  if (boardData.posts.indexOf(post.postInfo.post) > -1) {
-    hiding.hidePost(post.linkSelf);
+  if (boardData.posts.indexOf(post || thread) > -1) {
+    hiding.hidePost(linkSelf, board, thread, post || thread);
   }
 
-  if (post.postInfo.op && boardData.threads.indexOf(thread) > -1) {
-    hiding.hideThread(post.linkSelf, post.postInfo.board, post.postInfo.thread);
+  if (!post && boardData.threads.indexOf(thread) > -1) {
+    hiding.hideThread(linkSelf, board, thread);
   }
+
+  hiding.checkFilterHiding(linkSelf);
 
 };
 

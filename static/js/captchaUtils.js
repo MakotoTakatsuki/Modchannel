@@ -6,14 +6,11 @@ captchaUtils.init = function() {
 
   for (var i = 0; i < reloadButtons.length; i++) {
     reloadButtons[i].style.display = 'inline-block';
+    reloadButtons[i].onclick = captchaUtils.reloadCaptcha;
   }
 
   captchaUtils.updateFunction();
 
-  document.addEventListener('keydown', function (e) {
-	if (e.key === 'r' && e.altKey)
-	  captchaUtils.reloadCaptcha()
-  })
 };
 
 captchaUtils.captchaTimers = document.getElementsByClassName('captchaTimer');
