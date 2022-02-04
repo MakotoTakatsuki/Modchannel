@@ -6,13 +6,13 @@
   name="viewport"
   content="width=device-width, initial-scale=1.0">
 <link
-  href="/.static/css/global.css"
+  rel="stylesheet"
   type="text/css"
-  rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
+  href="/.static/css/global.css">
 </head>
 <body>
+
+  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,7 +23,7 @@
       alt="logo" />
   </header>
 
-  <div class="titleWrapper">
+  <div id="redirect">
     <h4 id="labelMessage"></h4>
     <p>
       Click
@@ -35,6 +35,7 @@
 </body>
 
 <script src="/.static/js/api.js"></script>
+<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

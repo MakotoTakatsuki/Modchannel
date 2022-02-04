@@ -82,7 +82,7 @@ rangeBans.showNewRangeBan = function(typedRange, typedReason, nonBypassable, id)
   }
 
   var idIdentifier = document.createElement('input');
-  idIdentifier.className = 'liftIdentifier'; //tentative change
+  idIdentifier.className = 'idIdentifier';
   idIdentifier.type = 'hidden';
   form.appendChild(idIdentifier);
   idIdentifier.value = id;

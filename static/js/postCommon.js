@@ -1,30 +1,9 @@
-//postCommon.js: upload and banning form hookups
 var postCommon = {};
 
-postCommon.mimeIcons = {
-	"video/webm": "/.static/mimethumbs/generic_video.svg",
-	"video/mp4": "/.static/mimethumbs/generic_video.svg",
-	"audio/ogg": "/.static/mimethumbs/generic_audio.svg",
-	"default": "/.static/mimethumbs/generic_file.svg"
-}
-
-//TODO: rewrite some of this to cooperate with trashBin(?)
 postCommon.init = function() {
-
-  //occurs on pages with a trashFormButton, reportFormButton (i.e., overboard or has an actionsForm)
-  if (document.getElementById('deleteFormButton')) {
-    api.convertButton('trashFormButton', postCommon.trashPosts);
-    api.convertButton('reportFormButton', postCommon.reportPosts, 'reportField');
-    api.convertButton('deleteFormButton', postCommon.deletePosts, 'deletionField');
-  }
 
   if (!document.getElementById('fieldPostingPassword')) {
     return;
-  }
-
-  var noCookiesLink = document.getElementById('noCookiesLink');
-  if (document.cookie) {
-    noCookiesLink.style.display = "hidden";
   }
 
   var charLimitLabel = document.getElementById('labelMessageLength');
@@ -42,35 +21,11 @@ postCommon.init = function() {
 
   postCommon.updateCurrentChar();
 
-  labelScramble = document.getElementById("labelScramble");
-  if (labelScramble) {
-    var scrambleFiles = document.createElement('input');
-    scrambleFiles.type = "checkbox";
-    scrambleFiles.id = "checkboxScramble";
-    scrambleFiles.className = "postingCheckbox";
-    labelScramble.parentNode.insertBefore(scrambleFiles, labelScramble);
-
-    postCommon.scrambleFiles = scrambleFiles;
-  }
-
-  postCommon.selectedCell = '<a class="removeButton coloredIcon"></a>'
-      + '<span class="nameLabel"></span><label class="spoilerPanel">'
-      + '<input type="checkbox" class="spoilerCheckBox">Spoiler</label>';
+  postCommon.selectedCell = '<div class="removeButton">✖</div>'
+      + '<span class="nameLabel"></span><div class="spoilerPanel">'
+      + '<input type="checkbox" class="spoilerCheckBox">Spoiler</div>';
 
   postCommon.selectedFiles = [];
-  postCommon.maxFileSize = 0;
-  var maxSize = document.getElementById("labelMaxFileSize");
-  if (maxSize) {
-    var parse = maxSize.innerText.split(' ');
-    var size = 1;
-
-    for (var i in api.sizeOrders) {
-      if (api.sizeOrders[i] == parse[1])
-        break;
-      size *= 1024;
-    }
-    postCommon.maxFileSize = (+parse[0]) * size;
-  }
 
   if (document.getElementById('divUpload')) {
     postCommon.setDragAndDrop();
@@ -94,13 +49,9 @@ postCommon.init = function() {
     nameField.value = localStorage.name || '';
   }
 
-  //TODO see if these occur together
-  var bypassSpan = document.getElementById('alwaysUseBypassSpan');
-  var bypassCheckBox = document.getElementById('alwaysUseBypassCheckBox');
+  document.getElementById('alwaysUseBypassDiv').classList.toggle('hidden');
 
-  if (bypassSpan) {
-    bypassSpan.classList.toggle('hidden');
-  }
+  var bypassCheckBox = document.getElementById('alwaysUseBypassCheckBox');
 
   if (localStorage.ensureBypass && JSON.parse(localStorage.ensureBypass)) {
     bypassCheckBox.checked = true;
@@ -138,43 +89,28 @@ postCommon.init = function() {
     postCommon.setFlagPreviews(flagCombo);
   }
 
-  var formMore = document.getElementById('actionsForm')
-    .getElementsByClassName('showFormDetails')[0];
+  var formMore = document.getElementById('formMore');
+  formMore.classList.toggle('hidden');
 
-  formMore.ontoggle = function() {
-    localStorage.setItem('showExtra', formMore.open);
+  var toggled = false;
+
+  var extra = document.getElementById('extra');
+  extra.classList.toggle('hidden');
+
+  formMore.children[0].onclick = function() {
+
+    extra.classList.toggle('hidden');
+    formMore.children[0].innerHTML = toggled ? 'More' : 'Less';
+
+    toggled = !toggled;
+
+    localStorage.setItem('showExtra', toggled);
+
   };
 
-  if (localStorage.showExtra) {
-    formMore.open = JSON.parse(localStorage.showExtra);
+  if (localStorage.showExtra && JSON.parse(localStorage.showExtra)) {
+    formMore.children[0].onclick();
   }
-
-  // add paste support
-  window.addEventListener('paste', function(evt) {
-
-    if (!evt.clipboardData) return;
-
-    var data = Array.from(evt.clipboardData.items).find((i) => i.kind === "file");
-    if (!data) return;
-
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    var file = data.getAsFile();
-
-    if (file.type.indexOf("image/")
-        && file.type.indexOf("video/")
-        && file.type.indexOf("audio/")) {
-      return;
-    }
-
-    var ext = file.name.split(".").reverse()[0];
-
-    // since file names are immutable, this ugly hack is required.
-    var mime = file.type;
-    var blob = file.slice(0, file.size, mime);
-    postCommon.addSelectedFile(new File([blob], "ClipboardImage." + ext, { type: mime }));
-  });
 
 };
 
@@ -299,16 +235,6 @@ postCommon.addSelectedFile = function(file) {
     fileReader.readAsDataURL(file);
 
   } else {
-	var mimeIcon = postCommon.mimeIcons[file.type];
-	if (!mimeIcon) {
-      mimeIcon = postCommon.mimeIcons["default"];
-    }
-
-    var dndThumb = document.createElement('img');
-    dndThumb.src = mimeIcon;
-    dndThumb.className = 'dragAndDropThumb';
-    cell.appendChild(dndThumb);
-
     postCommon.selectedFiles.push(file);
     postCommon.addDndCell(cell, removeButton);
   }
@@ -385,119 +311,101 @@ postCommon.setDragAndDrop = function(qr) {
 
 };
 
-postCommon.newCheckExistence = async function(file) {
+postCommon.newCheckExistance = function(file, callback) {
 
   var reader = new FileReader();
 
-  reader.readAsArrayBuffer(file);
-  await api.asyncify(reader, "onloadend");
+  reader.onloadend = async function() {
 
-  if (crypto.subtle) {
+    if (crypto.subtle) {
 
-    var hashBuffer = await crypto.subtle.digest('SHA-256', reader.result);
+      var hashBuffer = await
+      crypto.subtle.digest('SHA-256', reader.result);
 
-    var hashArray = Array.from(new Uint8Array(hashBuffer));
+      var hashArray = Array.from(new Uint8Array(hashBuffer));
 
-    var hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
+      var hashHex = hashArray.map(function(b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
 
-  } else {
-    
-    var i8a = new Uint8Array(reader.result);
-    var a = [];
+    } else {
+      
+      var i8a = new Uint8Array(reader.result);
+      var a = [];
 
-    for (var i = 0; i < i8a.length; i += 4) {
-      a.push(i8a[i] << 24 | i8a[i + 1] << 16 | i8a[i + 2] << 8 | i8a[i + 3]);
+      for (var i = 0; i < i8a.length; i += 4) {
+        a.push(i8a[i] << 24 | i8a[i + 1] << 16 | i8a[i + 2] << 8 | i8a[i + 3]);
+      }
+
+      var wordArray = CryptoJS.lib.WordArray.create(a, i8a.length);
+      var hashHex = CryptoJS.SHA256(wordArray).toString();
     }
 
-    var wordArray = CryptoJS.lib.WordArray.create(a, i8a.length);
-    var hashHex = CryptoJS.SHA256(wordArray).toString();
-  }
+    api.formApiRequest('checkFileIdentifier', {}, function requested(status,
+        data) {
 
-  //confusing? yes, but necessary for async
-  var ret = await new Promise((resolve, reject) => {
-    api.formApiRequest('checkFileIdentifier', {},
-      (status, data) => {
-        if (status !== 'ok') {
-          console.log(data);
-          reject();
-        } else {
-          resolve({
-            sha256 : hashHex,
-            mime : file.type,
-            found: data
-          });
-        }
-      },
-      false, { identifier : hashHex}
-    );
-  })
+      if (status !== 'ok') {
+        console.log(data);
+        callback();
+      } else {
+        callback(hashHex, file.type, data);
+      }
 
-  return ret;
+    }, false, {
+      identifier : hashHex
+    });
+
+  };
+
+  reader.readAsArrayBuffer(file);
+
 };
 
-postCommon.newGetFilesToUpload = function(callback) {
+postCommon.newGetFilesToUpload = function(callback, index, files) {
+
+  index = index || 0;
+  files = files || [];
 
   if (!document.getElementById('divUpload')
-      || !postCommon.selectedFiles) {
-    callback([]);
+      || index >= postCommon.selectedFiles.length) {
+    callback(files);
     return;
   }
 
-  (async function(){
+  var spoiled = postCommon.selectedDiv
+      .getElementsByClassName('spoilerCheckBox')[index].checked;
 
-    var files = [];
+  var file = postCommon.selectedFiles[index];
 
-    var spoilers = postCommon.selectedDiv
-        .getElementsByClassName('spoilerCheckBox');
+  postCommon.newCheckExistance(file, function checked(sha256, mime, found) {
 
-    for (var i in postCommon.selectedFiles) {
-      var file = postCommon.selectedFiles[i];
-      var spoiler = spoilers[i];
+    var toPush = {
+      name : postCommon.selectedFiles[index].name,
+      spoiler : spoiled,
+      sha256 : sha256,
+      mime : mime
+    };
 
-      var existence = await postCommon.newCheckExistence(file, callback);
-
-      if (!existence.found) {
-        existence.content = file;
-        delete existence.found;
-      }
-
-      if (postCommon.scrambleFiles.checked) {
-        var extension = file.name.substr(file.name.lastIndexOf('.'));
-        existence.name = existence.sha256 + extension;
-      } else {
-        existence.name = file.name;
-      }
-      existence.spoiler = spoiler.checked;
-      existence.cell = spoiler.parentNode;
-
-      files.push(existence);
+    if (!found) {
+      toPush.content = file;
     }
 
-    return files;
-  })().then((files) => callback(files));
-  
-};
+    files.push(toPush);
 
-postCommon.belowMaxFileSize = function(files) {
-  return files.reduce((acc, file) => {
-    if (file.content && file.content.size > postCommon.maxFileSize) {
-      file.cell.style.backgroundColor = "red";
-      acc = false;
-    }
-    delete file.cell;
-    return acc;
-  }, true);
+    postCommon.newGetFilesToUpload(callback, ++index, files);
+
+  });
+
 };
 
 postCommon.displayBlockBypassPrompt = function(callback) {
 
-  var outerPanel = interfaceUtils.getModal('You need a block bypass to post');
+  var outerPanel = captchaModal
+      .getCaptchaModal('You need a block bypass to post');
 
-  var modalForm = outerPanel.getElementsByClassName('modalForm')[0];
+  var okButton = outerPanel.getElementsByClassName('modalOkButton')[0];
 
-  modalForm.onsubmit = function(e) {
-	e.preventDefault();
+  okButton.onclick = function() {
 
     var typedCaptcha = outerPanel.getElementsByClassName('modalAnswer')[0].value
         .trim();
@@ -574,253 +482,6 @@ postCommon.storeUsedPostingPassword = function(boardUri, threadId, postId) {
   storedData[key] = localStorage.deletionPassword;
 
   localStorage.setItem('postingPasswords', JSON.stringify(storedData));
-
-};
-
-postCommon.newGetSelectedContent = function(object) {
-
-  var checkBoxes = document.getElementsByClassName('deletionCheckBox');
-
-  for (var i = 0; i < checkBoxes.length; i++) {
-    var checkBox = checkBoxes[i];
-
-    if (checkBox.checked) {
-      object[checkBox.name] = true;
-    }
-  }
-
-};
-
-postCommon.applyBans = function(captcha, banDelete) {
-
-  var typedReason = document.getElementById('fieldBanReason').value.trim();
-  var typedDuration = document.getElementById('fieldDuration').value.trim();
-  var typedMessage = document.getElementById('fieldbanMessage').value.trim();
-  var banType = document.getElementById('comboBoxBanTypes').selectedIndex;
-
-  var params = {
-    action : banDelete ? 'ban-delete' : 'ban',
-    reasonBan : typedReason,
-    captchaBan : captcha,
-    banType : banType,
-    duration : typedDuration,
-    banMessage : typedMessage,
-    nonBypassable : document.getElementById('checkBoxNonBypassable').checked,
-    globalBan : document.getElementById('checkboxGlobalBan').checked
-  };
-
-  postCommon.newGetSelectedContent(params);
-
-  api.formApiRequest('contentActions', params, function requestComplete(status,
-      data) {
-
-    if (status === 'ok') {
-      alert('Bans applied');
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-
-  });
-};
-
-postCommon.banDeletePosts = function() {
-  postCommon.banPosts(true);
-};
-
-postCommon.banPosts = function(banDelete) {
-
-  if (!document.getElementsByClassName('divBanCaptcha').length) {
-    return postCommon.applyBans();
-  }
-
-  var typedCaptcha = document.getElementById('fieldCaptchaBan').value.trim();
-
-  if (typedCaptcha.length == 112 || !typedCaptcha) {
-    postCommon.applyBans(typedCaptcha);
-  } else {
-    var parsedCookies = api.getCookies();
-
-    api.formApiRequest('solveCaptcha', {
-      captchaId : parsedCookies.captchaid,
-      answer : typedCaptcha
-    }, function solvedCaptcha(status, data) {
-
-      if (status !== 'ok') {
-        alert(status);
-        return;
-      }
-
-      postCommon.applyBans(parsedCookies.captchaid, banDelete);
-    });
-  }
-
-};
-
-postCommon.deleteFromIpOnThread = function() {
-  postCommon.deleteFromIpOnBoard(null, true);
-};
-
-postCommon.deleteFromIpOnBoard = function(event, onThread) {
-
-  var checkBoxes = document.getElementsByClassName('deletionCheckBox');
-
-  for (var i = 0; i < checkBoxes.length; i++) {
-    var checkBox = checkBoxes[i];
-
-    if (checkBox.checked) {
-      var splitName = checkBox.name.split('-')[0];
-      break;
-    }
-
-  }
-
-  if (!splitName) {
-    return;
-  }
-
-  var redirect = '/' + splitName + '/';
-
-  var confirmationBox = document
-      .getElementById('ipDeletionConfirmationCheckbox');
-
-  var param = {
-    action : onThread ? 'thread-ip-deletion' : 'ip-deletion',
-    confirmation : confirmationBox.checked
-  };
-
-  postCommon.newGetSelectedContent(param);
-
-  api.formApiRequest('contentActions', param, function requestComplete(status,
-      data) {
-
-    if (status === 'ok') {
-      window.location.pathname = redirect;
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-  });
-
-};
-
-postCommon.spoilFiles = function() {
-
-  var posts = {
-    action : 'spoil'
-  };
-
-  postCommon.newGetSelectedContent(posts);
-
-  api.formApiRequest('contentActions', posts, function requestComplete(status,
-      data) {
-
-    if (status === 'ok') {
-
-      alert('Files spoiled');
-
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-  });
-
-};
-
-postCommon.reportPosts = function() {
-
-  var typedReason = document.getElementById('reportFieldReason').value.trim();
-
-  if (!api.noReportCaptcha) {
-    var typedCaptcha = document.getElementById('fieldCaptchaReport').value
-        .trim();
-
-    if (typedCaptcha.length !== 6 && typedCaptcha.length !== 112) {
-      alert('Captchas are exactly 6 (112 if no cookies) characters long.');
-      return;
-    }
-  }
-
-  var reportCategories = document.getElementById('reportComboboxCategory');
-
-  if (reportCategories) {
-
-    var category = reportCategories.options[reportCategories.selectedIndex].value;
-
-  }
-
-  var params = {
-    action : 'report',
-    categoryReport : category,
-    reasonReport : typedReason,
-    captchaReport : typedCaptcha,
-    globalReport : document.getElementById('checkboxGlobalReport').checked,
-  };
-
-  postCommon.newGetSelectedContent(params);
-
-  api.formApiRequest('contentActions', params, function reported(status, data) {
-
-    if (status === 'ok') {
-
-      alert('Content reported');
-
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-
-  });
-
-};
-
-postCommon.trashPosts = function() {
-  postCommon.deletePosts(null, true);
-};
-
-postCommon.deletePosts = function(event, trash) {
-
-  var typedPassword = document.getElementById('deletionFieldPassword').value
-      .trim();
-
-  var params = {
-    password : typedPassword,
-    deleteMedia : document.getElementById('checkboxMediaDeletion').checked,
-    deleteUploads : document.getElementById('checkboxOnlyFiles').checked,
-    action : trash ? 'trash' : 'delete'
-  };
-
-  postCommon.newGetSelectedContent(params);
-
-  api.formApiRequest('contentActions', params, function requestComplete(status,
-      data) {
-
-    if (status === 'ok') {
-
-      alert(data.removedThreads + ' threads and ' + data.removedPosts
-          + ' posts were successfully deleted.');
-
-      if (typeof latestPostings !== 'undefined') {
-
-        var checkBoxes = document.getElementsByClassName('deletionCheckBox');
-
-        for (var i = checkBoxes.length - 1; i >= 0; i--) {
-          var checkBox = checkBoxes[i];
-
-          if (checkBox.checked) {
-            checkBox.parentNode.parentNode.parentNode.remove();
-          }
-
-        }
-
-      } else if (window.location.toString().indexOf('trashBin.js' >= 0)) {
-        location.reload(true);
-      } else if (!api.isBoard && !data.removedThreads && data.removedPosts) {
-        thread.refreshPosts(true, true);
-      } else if (data.removedThreads || data.removedPosts) {
-        window.location.pathname = '/';
-      }
-
-    } else {
-      alert(status + ': ' + JSON.stringify(data));
-    }
-  });
 
 };
 

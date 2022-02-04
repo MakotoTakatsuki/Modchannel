@@ -2,40 +2,46 @@ var watcher = {};
 
 watcher.init = function() {
 
-  watcher.isInThread = Boolean(document.getElementById('threadIdentifier'));
+  watcher.isInThread = document.getElementById('threadIdentifier') ? true
+      : false;
   watcher.watcherAlertCounter = 0;
   watcher.elementRelation = {};
 
-  var watcherButton = document.getElementById('watcherButton');
-  watcherButton.title = 'Watched Threads';
+  var postingLink = document.getElementById('navPosting');
+  var referenceNode = postingLink.nextSibling;
+
+  postingLink.parentNode.insertBefore(document.createTextNode(' '),
+      referenceNode);
+
+  var divider = document.createElement('span');
+  divider.innerHTML = '/';
+  postingLink.parentNode.insertBefore(divider, referenceNode);
+
+  postingLink.parentNode.insertBefore(document.createTextNode(' '),
+      referenceNode);
+
+  var watcherButton = document.createElement('a');
+  watcherButton.id = 'watcherButton';
+  watcherButton.className = 'coloredIcon';
 
   watcher.watcherCounter = document.createElement('span');
 
   watcherButton.appendChild(watcher.watcherCounter);
 
-  var watchedContainer = document.createElement('div');
+  postingLink.parentNode.insertBefore(watcherButton, referenceNode);
 
-  /* TODO Jesus this needs to be handled by a similar constructor to settingsmenu */
-
-  var watchedMenuHandle = document.createElement('div');
-  watchedMenuHandle.className = 'handle';
-  watchedContainer.appendChild(watchedMenuHandle);
-
-  watchedContainer.id = 'watchedMenu';
-  watchedContainer.className = 'floatingMenu';
-  watchedContainer.style.display = 'none';
-
-  document.body.appendChild(watchedContainer);
+  watcher.watchedMenu = document.createElement('div');
 
   var watchedMenuLabel = document.createElement('label');
   watchedMenuLabel.innerHTML = 'Watched threads';
 
-  watchedMenuHandle.appendChild(watchedMenuLabel);
+  watcher.watchedMenu.appendChild(watchedMenuLabel);
 
   var showingWatched = false;
 
   var closeWatcherMenuButton = document.createElement('span');
-  closeWatcherMenuButton.className = 'coloredIcon glowOnHover close-btn';
+  closeWatcherMenuButton.id = 'closeWatcherMenuButton';
+  closeWatcherMenuButton.className = 'coloredIcon glowOnHover';
   closeWatcherMenuButton.onclick = function() {
 
     if (!showingWatched) {
@@ -43,18 +49,19 @@ watcher.init = function() {
     }
 
     showingWatched = false;
-    watchedContainer.style.display = 'none';
+    watcher.watchedMenu.style.display = 'none';
 
   };
 
-  watchedMenuHandle.appendChild(closeWatcherMenuButton);
+  watcher.watchedMenu.appendChild(closeWatcherMenuButton);
 
-  watchedContainer.appendChild(document.createElement('hr'));
+  watcher.watchedMenu.appendChild(document.createElement('hr'));
 
-  watcher.watchedMenu = document.createElement('table');
+  watcher.watchedMenu.id = 'watchedMenu';
+  watcher.watchedMenu.className = 'floatingMenu';
+  watcher.watchedMenu.style.display = 'none';
 
-
-  watchedContainer.appendChild(watcher.watchedMenu);
+  document.body.appendChild(watcher.watchedMenu);
 
   watcherButton.onclick = function() {
 
@@ -63,8 +70,14 @@ watcher.init = function() {
     }
 
     showingWatched = true;
-    watchedContainer.style.display = 'block';
+    watcher.watchedMenu.style.display = 'block';
 
+  }
+
+  var ops = document.getElementsByClassName('innerOP');
+
+  for (var i = 0; i < ops.length; i++) {
+    watcher.processOP(ops[i]);
   }
 
   var storedWatchedData = watcher.getStoredWatchedData();
@@ -95,7 +108,7 @@ watcher.init = function() {
 
   watcher.scheduleWatchedThreadsCheck();
 
-  interfaceUtils.setDraggable(watchedContainer, watchedMenuLabel);
+  draggable.setDraggable(watcher.watchedMenu, watchedMenuLabel);
 
 };
 
@@ -251,9 +264,9 @@ watcher.scheduleWatchedThreadsCheck = function() {
 
 watcher.addWatchedCell = function(board, thread, watchData) {
 
-  var cellWrapper = document.createElement('tr');
+  var cellWrapper = document.createElement('div');
 
-  var cell = document.createElement('td');
+  var cell = document.createElement('div');
   cell.className = 'watchedCell';
 
   var labelWrapper = document.createElement('label');
@@ -284,36 +297,9 @@ watcher.addWatchedCell = function(board, thread, watchData) {
 
   cell.appendChild(labelWrapper);
 
-  cellWrapper.appendChild(cell);
-
-  var markRead = document.createElement('td');
-  markRead.title = "Mark as read";
-  markRead.className = 'watchedCellDismissButton glowOnHover coloredIcon';
-  cellWrapper.appendChild(markRead);
-
-  markRead.onclick = function() {
-
-    // watcher.watchedMenu.removeChild(cellWrapper);
-
-    var storedWatchedData = watcher.getStoredWatchedData();
-
-    var boardThreads = storedWatchedData[board];
-
-    if (!boardThreads || !boardThreads[thread]) {
-      return;
-    }
-
-    boardThreads[thread].lastSeen = boardThreads[thread].lastReplied;
-
-    localStorage.watchedData = JSON.stringify(storedWatchedData);
-
-    watcher.updateWatcherCounter();
-
-  }
-
-  var button = document.createElement('td');
-  button.className = 'removeButton glowOnHover coloredIcon';
-  cellWrapper.appendChild(button);
+  var button = document.createElement('span');
+  button.className = 'watchedCellCloseButton glowOnHover coloredIcon';
+  cell.appendChild(button);
 
   button.onclick = function() {
 
@@ -332,9 +318,9 @@ watcher.addWatchedCell = function(board, thread, watchData) {
     localStorage.watchedData = JSON.stringify(storedWatchedData);
 
   }
-/*
+
+  cellWrapper.appendChild(cell);
   cellWrapper.appendChild(document.createElement('hr'));
-*/
   watcher.watchedMenu.appendChild(cellWrapper);
 
 };

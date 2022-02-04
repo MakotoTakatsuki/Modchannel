@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0">
 <link
-  href="/.static/css/global.css"
+  rel="stylesheet"
   type="text/css"
-  rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
+  href="/.static/css/global.css">
 </head>
+
 <body>
+
+  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,8 +24,8 @@
       alt="logo" />
   </header>
 
-  <div class="titleWrapper">
-    <fieldset class="titleFieldset">
+  <div id="settingsWrapper">
+    <fieldset id="settingsFieldset">
 
       <legend>Accounts</legend>
       <form
@@ -50,7 +51,6 @@
             id="fieldEmail"
             class="addAccountField"
             name="email"
-            autocomplete="none"
             placeholder="e-mail">
         </label>
 
@@ -80,6 +80,7 @@
 
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/accounts.js"></script>
+<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

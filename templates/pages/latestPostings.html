@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0">
 <link
-  href="/.static/css/global.css"
+  rel="stylesheet"
+  type="text/css"
+  href="/.static/css/global.css">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/.static/css/posting.css">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/.static/css/markdown.css">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="/.static/css/settingsMenu.css">
+<link
+  href="/.static/css/boardContent.css"
   type="text/css"
   rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
-<script src="/.static/js/interfaceUtils.js"></script>
 </head>
+
 <body>
+
+  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -24,12 +40,12 @@
       alt="logo" />
   </header>
 
-  <div class="titleWrapper">
-    <fieldset class="titleFieldset">
+  <div id="settingsWrapper">
+    <fieldset id="settingsFieldset">
 
       <legend>Search</legend>
-      <a id="linkPrevious" class="coloredIcon">Previous page</a>
-      <a id="linkNext" class="coloredIcon">Next page</a>
+      <a id="linkPrevious">Previous page</a>
+      <a id="linkNext">Next page</a>
 
       <form
         action="/latestPostings.js"
@@ -88,23 +104,24 @@
 
     </fieldset>
   </div>
-  <footer id="dynamicFooter"></footer>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/settingsMenu.js"></script>
-<script src="/.static/js/postCommon.js"></script>
+<script src="/.static/js/themes.js"></script>
+<script src="/.static/js/captchaModal.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
+<script src="/.static/js/posting.js"></script>
+<script src="/.static/js/mediaHiding.js"></script>
 <script src="/.static/js/latestPostings.js"></script>
-
-<script src="/.static/js/thumbs.js"></script>
 <script src="/.static/js/embed.js"></script>
+<script src="/.static/js/draggable.js"></script>
+<script src="/.static/js/settingsMenu.js"></script>
 <script src="/.static/js/tooltips.js"></script>
 <script src="/.static/js/hiding.js"></script>
+<script src="/.static/js/thumbs.js"></script>
 <script src="/.static/js/postingMenu.js"></script>
-<script src="/.static/js/posting.js"></script>
-
 <script src="/.static/js/captchaUtils.js"></script>
+<script src="/.static/js/bottomForms.js"></script>
 
 </html>

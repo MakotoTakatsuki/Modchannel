@@ -10,16 +10,35 @@
   type="text/css"
   rel="stylesheet" />
 <link
-  href="/.static/css/katex.min.css"
+  href="/.static/css/posting.css"
   type="text/css"
   rel="stylesheet" />
-
-<script src="/.static/js/theme.js"></script>
-<script src="/.static/js/interfaceUtils.js"></script>
+<link
+  href="/.static/css/thread.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/board.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/boardContent.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/watcher.css"
+  type="text/css"
+  rel="stylesheet" />
+<link
+  href="/.static/css/settingsMenu.css"
+  type="text/css"
+  rel="stylesheet" />
 </head>
 <body>
 
-  <nav id="dynamicHeaderBoard"></nav>
+  <script src="/.static/js/themeLoader.js"></script>
+
+  <nav id="dynamicHeader"></nav>
 
   <header class="boardHeader">
     <img id="bannerImage" />
@@ -27,15 +46,11 @@
       <p id="labelName"></p>
     </div>
     <p id="labelDescription"></p>
-	<span class="boardLinks">
-		<a href="catalog.html">Catalog</a>
-		<a id="archiveLinkBoard">Archive</a>
-	</span>
   </header>
 
   <div id="postingForm">
 
-    <fieldset id="newPostFieldset" class="boardFieldset">
+    <fieldset id="newPostFieldset">
       <legend>Mode: Thread</legend>
 
       <form
@@ -43,15 +58,19 @@
         enctype="multipart/form-data"
         method="post">
 
-        <div id="postingFormContents"></div>
+        <table id="postingTable">
+        </table>
 
         <p class="small">
           Remember to follow the
-          <a href="rules.html"
-            class="localPageLink">rules</a>
+          <a
+            href="rules.html"
+            class="rules">rules</a>
         </p>
 
-        <input type="submit" id="formButton" value="Post">
+        <button
+          type="submit"
+          id="formButton">Post</button>
 
       </form>
 
@@ -59,10 +78,33 @@
 
   </div>
 
-  <div id="dynamicAnnouncement"></div>
   <div id="panelMessage">
     <hr>
     <div id="divMessage"></div>
+  </div>
+
+  <div id="secondaryBar">
+
+    <span>[</span>
+    <a
+      href="#footer"
+      id="linkBottom"
+      class="coloredIcon"></a>
+    <span>/</span>
+    <a
+      class="coloredIcon"
+      id="linkLogs"></a>
+    <span>/</span>
+    <a
+      href="./catalog.html"
+      id="navCatalog"
+      class="coloredIcon"></a>
+    <span>/</span>
+    <a
+      href="index.rss"
+      class="coloredIcon"
+      id="linkRss"></a>
+    <span>]</span>
   </div>
 
   <div id="threadList">
@@ -72,26 +114,29 @@
       method="post"
       enctype="multipart/form-data">
 
-      <div class="innerUtility">
-        <a class="navButton" href="#footer">Bottom</a>
-      </div>
-
       <div id="divThreads"></div>
 
       <hr class="clearer" />
 
-      <div>
+      <div class="threadPages">
 
-        <span class="containPages">[ <a id="linkPrevious" class="coloredIcon"></a> <span
-          id="divPages"></span> <a id="linkNext" class="coloredIcon"></a> ]
+        <span class="divPages">[ <a id="linkPrevious"></a> <span
+          id="divPages"></span> <a id="linkNext"></a> ]
         </span>
 
-        <br>
-
-        <span id="boardContentLinks" class="innerUtility">
+        <div id="boardContentLinks">
+          <span>[</span>
+          <a
+            id="linkTop"
+            class="coloredIcon"
+            href="#"></a>
+          <span>/</span>
           <a id="linkManagement">Manage Board</a>
+          <span>/</span>
           <a id="linkModeration">Moderate Board</a>
+          <span>/</span>
           <a id="linkMod">Moderate Threads</a>
+          <span>]</span>
         </div>
 
       </div>
@@ -102,26 +147,28 @@
 
   </div>
 
-  <footer id="dynamicFooterAlt"></footer>
-
+  <footer id="footer"></footer>
 </body>
 
 <script src="/.static/js/crypto.js"></script>
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/settingsMenu.js"></script>
 <script src="/.static/js/postCommon.js"></script>
-<script src="/.static/js/board.js"></script>
-
-<script src="/.static/js/watcher.js"></script>
+<script src="/.static/js/captchaModal.js"></script>
 <script src="/.static/js/thumbs.js"></script>
-<script src="/.static/js/embed.js"></script>
 <script src="/.static/js/tooltips.js"></script>
-<script src="/.static/js/hiding.js"></script>
-<script src="/.static/js/postingMenu.js"></script>
 <script src="/.static/js/posting.js"></script>
-
+<script src="/.static/js/board.js"></script>
 <script src="/.static/js/captchaUtils.js"></script>
+<script src="/.static/js/themes.js"></script>
+<script src="/.static/js/draggable.js"></script>
+<script src="/.static/js/settingsMenu.js"></script>
+<script src="/.static/js/hiding.js"></script>
+<script src="/.static/js/mediaHiding.js"></script>
+<script src="/.static/js/embed.js"></script>
+<script src="/.static/js/postingMenu.js"></script>
+<script src="/.static/js/watcher.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
+<script src="/.static/js/bottomForms.js"></script>
 <script src="/.static/js/bypassUtils.js"></script>
 
 </html>

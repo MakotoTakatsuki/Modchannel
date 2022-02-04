@@ -2,18 +2,16 @@ var embed = {};
 
 embed.init = function() {
 
-  embed.domainFunctionMap = {};
-  
-  embed.domainFunctionMap['youtube.com'] = embed.getSrcYouTube;
-  embed.domainFunctionMap['youtu.be'] = embed.getSrcYouTubeShortened;
-  embed.domainFunctionMap['invidio.us'] = embed.getSrcInvidious;
-  embed.domainFunctionMap['invidious.snopyta.org'] = embed.getSrcInvidiousSnopyta;
-  embed.domainFunctionMap['yewtu.be'] = embed.getSrcInvidiousYewtube;
-  embed.domainFunctionMap['bitchute.com'] = embed.getSrcBitChute;
-  embed.domainFunctionMap['liveleak.com'] = embed.getSrcLiveLeak;
-  embed.domainFunctionMap['watch.mc.moe'] = embed.getSrcmodchanTV;
+  var messageElements = document.getElementsByClassName("divMessage");
 
-}
+  for (var i = 0; i < messageElements.length; ++i) {
+    var linkElements = messageElements[i].getElementsByTagName("a");
+
+    for (var j = 0; j < linkElements.length; ++j)
+      embed.processLinkForEmbed(linkElements[j]);
+  }
+
+};
 
 embed.processLinkForEmbed = function(linkElement) {
 
@@ -37,7 +35,7 @@ embed.processLinkForEmbed = function(linkElement) {
     return;
   }
 
-  linkElement.parentNode.insertBefore(embed.buildEmbed(650, 365, embedSrc),
+  linkElement.parentNode.insertBefore(embed.buildEmbed(650, 350, embedSrc),
       linkElement.nextSibling);
 
 };
@@ -48,7 +46,6 @@ embed.buildEmbed = function(width, height, src) {
   html += ' width="' + width + '"';
   html += ' height="' + height + '"';
   html += ' src="' + src + '"';
-  html += ' scrolling=no';
   html += ' frameborder="0"';
   html += ' allowfullscreen';
   html += '></iframe>';
@@ -132,19 +129,6 @@ embed.getSrcYouTube = function(url) {
   return embed.getSrcYouTubeCommon(url, true, 'www.youtube.com');
 };
 
-embed.getSrcInvidious = function(url) {
-  return embed.getSrcYouTubeCommon(url, true, 'www.invidio.us');
-};
-
-embed.getSrcInvidiousSnopyta = function(url) {
-  return embed.getSrcYouTubeCommon(url, true, 'invidious.snopyta.org');
-};
-
-
-embed.getSrcInvidiousYewtube = function(url) {
-  return embed.getSrcYouTubeCommon(url, true, 'yewtu.be');
-};
-
 embed.getSrcYouTubeShortened = function(url) {
 
   var videoId = url.split('/')[3];
@@ -184,8 +168,9 @@ embed.getSrcBitChute = function(url) {
 
 };
 
-embed.getSrcmodchanTV = function(url) {
-  if (!url.includes('/view/')) {
+embed.getSrcOdysee = function(url) {
+
+    if (!url.includes('@')) {
     return;
   }
 
@@ -195,8 +180,11 @@ embed.getSrcmodchanTV = function(url) {
     return;
   }
 
-  return 'https://watch.mc.moe/view/' + videoId + '/?embedded=True';
+  if (videoId.includes(':') == true) {
+    videoId = videoId.split(':')[0];
+  }
 
+  return 'https://odysee.com/$/embed/' + videoId;
 };
 
 embed.getSrcLiveLeak = function(url) {
@@ -247,5 +235,13 @@ embed.getYouTubeStartTime = function(url) {
   return totalSeconds;
 
 };
+
+embed.domainFunctionMap = {};
+
+embed.domainFunctionMap['youtube.com'] = embed.getSrcYouTube;
+embed.domainFunctionMap['youtu.be'] = embed.getSrcYouTubeShortened;
+embed.domainFunctionMap['bitchute.com'] = embed.getSrcBitChute;
+embed.domainFunctionMap['odysee.com'] = embed.getSrcOdysee;
+embed.domainFunctionMap['liveleak.com'] = embed.getSrcLiveLeak;
 
 embed.init();

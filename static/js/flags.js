@@ -75,8 +75,9 @@ flags.addSelectedFlag = function(file) {
   var cell = document.createElement('div');
   cell.className = 'selectedCell';
 
-  var removeButton = document.createElement('a');
-  removeButton.className = 'removeButton coloredIcon';
+  var removeButton = document.createElement('div');
+  removeButton.className = 'removeButton';
+  removeButton.innerHTML = '✖';
   cell.appendChild(removeButton);
 
   var nameField = document.createElement('input');

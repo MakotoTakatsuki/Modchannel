@@ -9,7 +9,6 @@ board.init = function() {
 
   var identifierElement = document.getElementById('boardIdentifier');
   api.boardUri = identifierElement ? identifierElement.value : null;
-  document.getElementById('useSageSpan').classList.add('hidden');
 
   if (!api.boardUri) {
 
@@ -24,28 +23,21 @@ board.init = function() {
 
     board.messageLimit = +document.getElementById('labelMessageLength').innerHTML;
 
-    board.replyButton = document.getElementById('formButton');
+    board.postButton = document.getElementById('formButton');
 
-    board.postingForm = document.getElementById('postingFormContents').parentNode;
-    board.postingForm.onsubmit = function(e) {
-      e.preventDefault()
-      board.postThread();
-    }
+    api.convertButton(board.postButton, board.postThread);
+
+    board.postButton.disabled = false;
+
   }
 
   if (api.mod) {
-    api.convertButton('inputBan', postCommon.banPosts, 'banField');
-    api.convertButton('inputBanDelete', postCommon.banDeletePosts, 'banField');
-    api.convertButton('inputIpDelete', postCommon.deleteFromIpOnBoard);
-    api.convertButton('inputThreadIpDelete', postCommon.deleteFromIpOnThread);
-    api.convertButton('inputSpoil', postCommon.spoilFiles);
+    api.convertButton('inputBan', posting.banPosts, 'banField');
+    api.convertButton('inputBanDelete', posting.banDeletePosts, 'banField');
+    api.convertButton('inputIpDelete', posting.deleteFromIpOnBoard);
+    api.convertButton('inputThreadIpDelete', posting.deleteFromIpOnThread);
+    api.convertButton('inputSpoil', posting.spoilFiles);
   }
-
-  var archiveTarget = document.location.toString().split('/');
-  archiveTarget.pop()
-  var archiveLink = document.getElementById('archiveLinkBoard');
-  archiveLink.href = 'http://archive.today/' + encodeURIComponent(archiveTarget.join('/')) + '/*';
-  archiveLink.parentNode.style.display = 'inline-block';
 
 };
 
@@ -54,7 +46,6 @@ board.postCallback = function(status, data) {
   if (status === 'ok') {
 
     postCommon.storeUsedPostingPassword(api.boardUri, data);
-    posting.addYou(api.boardUri, data);
 
     window.location.pathname = '/' + api.boardUri + '/res/' + data + '.html';
   } else {
@@ -103,10 +94,6 @@ board.sendThreadData = function(files, captchaId) {
   var typedPassword = document.getElementById('fieldPostingPassword').value
       .trim();
 
-  if (postCommon.belowMaxFileSize(files)) {
-    alert("Upload failed: file too large");
-    return;
-  }
   if (!typedMessage.length) {
     alert('A message is mandatory.');
     return;
@@ -183,8 +170,10 @@ board.postThread = function() {
     bypassUtils.checkPass(function() {
       board.processFilesToPost(typedCaptcha);
     });
+
   } else {
     var parsedCookies = api.getCookies();
+
     api.formApiRequest('solveCaptcha', {
       captchaId : parsedCookies.captchaid,
       answer : typedCaptcha

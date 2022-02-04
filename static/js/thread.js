@@ -1,16 +1,16 @@
 var thread = {};
 
-var active_refresh_time = 10;
-
 thread.init = function() {
 
   api.mod = !!document.getElementById('divMod');
 
   api.hiddenCaptcha = !document.getElementById('captchaDiv');
 
+  document.getElementById('checkboxChangeRefresh').onchange = thread.changeRefresh;
+
   document.getElementsByTagName('body')[0].onscroll = function() {
 
-    if (!thread.unreadPosts || !thread.lastPost) {
+    if (!thread.unreadPosts) {
       return;
     }
 
@@ -33,14 +33,15 @@ thread.init = function() {
 
   thread.messageLimit = +document.getElementById('labelMessageLength').innerHTML;
   thread.refreshLabel = document.getElementById('labelRefresh');
-  thread.wsStatusLabel = document.getElementById('labelWsStatus');
-  thread.autoIndicator = document.getElementById('labelAutoIndicator');
 
   thread.refreshButton = document.getElementById('refreshButton');
-  thread.lastRefresh = 0;
+
+  thread.refreshButton.onclick = function() {
+    thread.refreshPosts(true)
+  };
 
   if (document.getElementById('divArchive')) {
-    api.convertButton('archiveFormButton', thread.archiveThread, 'archiveField');
+    api.convertButton('archiveFormButon', thread.archiveThread, 'archiveField');
   }
 
   if (document.getElementById('divMerge')) {
@@ -61,27 +62,17 @@ thread.init = function() {
       api.convertButton('transferFormButton', thread.transfer, 'transferField');
     }
 
-    api.convertButton('inputBan', postCommon.banPosts, 'banField');
-    api.convertButton('inputIpDelete', postCommon.deleteFromIpOnBoard);
-    api.convertButton('inputThreadIpDelete', postCommon.deleteFromIpOnThread);
-    api.convertButton('inputSpoil', postCommon.spoilFiles);
+    api.convertButton('inputBan', posting.banPosts, 'banField');
+    api.convertButton('inputIpDelete', posting.deleteFromIpOnBoard);
+    api.convertButton('inputThreadIpDelete', posting.deleteFromIpOnThread);
+    api.convertButton('inputSpoil', posting.spoilFiles);
 
   }
 
   thread.replyButton = document.getElementById('formButton');
-  thread.postingForm = document.getElementById('postingFormContents').parentNode;
+  thread.replyButton.disabled = false;
 
-  thread.postingForm.onsubmit = function(e) {
-    e.preventDefault()
-    thread.postReply();
-  }
-
-  var archiveLinks = document.getElementsByClassName('archiveLinkThread');
-  for (var i = 0; i < archiveLinks.length; i++) {
-    var archiveLink = archiveLinks[i];
-    archiveLink.href = 'http://archive.today/?run=1&url='+encodeURIComponent(document.location);
-    archiveLink.parentNode.style.display = 'inline-block';
-  }
+  api.convertButton(thread.replyButton, thread.postReply);
 
   var replies = document.getElementsByClassName('postCell');
 
@@ -108,17 +99,11 @@ thread.init = function() {
 
       });
 
-  document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-       thread.lastRefresh = 600;
-    } else {
-	thread.lastRefresh = active_refresh_time;
-	thread.currentRefresh = active_refresh_time;
-    }
-  })
+  var postingQuotes = document.getElementsByClassName('linkQuote');
 
-  //initial refresh to update the count indicators
-  thread.refreshPosts();
+  for (var i = 0; i < postingQuotes.length; i++) {
+    thread.processPostingQuote(postingQuotes[i]);
+  }
 
 };
 
@@ -131,6 +116,14 @@ thread.initThread = function() {
   thread.expectedPosts = [];
   thread.lastReplyId = 0;
   thread.originalTitle = document.title;
+  posting.highLightedIds = [];
+  posting.idsRelation = {};
+
+  var ids = document.getElementsByClassName('labelId');
+
+  for (i = 0; i < ids.length; i++) {
+    posting.processIdLabel(ids[i]);
+  }
 
   thread.unreadPosts = 0;
   api.threadId = +document.getElementsByClassName('opCell')[0].id;
@@ -236,7 +229,6 @@ thread.archiveThread = function() {
 
       api.resetIndicators({
         locked : document.getElementsByClassName('lockIndicator').length,
-        bumplock : document.getElementsByClassName('bumpLockIndicator').length,
         pinned : document.getElementsByClassName('pinIndicator').length,
         cyclic : document.getElementsByClassName('cyclicIndicator').length,
         archived : true
@@ -253,7 +245,6 @@ thread.archiveThread = function() {
 thread.saveThreadSettings = function() {
 
   var pinned = document.getElementById('checkboxPin').checked;
-  var bumplock = document.getElementById('checkboxBumplock').checked;
   var locked = document.getElementById('checkboxLock').checked;
   var cyclic = document.getElementById('checkboxCyclic').checked;
 
@@ -262,8 +253,7 @@ thread.saveThreadSettings = function() {
     threadId : api.threadId,
     pin : pinned,
     lock : locked,
-    cyclic : cyclic,
-    bumplock : bumplock
+    cyclic : cyclic
   }, function setLock(status, data) {
 
     if (status === 'ok') {
@@ -272,7 +262,6 @@ thread.saveThreadSettings = function() {
         locked : locked,
         pinned : pinned,
         cyclic : cyclic,
-        bumplock : bumplock,
         archived : document.getElementsByClassName('archiveIndicator').length
       });
 
@@ -288,14 +277,11 @@ thread.replyCallback = function(status, data) {
   if (status === 'ok') {
 
     postCommon.storeUsedPostingPassword(api.boardUri, api.threadId, data);
-    posting.addYou(api.boardUri, data);
 
     document.getElementById('fieldMessage').value = '';
     document.getElementById('fieldSubject').value = '';
     qr.clearQRAfterPosting();
     postCommon.clearSelectedFiles();
- 
-    document.getElementById('footer').scrollIntoView();
 
     if (!thread.autoRefresh || !thread.socket) {
       thread.refreshPosts(true);
@@ -361,14 +347,7 @@ thread.refreshCallback = function(error, receivedData) {
 
   thread.wsPort = receivedData.wsPort;
   thread.wssPort = receivedData.wssPort;
-  if (!thread.socket || thread.socket.readyState > 1) { //still closed
-	thread.stopWs();
-  	thread.startWs();
-  }
-
-  if (typeof tooltips !== "undefined") {
-    tooltips.cacheData(receivedData);
-  }
+  tooltips.cacheData(receivedData);
 
   var posts = receivedData.posts;
 
@@ -426,29 +405,6 @@ thread.refreshCallback = function(error, receivedData) {
     }
   }
 
-  var counts = posts.reduce((acc, post) => {
-    if (acc.ids.indexOf(post.id) === -1)
-      acc.ids.push(post.id);
-  	acc.files += post.files.length;
-  	return acc;
-  }, {
-    files:	0,
-    ids: 	[]
-  })
-  
-  var postCount = document.getElementById('postCount')
-  postCount.innerHTML = posts.length;
-  var idCount = document.getElementById('idCount');
-  if (counts.ids) {
-    idCount.innerHTML = counts.ids.length;
-    idCount.style.display = "inline";
-  } else {
-    idCount.innerHTML = counts.ids.length;
-    idCount.style.display = "none";
-  }
-  document.getElementById('fileCount').innerHTML = counts.files;
-  postCount.parentNode.style.display = "inherit";
-
   if (thread.autoRefresh
       && !(!JSON.parse(localStorage.noWs || 'false') && (thread.wsPort || thread.wssPort))) {
     thread.startTimer(thread.manualRefresh || foundPosts ? 5
@@ -463,7 +419,7 @@ thread.refreshCallback.stop = function() {
 
   thread.refreshingThread = false;
 
-  if (typeof sideCatalog !== "undefined" && sideCatalog.waitingForRefreshData) {
+  if (sideCatalog.waitingForRefreshData) {
     sideCatalog.loadThread(sideCatalog.waitingForRefreshData.cell,
         sideCatalog.waitingForRefreshData.thread);
     delete sideCatalog.waitingForRefreshData;
@@ -522,11 +478,6 @@ thread.sendReplyData = function(files, captchaId) {
   var typedPassword = document.getElementById('fieldPostingPassword').value
       .trim();
 
-  if (!postCommon.belowMaxFileSize(files)) {
-    alert("Upload failed: file too large");
-    return;
-  }
-
   if (!typedMessage.length && !files.length) {
     alert('A message or a file is mandatory.');
     return;
@@ -555,11 +506,10 @@ thread.sendReplyData = function(files, captchaId) {
   localStorage.setItem('deletionPassword', typedPassword);
 
   var spoilerCheckBox = document.getElementById('checkboxSpoiler');
-  var sageCheckbox = document.getElementById('doSageCheckbox');
 
   var noFlagCheckBox = document.getElementById('checkboxNoFlag');
 
-  thread.originalButtonText = thread.replyButton.value;
+  thread.originalButtonText = thread.replyButton.innerHTML;
   thread.replyButton.innerHTML = 'Uploading 0%';
   qr.setQRReplyText(thread.replyButton.innerHTML);
   thread.replyButton.disabled = true;
@@ -575,7 +525,6 @@ thread.sendReplyData = function(files, captchaId) {
     password : typedPassword,
     message : typedMessage,
     email : typedEmail,
-    sage : sageCheckbox ? sageCheckbox.checked : false,
     files : files,
     boardUri : api.boardUri,
     threadId : api.threadId
@@ -583,7 +532,6 @@ thread.sendReplyData = function(files, captchaId) {
 
 };
 
-//TODO
 thread.processFilesToPost = function(captchaId) {
 
   postCommon.newGetFilesToUpload(function gotFiles(files) {
@@ -648,15 +596,9 @@ thread.transition = function() {
 };
 
 thread.startTimer = function(time) {
-  if (thread.currentRefresh) {
-    clearInterval(thread.refreshTimer);
-  }
 
   if (time > 600) {
     time = 600;
-  }
-  if (!document.hidden) {
-    time = active_refresh_time;
   }
 
   thread.currentRefresh = time;
@@ -670,7 +612,7 @@ thread.startTimer = function(time) {
 
     thread.currentRefresh--;
 
-    if (thread.currentRefresh < 1) {
+    if (!thread.currentRefresh) {
       clearInterval(thread.refreshTimer);
       thread.refreshPosts();
       thread.refreshLabel.innerHTML = '';
@@ -698,29 +640,18 @@ thread.startWs = function() {
     return;
   }
 
-  if ((thread.wsPort || thread.wssPort) === undefined ) {
-    return;
-  }
+  var isOnion = window.location.hostname.endsWith('.onion');
 
-  var protocol = (thread.wssPort && location.protocol == 'https:') ? 'wss' : 'ws';
+  var protocol = (thread.wssPort && !isOnion) ? 'wss' : 'ws';
 
+  var portToUse = (thread.wssPort && !isOnion) ? thread.wssPort : thread.wsPort;
+  
   thread.socket = new WebSocket(protocol + '://' + window.location.hostname
-      + ':' + (location.protocol == 'https:' ? thread.wssPort : false || thread.wsPort));
+      + ':' + portToUse);
 
   thread.socket.onopen = function(event) {
     thread.socket.send(api.boardUri + '-' + api.threadId);
-    clearInterval(thread.refreshTimer);
-    thread.refreshLabel.innerHTML = '';
-
-	thread.wsStatusLabel.style.color = "green";
-    thread.wsStatusLabel.title = "Websocket OK";
   };
-
-  thread.socket.onclose = function() {
-    thread.wsStatusLabel.style.color = "red";
-    thread.wsStatusLabel.title = "Websocket closed, attempting to reconnect";
-    thread.changeRefresh();
-  }
 
   thread.socket.onmessage = function(message) {
 
@@ -762,9 +693,7 @@ thread.startWs = function() {
         deletedLabel.innerHTML = '(Deleted)';
 
         info.insertBefore(deletedLabel,
-          info.getElementsByClassName('linkName')[0]);
-
-        hiding.hidePost(post.getElementsByClassName("linkSelf")[0], false, true);
+            info.getElementsByClassName('linkName')[0]);
 
       }
 
@@ -795,16 +724,13 @@ thread.changeRefresh = function() {
     clearInterval(thread.refreshTimer);
   } else {
 
-    thread.startTimer(5); //will get canceled by onopen anyway
-
-    if (!JSON.parse(localStorage.noWs || 'false')) {
-      thread.wsStatusLabel.style.display = "inherit";
-      thread.autoIndicator.innerText = "Live updates";
+    if (!JSON.parse(localStorage.noWs || 'false')
+        && (thread.wsPort || thread.wssPort)) {
       thread.startWs();
     } else {
-      thread.wsStatusLabel.style.display = "none";
-      thread.autoIndicator.innerText = "Auto";
+      thread.startTimer(5);
     }
+
   }
 
 };
@@ -815,7 +741,7 @@ thread.deleteFromIp = function() {
   var typedBoards = document.getElementById('fieldBoards').value.trim();
 
   if (!typedIp.length) {
-    alert('An IP is mandatory');
+    alert('An ip is mandatory');
     return;
   }
 

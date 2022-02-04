@@ -1,23 +1,16 @@
 {
   "optional": {
-	"dynamicHeader": "content/header.html",
-	"dynamicHeaderBoard": "content/headerBoard.html",
-	"dynamicHeaderThread": "content/headerThread.html",
-	"dynamicFooter": "content/footer.html",
-	"dynamicFooterAlt": "content/footerAlt.html",
-	"dynamicAnnouncement": "content/announcement.html",
-  "dynamicLinks": "content/links.html",
-	"postingFormContents": "content/postingForm.html",
-	"actionsForm": "content/actionsForm.html",
-    "quick-reply": "content/quickReply.html"
+    "dynamicHeader": "content/header.html",
+    "postingTable": "content/postingForm.html",
+    "actionsForm": "content/actionsForm.html"
   },
   "templated": [
     "pages/about.html",
     "pages/contact.html",
     "pages/globalRules.html",
+    "pages/links.html",
     "pages/moderation.html",
-    "pages/posting.html",
-	"pages/legal.html"
+    "pages/posting.html"
   ],
   "logIndexCell": "cells/logIndexCell.html",
   "accountPage": "pages/account.html",
@@ -90,7 +83,7 @@
   "audioThumb": "images/music.png",
   "defaultBanner": "images/banner.png",
   "spoiler": "images/spoiler.png",
-  "thumb": "images/generic.png",
+  "thumb": "../static/logo.png",
   "maintenanceImage": "images/maintenanceImage.png",
   "socketManagementPage": "pages/socket.html",
   "mediaDetailsPage": "pages/mediaDetailsPage.html",
@@ -105,5 +98,7 @@
   "offenseCell": "cells/offenseCell.html",
   "openReportsPage": "pages/openReportsPage.html",
   "reportCategoryFilterCell": "cells/reportCategoryFilterCell.html",
-  "trashBinPage": "pages/trashBin.html"
+  "trashBinPage": "pages/trashBin.html",
+  "mimeThumbsPage": "pages/mimeThumbsPage.html",
+  "mimeThumbCell": "cells/mimeThumbCell.html"
 }
