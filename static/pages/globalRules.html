@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Global Rules</title>
+<title>Rules</title>
 <meta charset="UTF-8">
 <meta
   name="viewport"
@@ -10,6 +10,12 @@
   rel="stylesheet"
   type="text/css"
   href="/.static/css/global.css">
+<link
+  href="/.static/css/yotsuba_b.css"
+  type="text/css"
+  rel="stylesheet" 
+  id="themeStylesheet" />
+
 </head>
 <body>
 
@@ -24,23 +30,28 @@
       alt="logo" />
   </header>
 
-  <div id="settingsWrapper">
-    <fieldset id="settingsFieldset">
-      <legend>Global Rules</legend>
-      <p>The decisions by the moderators are final.</p>
-      <ul id="globalRulesUl">
-        <li>1. Do not post, request or link to any illegal content that violates local law. Everything illegal we are aware of will be removed and the offending user will be banned.</li>
-        <li>2. You will not incite any class of harrasment against any individual. Doxxing is not allowed if it is used to harrass or intimidate anybody to any extent (this falls under illegal content).</li>
-        <li>3. Submitting false or "troll" reports will end up in a ban.</li>
-        <li>4. "Jailbait" is not allowed in any case. Any posts like this are going to be treated as illegal content.</li>
-        <li>5. Spamming is not allowed.</li>
-        <li>6. Modchan will remove any copyrighted content in accordance to local laws. To make a claim documentation or ownership proof is recquired.</li>
-        <li>7. The use of third party to damage the site is not allowed.</li>
-        <li>8. Do not post NSFW material on SFW marked boards unless it is spoilered.</li>
-        <li>9. Ban evasion will get you banned.</li>
-      </ul>
+  <div class="titleWrapper">
+    <fieldset class="titleFieldset">
+      <legend>Rules</legend>
+                <p>
+                        The Rules are enforced by global moderators or administrators
+                        directly and all decisions are final.
+                </p>
+                <ol start=0>
+                <li>Do not post, request or link to any illegal content that violates local law. Everything illegal we are aware of will be removed and the offending user will be banned.</li>
+                <li>You will not incite any class of harrasment against any individual. Doxxing is not allowed if it is used to harrass or intimidate anybody to any extent (this falls under illegal content).</li>
+                <li>Submitting false or "troll" reports will end up in a ban.</li>
+                <li>"Jailbait" is not allowed in any case. Any posts like this are going to be treated as illegal content.</li>
+                <li>Spamming is not allowed.</li>
+                <li>Modchan will remove any copyrighted content in accordance to local laws. To make a claim documentation or ownership proof is recquired.</li>
+                <li>The use of third party to damage the site is not allowed.</li>
+                <li>Do not post NSFW material on SFW marked boards unless it is spoilered.</li>
+
+                </ol>
+		All boards must adhere to these rules, regardless of whether or not board-specific rules are present or not.
     </fieldset>
   </div>
+  <footer id="dynamicFooter"></footer>
 </body>
 
 <script src="/.static/js/api.js"></script>

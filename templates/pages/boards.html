@@ -9,14 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
-<link
-  href="/.static/css/boards.css"
-  type="text/css"
-  rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
 </head>
 <body>
-
-  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -27,21 +23,61 @@
       alt="logo" />
   </header>
 
-  <div id="secondaryBar">
+  <div class="titleWrapper" id="boardsWrapper">
 
-    <span>[</span>
-    <a
-      class="coloredIcon"
-      id="linkOverboard"></a>
-    <span>/</span>
-    <a
-      class="coloredIcon"
-      id="linkSfwOver"></a>
-    <span>]</span>
+    <fieldset class="titleFieldset">
+      <legend>Boards</legend>
+      <form
+        action="/boards.js"
+        method="get">
 
-  </div>
+          <input
+            type="text"
+            name="boardUri"
+            placeholder="board">
 
-  <div id="boardsWrapper">
+          <input
+            type="text"
+            name="tags"
+            placeholder="tags">
+
+          <select name="sorting">
+            <option value=''>Most popular</option>
+            <option value='1'>Least popular</option>
+            <option value='2'>Most posts first</option>
+            <option value='3'>Least posts first</option>
+            <option value='4'>Highest PPH first</option>
+            <option value='5'>Lowest PPH first</option>
+            <option value='6'>Alphabetic order</option>
+            <option value='7'>Reverse alphabetic order</option>
+          </select>
+
+		<label>
+          <input
+            type="checkbox"
+            name="sfw">
+          SFW boards only
+		</label>
+
+		<label>
+          <input
+            type="checkbox"
+            name="unindexed">
+          Unindexed boards only
+		</label>
+
+		<label>
+          <input
+            type="checkbox"
+            name="inactive">
+          Abandoned boards only
+		</label>
+
+        <input
+          type="submit"
+          value="Search">
+
+      </form>
 
     <div
       id="divBoards"
@@ -55,81 +91,18 @@
           class="cellComponent">Users</span></span></span>
     </div>
 
-    <fieldset id="settingsFieldset">
-      <legend>Search</legend>
-      <form
-        action="/boards.js"
-        method="get">
-
-        <label>
-          <input
-            type="text"
-            name="boardUri"
-            placeholder="board">
-        </label>
-
-        <label>
-          <input
-            type="text"
-            name="tags"
-            placeholder="tags">
-        </label>
-
-        <label>
-          <select name="sorting">
-            <option value=''>Most popular</option>
-            <option value='1'>Least popular</option>
-            <option value='2'>Most posts first</option>
-            <option value='3'>Least posts first</option>
-            <option value='4'>Highest PPH first</option>
-            <option value='5'>Lowest PPH first</option>
-            <option value='6'>Alphabetic order</option>
-            <option value='7'>Reverse alphabetic order</option>
-          </select>
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="sfw">
-          SFW boards only
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="unindexed">
-          Unindexed boards only
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            name="inactive">
-          Abandoned boards only
-        </label>
-
-        <input
-          type="submit"
-          value="Search">
-
-      </form>
     </fieldset>
 
 
-    <div class="boardPages">
-      [
-      <div id="divPages"></div>
-      ]
-    </div>
-
+    <div class="containPages"> [ <div id="divPages"></div> ] </div>
 
   </div>
+
+  <footer id="dynamicFooter"></footer>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

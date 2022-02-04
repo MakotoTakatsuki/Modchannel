@@ -15,17 +15,13 @@ globalSettings.init = function() {
       setting : 'emailDomainWhiteList',
       type : 'string'
     },
-    fieldFlagLimit : {
-      setting : 'flagLimit',
-      type : 'string'
+    checkboxSendmail : {
+      type : 'boolean',
+      setting : 'useSendmail',
     },
     fieldTrashLimitDays : {
       type : 'string',
       setting : 'trashLimitDays',
-    },
-    fieldCaptchaPool : {
-      type : 'string',
-      setting : 'captchaPool',
     },
     checkboxDiskMedia : {
       type : 'boolean',
@@ -138,10 +134,6 @@ globalSettings.init = function() {
     fieldFileProcessingLimit : {
       type : 'string',
       setting : 'fileProcessingLimit',
-    },
-    fieldDefaultTheme : {
-      type : 'string',
-      setting : 'defaultTheme',
     },
     fieldMaxFilterLength : {
       type : 'string',
@@ -537,34 +529,24 @@ globalSettings.init = function() {
 
 globalSettings.save = function() {
 
-  if (document.getElementById('authDiv')) {
-    var typedPassword = document.getElementById('fieldPassword').value;
-
-    if (!typedPassword) {
-      return alert('You must provide your password.');
-    }
-  }
-
-  var parameters = {
-    password : typedPassword
-  };
+  var parameters = {};
 
   for ( var key in globalSettings.siteSettingsRelation) {
 
     var item = globalSettings.siteSettingsRelation[key];
+	key = document.getElementById(key);
 
     switch (item.type) {
     case 'string':
-      parameters[item.setting] = document.getElementById(key).value.trim();
+      parameters[item.setting] = key.value.trim();
       break;
     case 'boolean':
-      if (document.getElementById(key).checked) {
+      if (key.checked) {
         parameters[item.setting] = true;
       }
       break;
     case 'combo':
-      var combo = document.getElementById(key);
-      parameters[item.setting] = combo.options[combo.selectedIndex].value;
+      parameters[item.setting] = key.options[key.selectedIndex].value;
       break;
 
     }

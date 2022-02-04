@@ -25,7 +25,7 @@ ruleManagement.processRuleCell = function(cell) {
 
     var index = cell.getElementsByClassName('indexIdentifier')[0].value;
 
-    api.formApiRequest('ruleAction', {
+    api.formApiRequest('deleteRule', {
       boardUri : api.boardUri,
       ruleIndex : index,
     }, function requestComplete(status, data) {
@@ -80,6 +80,7 @@ ruleManagement.showNewRule = function(typedRule) {
   var rulePara = document.createElement('p');
   form.appendChild(rulePara);
 
+  //XXX not convinced this works
   var ruleField = document.createElement('input');
   ruleField.className = 'textField';
   ruleField.type = 'text';
@@ -99,9 +100,9 @@ ruleManagement.showNewRule = function(typedRule) {
   boardIdentifier.className = 'boardIdentifier';
   boardIdentifier.value = api.boardUri;
   form.appendChild(boardIdentifier);
-
+ 
   var editButton = document.createElement('button');
-  editButton.type = 'submit';
+  editButton.type = 'button';
   editButton.name = 'action';
   editButton.value = 'edit';
   editButton.innerHTML = 'Edit';
@@ -110,7 +111,7 @@ ruleManagement.showNewRule = function(typedRule) {
 
   var deleteButton = document.createElement('button');
   deleteButton.type = 'submit';
-  deleteButton.innerHTML = 'Delete';
+  deleteButton.innerHTML = 'Delete rule';
   deleteButton.className = 'deleteFormButton';
   form.appendChild(deleteButton);
 

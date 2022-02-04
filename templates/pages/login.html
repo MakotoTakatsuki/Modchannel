@@ -9,10 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
 </head>
 <body>
-
-  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,9 +23,9 @@
       alt="logo" />
   </header>
 
-  <div id="settingsWrapper">
+  <div class="titleWrapper">
 
-    <fieldset id="settingsFieldset">
+    <fieldset class="titleFieldset">
 
       <legend>Account</legend>
       <h3>Login</h3>
@@ -98,6 +98,7 @@
               class="registerField"
               id="registerFieldEmail"
               name="email"
+              autocomplete="none"
               placeholder="email">
           </label>
 
@@ -111,6 +112,7 @@
             <input
               type="button"
               class="hidden reloadCaptchaButton"
+              onclick="captchaUtils.reloadCaptcha()"
               value="reload">
             <span class="captchaTimer"></span>
 
@@ -149,6 +151,7 @@
               name="login"
               class="recoverField"
               id="recoverFieldLogin"
+              autocomplete="none"
               placeholder="login">
           </label>
 
@@ -162,6 +165,7 @@
             <input
               type="button"
               class="hidden reloadCaptchaButton"
+              onclick="captchaUtils.reloadCaptcha()"
               value="reload">
             <span class="captchaTimer"></span>
 
@@ -170,6 +174,7 @@
             <input
               name="captcha"
               type="text"
+			  autocomplete="none"
               class="captchaField recoverField"
               id="fieldCaptchaRecover"
               placeholder="answer">
@@ -190,13 +195,13 @@
     </fieldset>
 
   </div>
+  <footer id="dynamicFooter"></footer>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/login.js"></script>
 <script src="/.static/js/captchaUtils.js"></script>
-<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

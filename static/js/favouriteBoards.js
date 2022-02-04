@@ -1,44 +1,47 @@
-var favouriteBoards = {};
+var favoriteBoards = {};
 
-favouriteBoards.init = function() {
+favoriteBoards.init = function() {
 
-  favouriteBoards.setFavouriteBoards();
+  favoriteBoards.setFavoriteBoards();
+  favoriteBoards.setTopBoards();
 
   var boardLabel = document.getElementById('labelName')
       || document.getElementById('labelBoard');
 
   if (boardLabel) {
 
-    var savedFavouriteBoards = JSON.parse(localStorage.savedFavouriteBoards
+    var savedFavoriteBoards = JSON.parse(localStorage.savedFavoriteBoards
         || '[]');
 
-    var favouriteButton = document.createElement('span');
-    favouriteButton.id = 'favouriteButton';
-    boardLabel.parentNode.appendChild(favouriteButton);
+    var favoriteButton = document.createElement('input');
+    favoriteButton.type = 'checkbox';
+    favoriteButton.id = 'favoriteButton';
+    favoriteButton.className = 'glowOnHover';
 
-    if (savedFavouriteBoards.indexOf(api.boardUri) > -1) {
-      favouriteButton.className = 'checkedFavouriteButton';
+    boardLabel.parentNode.appendChild(favoriteButton);
+
+    if (savedFavoriteBoards.indexOf(api.boardUri) > -1) {
+      favoriteButton.checked = true;
     }
 
-    favouriteButton.onclick = function() {
-      savedFavouriteBoards = JSON.parse(localStorage.savedFavouriteBoards
+    favoriteButton.oninput = function() {
+      savedFavoriteBoards = JSON.parse(localStorage.savedFavoriteBoards
           || '[]');
 
-      var index = savedFavouriteBoards.indexOf(api.boardUri);
+      var index = savedFavoriteBoards.indexOf(api.boardUri);
 
+      savedFavoriteBoards.checked = index > -1;
       if (index > -1) {
-        savedFavouriteBoards.splice(index, 1);
-        favouriteButton.removeAttribute('class');
+        savedFavoriteBoards.splice(index, 1);
       } else {
-        savedFavouriteBoards.push(api.boardUri);
-        savedFavouriteBoards.sort();
-        favouriteButton.className = 'checkedFavouriteButton';
+        savedFavoriteBoards.push(api.boardUri);
+        savedFavoriteBoards.sort();
       }
 
-      localStorage.setItem('savedFavouriteBoards', JSON
-          .stringify(savedFavouriteBoards));
+      localStorage.setItem('savedFavoriteBoards', JSON
+          .stringify(savedFavoriteBoards));
 
-      favouriteBoards.setFavouriteBoards();
+      favoriteBoards.setFavoriteBoards();
 
     };
 
@@ -46,9 +49,9 @@ favouriteBoards.init = function() {
 
 };
 
-favouriteBoards.setFavouriteBoards = function() {
+favoriteBoards.setFavoriteBoards = function() {
 
-  var savedFavouriteBoards = JSON.parse(localStorage.savedFavouriteBoards
+  var savedFavoriteBoards = JSON.parse(localStorage.savedFavoriteBoards
       || '[]');
 
   var boardsSpan = document.getElementById('navBoardsSpan');
@@ -57,7 +60,7 @@ favouriteBoards.setFavouriteBoards = function() {
     boardsSpan.removeChild(boardsSpan.lastChild);
   }
 
-  if (savedFavouriteBoards.length) {
+  if (savedFavoriteBoards.length) {
 
     var firstBracket = document.createElement('span');
     firstBracket.innerHTML = '[';
@@ -65,16 +68,16 @@ favouriteBoards.setFavouriteBoards = function() {
 
     boardsSpan.appendChild(document.createTextNode(' '));
 
-    for (var i = 0; i < savedFavouriteBoards.length; i++) {
+    for (var i = 0; i < savedFavoriteBoards.length; i++) {
 
       var link = document.createElement('a');
-      link.href = '/' + savedFavouriteBoards[i];
-      link.innerHTML = savedFavouriteBoards[i];
+      link.href = '/' + savedFavoriteBoards[i];
+      link.innerHTML = savedFavoriteBoards[i];
       boardsSpan.appendChild(link);
 
       boardsSpan.appendChild(document.createTextNode(' '));
 
-      if (i < savedFavouriteBoards.length - 1) {
+      if (i < savedFavoriteBoards.length - 1) {
 
         var divider = document.createElement('span');
         divider.innerHTML = '/';
@@ -92,4 +95,52 @@ favouriteBoards.setFavouriteBoards = function() {
 
 };
 
-favouriteBoards.init();
+favoriteBoards.setTopBoards = function() {
+  var topBoardsGetter = new XMLHttpRequest();
+  topBoardsGetter.open("GET", "/index.json");
+  topBoardsGetter.onload = function(e) {
+    var topBoards = JSON.parse(e.target.responseText || '{"topBoards": []}').topBoards
+
+    var boardsSpan = document.getElementById('navTopBoardsSpan');
+
+    while (boardsSpan.hasChildNodes()) {
+      boardsSpan.removeChild(boardsSpan.lastChild);
+    }
+
+    if (topBoards.length) {
+
+      var firstBracket = document.createElement('span');
+      firstBracket.innerHTML = '[';
+      boardsSpan.appendChild(firstBracket);
+
+      boardsSpan.appendChild(document.createTextNode(' '));
+
+      for (var i = 0; i < topBoards.length; i++) {
+
+        var link = document.createElement('a');
+        link.href = '/' + topBoards[i].boardUri;
+        link.innerHTML = topBoards[i].boardUri;
+        boardsSpan.appendChild(link);
+
+        boardsSpan.appendChild(document.createTextNode(' '));
+
+        if (i < topBoards.length - 1) {
+
+          var divider = document.createElement('span');
+          divider.innerHTML = '/';
+          boardsSpan.appendChild(divider);
+
+          boardsSpan.appendChild(document.createTextNode(' '));
+        }
+
+      }
+
+    var secondBracket = document.createElement('span');
+    secondBracket.innerHTML = ']';
+    boardsSpan.appendChild(secondBracket);
+    }
+  }
+  topBoardsGetter.send()
+};
+
+favoriteBoards.init();

@@ -9,10 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
 </head>
 <body>
-
-  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,7 +23,8 @@
       alt="logo" />
   </header>
 
-  <fieldset id="settingsFieldset">
+  <div class="titleWrapper">
+  <fieldset class="titleFieldset">
     <legend>No Cookies?</legend>
     <div id="divSolvedCaptcha">
       <h3>
@@ -59,11 +60,13 @@
       </form>
     </div>
   </fieldset>
+  </div>
+
+  <footer id="dynamicFooter"></footer>
 
 </body>
 
 <script src="/.static/js/api.js"></script>
-<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

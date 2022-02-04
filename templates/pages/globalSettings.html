@@ -9,10 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
 </head>
 <body>
-
-  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,8 +23,8 @@
       alt="logo" />
   </header>
 
-  <div id="settingsWrapper">
-    <fieldset id="settingsFieldset">
+  <div class="titleWrapper">
+    <fieldset class="titleFieldset">
       <legend>Global Settings</legend>
 
       <form
@@ -37,6 +37,7 @@
           Address<sup>2</sup>:
           <input
             type="text"
+			autocomplete="none"
             class="globalSettingsField"
             name="address"
             id="fieldAddress">
@@ -45,6 +46,7 @@
           Trusted proxies<sup>1</sup>:
           <input
             type="text"
+			autocomplete="none"
             class="globalSettingsField"
             name="trustedProxies"
             id="fieldTrustedProxies">
@@ -61,6 +63,7 @@
           quotations):
           <input
             type="text"
+			autocomplete="none"
             class="globalSettingsField"
             name="CSP"
             id="fieldCSP">
@@ -74,7 +77,7 @@
             id="fieldPort">
         </label>
         <label>
-          WS Port<sup>2</sup>:
+         WS Port<sup>2</sup>:
           <input
             type="number"
             class="globalSettingsField"
@@ -82,7 +85,7 @@
             id="fieldWsPort">
         </label>
         <label>
-          WSS Port<sup>2</sup>:
+         WSS Port<sup>2</sup>:
           <input
             type="number"
             class="globalSettingsField"
@@ -150,6 +153,14 @@
           <input
             type="checkbox"
             class="globalSettingsField"
+            id="checkboxSendmail"
+            name="useSendmail">
+          Use sendmail
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="globalSettingsField"
             id="checkboxHttp2"
             name="useHttp2">
           Use HTTP2 for SSL (Might be unstable due to node's implementation)
@@ -168,6 +179,7 @@
           Master IP:
           <input
             type="text"
+			autocomplete="none"
             class="globalSettingsField"
             name="master"
             id="fieldMaster">
@@ -336,14 +348,6 @@
             class="globalSettingsField"
             name="captchaLimit"
             id="fieldCaptchaLimit">
-        </label>
-        <label>
-          Maximum amount of captchas in the captcha pool:
-          <input
-            type="number"
-            class="globalSettingsField"
-            name="captchaPool"
-            id="fieldCaptchaPool">
         </label>
         <label>
           Maximum amount of times accounts can authenticate every minute:
@@ -633,14 +637,6 @@
             id="fieldMaxBoardBanners">
         </label>
         <label>
-          Maximum number of flags in boards:
-          <input
-            type="number"
-            class="globalSettingsField"
-            name="flagLimit"
-            id="fieldFlagLimit">
-        </label>
-        <label>
           Maximum number of tags per board:
           <input
             type="number"
@@ -746,6 +742,7 @@
             type="email"
             class="globalSettingsField"
             name="emailSender"
+            autocomplete="none"
             id="fieldSenderEmail">
         </label>
         <label>
@@ -807,14 +804,6 @@
             class="globalSettingsField"
             name="addons"
             id="fieldAddons">
-        </label>
-        <label>
-          Default theme:
-          <input
-            type="text"
-            class="globalSettingsField"
-            name="defaultTheme"
-            id="fieldDefaultTheme">
         </label>
         <label>
           Report categories<sup>1</sup>:
@@ -1096,20 +1085,6 @@
             name="bypassValidationRange"
             id="fieldBypassValidationRange">
         </label>
-
-        <hr>
-        <div id="authDiv">
-          <p class="title">Authentication</p>
-          <label>
-            Your password:
-            <input
-              type="password"
-              name="password"
-              class="globalSettingsField"
-              id="fieldPassword">
-          </label>
-        </div>
-
         <button
           type="submit"
           id="saveFormButton">Save</button>
@@ -1133,7 +1108,6 @@
 
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/globalSettings.js"></script>
-<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

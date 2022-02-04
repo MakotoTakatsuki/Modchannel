@@ -9,10 +9,10 @@
   href="/.static/css/global.css"
   type="text/css"
   rel="stylesheet" />
+
+<script src="/.static/js/theme.js"></script>
 </head>
 <body>
-
-  <script src="/.static/js/themeLoader.js"></script>
 
   <nav id="dynamicHeader"></nav>
 
@@ -23,9 +23,9 @@
       alt="logo" />
   </header>
 
-  <div id="settingsWrapper">
+  <div class="titleWrapper">
 
-    <fieldset id="settingsFieldset">
+    <fieldset class="titleFieldset">
 
       <legend>Account</legend>
       <h3>
@@ -75,6 +75,7 @@
             type="email"
             name="email"
             class="settingsField"
+            autocomplete="none"
             id="emailField">
         </label>
         <label>
@@ -84,14 +85,6 @@
             name="alwaysSignRole"
             id="checkboxAlwaysSign">
           Always use role signature
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            class="settingsField"
-            name="noSettingsPassword"
-            id="checkboxNoSettingsPassword">
-          Disable password confirmation at global or account settings
         </label>
         <label>
           <input
@@ -108,14 +101,6 @@
             name="noBoardReports"
             id="checkboxNoBoardReports">
           Don't show board reports on the global list
-        </label>
-        <label id="divSettingsPassword">
-          Confirm your password:
-          <input
-            type="password"
-            class="settingsField"
-            name="password"
-            id="fieldPasswordConfirmation">
         </label>
         <label id="reportFilterDiv"> Filter report notifications </label>
 
@@ -190,11 +175,11 @@
       <hr />
 
       <h3>Owned Boards</h3>
-      <div id="ownedDiv"></div>
+      <div id="ownedDiv" class="linkList"></div>
       <hr />
 
       <h3>Volunteered Boards</h3>
-      <div id="volunteeredDiv"></div>
+      <div id="volunteeredDiv" class="linkList"></div>
 
       <a
         href="/latestPostings.js"
@@ -244,6 +229,8 @@
             <br>
             <input
               type="button"
+              tabindex="-1"
+              onClick="captchaUtils.reloadCaptcha()"
               value="Reload"
               class="hidden reloadCaptchaButton">
             <span class="captchaTimer"></span>
@@ -251,6 +238,7 @@
 
             <input
               type="text"
+			  autocomplete="none"
               class="captchaField creationField"
               name="captcha"
               id="fieldCaptcha"
@@ -279,7 +267,6 @@
 <script src="/.static/js/api.js"></script>
 <script src="/.static/js/account.js"></script>
 <script src="/.static/js/captchaUtils.js"></script>
-<script src="/.static/js/themes.js"></script>
 <script src="/.static/js/favouriteBoards.js"></script>
 
 </html>

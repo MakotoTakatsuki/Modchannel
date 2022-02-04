@@ -13,34 +13,25 @@ catalog.init = function() {
 
   catalog.refreshCheckBox = document
       .getElementById('autoCatalogRefreshCheckBox');
-  catalog.refreshCheckBox.onchange = catalog.changeCatalogRefresh;
   catalog.refreshLabel = document.getElementById('catalogRefreshLabel');
   catalog.originalAutoRefreshText = catalog.refreshLabel.innerHTML;
   catalog.searchField = document.getElementById('catalogSearchField');
 
-  var catalogCellTemplate = '<a class="linkThumb"></a>';
-  catalogCellTemplate += '<p class="threadStats">R: ';
-  catalogCellTemplate += '<span class="labelReplies"></span> / I: ';
-  catalogCellTemplate += '<span class="labelImages"></span> / P: ';
-  catalogCellTemplate += '<span class="labelPage"></span> ';
-  catalogCellTemplate += '<span class="lockIndicator" title="Locked"></span> ';
-  catalogCellTemplate += '<span class="pinIndicator" title="Sticky"></span> ';
-  catalogCellTemplate += '<span class="cyclicIndicator" title="Cyclical Thread"></span> ';
-  catalogCellTemplate += '<span class="bumpLockIndicator" title="Bumplocked"></span>';
-  catalogCellTemplate += '</p><p><span class="labelSubject"></span></p>';
-  catalogCellTemplate += '<div class="divMessage"></div>';
+  var catalogCellTemplate = '<a class="linkThumb"></a>'
+    + '<p class="threadStats">R: '
+    + '<span class="labelReplies"></span> / I: '
+    + '<span class="labelImages"></span> / P: '
+    + '<span class="labelPage"></span> '
+    + '<span class="lockIndicator" title="Locked"></span> '
+    + '<span class="pinIndicator" title="Sticky"></span> '
+    + '<span class="cyclicIndicator" title="Cyclical Thread"></span> '
+    + '<span class="bumpLockIndicator" title="Bumplocked"></span>'
+    + '</p><p><span class="labelSubject"></span></p>'
+    + '<div class="divMessage"></div>';
 
   catalog.catalogCellTemplate = catalogCellTemplate;
 
-  var storedHidingData = localStorage.hidingData;
-
-  if (storedHidingData) {
-    storedHidingData = JSON.parse(storedHidingData);
-  } else {
-    storedHidingData = {};
-  }
-
-  catalog.storedHidingData = storedHidingData;
+  catalog.storedHidingData = JSON.parse(localStorage.hidingData || "{}");
 
   catalog.initCatalog();
 
@@ -132,10 +123,6 @@ catalog.initCatalog = function() {
 
   document.getElementById('divTools').style.display = 'inline-block';
 
-  document.getElementById('catalogRefreshButton').onclick = function() {
-    catalog.refreshCatalog(true)
-  };
-
   catalog.searchField.addEventListener('input', function() {
 
     if (catalog.searchTimer) {
@@ -180,7 +167,7 @@ catalog.initCatalog = function() {
 
     if (boardData && boardData.threads.indexOf(thread) > -1) {
       var cell = link.parentNode;
-
+      //TODO place these in a hidden thread container?
       cell.parentNode.removeChild(cell);
     } else if (child.tagName === 'IMG') {
       catalog.checkForFileHiding(child);
@@ -257,6 +244,12 @@ catalog.setCell = function(thread) {
   catalog.setCatalogCellIndicators(thread, cell);
 
   cell.getElementsByClassName('divMessage')[0].innerHTML = thread.markdown;
+
+  cell.onclick = function (e) {
+    var cell = e.target;
+    while(cell.parentNode.id != "divThreads") {cell=cell.parentNode;}
+    cell.classList.toggle('scrollCell');
+  }
 
   return cell;
 

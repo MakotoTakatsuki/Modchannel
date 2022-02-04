@@ -118,7 +118,7 @@ boardManagement.setIndicatorForRequest = function(obtainedSpoiler) {
 
   var spoilerIndicator = document.getElementById('customSpoilerIndicator');
 
-  var haveSpoiler = spoilerIndicator ? true : false;
+  var haveSpoiler = Boolean(spoilerIndicator);
 
   if (haveSpoiler !== obtainedSpoiler) {
 

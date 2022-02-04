@@ -38,10 +38,9 @@ bypassUtils.checkPass = function(callback) {
 
 bypassUtils.showNoJsValidation = function(callback) {
 
-  var outerPanel = captchaModal
-      .getCaptchaModal('No JS bypass validation', true);
+  var outerPanel = interfaceUtils.getModal('No JS bypass validation', true);
 
-  var okButton = outerPanel.getElementsByClassName('modalOkButton')[0];
+  var modalForm = outerPanel.getElementsByClassName('modalForm')[0];
   var tableBody = outerPanel.getElementsByClassName('modalTableBody')[0];
 
   var instructions = 'Copy the hash and use the ';
@@ -90,9 +89,10 @@ bypassUtils.showNoJsValidation = function(callback) {
   var codeField = document.createElement('input');
   codeField.type = 'text';
 
-  captchaModal.addModalRow('Code', codeField, okButton.onclick);
+  interfaceUtils.addModalRow('Code', codeField);
 
-  okButton.onclick = function() {
+  modalForm.onclick = function(e) {
+    e.preventDefault();
 
     api.formApiRequest('validateBypass', {
       code : codeField.value
