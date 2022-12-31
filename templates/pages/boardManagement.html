@@ -193,38 +193,6 @@
           <hr />
         </div>
 
-        <h3>Custom Spoiler</h3>
-
-        <p>Upload without any files to delete the custom spoiler</p>
-
-        <div id="customSpoilerIndicator">
-          <p>There is a custom spoiler saved for this board</p>
-        </div>
-
-        <form
-          id="indicatorMarker"
-          action="/setCustomSpoiler.js"
-          method="post"
-          enctype="multipart/form-data">
-
-          <input
-            type="hidden"
-            name="boardUri"
-            id="customSpoilerIdentifier">
-
-          <label>
-            <input
-              type="file"
-              id="filesSpoiler"
-              name="files">
-          </label>
-
-          <button
-            id="spoilerFormButton"
-            type="submit">Upload custom spoiler</button>
-
-        </form>
-
         <hr />
 
         <h3>Volunteers</h3>
@@ -338,24 +306,6 @@
             type="text"
             class="boardSettingsField"
             name="anonymousName">
-        </label>
-
-        <label>
-          Maximum files<sup>2</sup>:
-          <input
-            id="maxFilesField"
-            type="number"
-            class="boardSettingsField"
-            name="maxFiles">
-        </label>
-
-        <label>
-          Max file size<sup>2</sup>:
-          <input
-            id="maxFileSizeField"
-            type="number"
-            class="boardSettingsField"
-            name="maxFileSizeMB">
         </label>
 
         <label>
@@ -534,14 +484,6 @@
             id="early404Checkbox">
           Early 404: threads that are not replied to at least 5 times will be
           deleted after they leave the top 1/3 threads.
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            class="boardSettingsField"
-            name="uniqueFiles"
-            id="uniqueFilesCheckbox">
-          Unique Files
         </label>
 
         <label>
