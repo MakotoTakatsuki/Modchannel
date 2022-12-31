@@ -52,10 +52,6 @@
   content: "\e0b0";
 }
 
-#linkEngine:before {
-  content: "\e064";
-}
-
 #linkLinks:before {
   content: "\e086";
 }
@@ -130,8 +126,5 @@
   }
   #links a, #divStats {
     font-size: 153%;
-  }
-  #linkEngine {
-    display: none;
   }
 }
